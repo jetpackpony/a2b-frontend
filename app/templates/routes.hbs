@@ -1,0 +1,20 @@
+<div class="search-form">
+  <form {{action "search" on="submit"}}>
+    <input id="from" name="from" type="text" placeholder="Bangkok, Thailand" />
+    <input id="to" name="to" type="text" placeholder="Phuket, Thailand" />
+    <button id="submit">Search</button>
+  </form>
+</div>
+<div class="routes">
+  <div class="routes-list">
+    {{#each model as |route|}}
+    <article class="route">
+      <h3>{{route.title}}</h3>
+    </article>
+    {{/each}}
+  </div>
+  <div class="routes-map">
+    Map here
+  </div>
+</div>
+
