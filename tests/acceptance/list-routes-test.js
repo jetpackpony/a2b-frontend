@@ -32,7 +32,7 @@ test('should show a message if no locations are specified', function(assert) {
   });
 });
 
-test('should show a message if no locations are specified', function(assert) {
+test('should show a message if no routes have been found', function(assert) {
   let [from, to] = ["Blah, Thailand", "Ololo, Thailand"];
   visit('/');
   fillIn("#from", from);

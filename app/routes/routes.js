@@ -6,6 +6,6 @@ export default Ember.Route.extend({
     to: { refreshModel: true }
   },
   model(params) {
-    return this.get('store').findAll('route');
+    return this.get('store').query('route', { from: params.from, to: params.to });
   }
 });
