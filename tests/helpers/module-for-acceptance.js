@@ -1,3 +1,5 @@
+/* globals server */
+
 import { module } from 'qunit';
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
@@ -16,9 +18,11 @@ export default function(name, options = {}) {
     },
 
     afterEach() {
-      server.shutdown();
       let afterEach = options.afterEach && options.afterEach.apply(this, arguments);
-      return Promise.resolve(afterEach).then(() => destroyApp(this.application));
+      return Promise.resolve(afterEach).then(() => {
+        server.shutdown();
+        destroyApp(this.application);
+      });
     }
   });
 }
