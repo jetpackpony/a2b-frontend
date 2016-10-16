@@ -54,7 +54,7 @@ test('should show details for a specific route', function(assert) {
   click("a:contains('Bus Siam Tour')");
 
   andThen(() => {
-    assert.equal(currentURL(), '/routes/1', 'should navigate to show route');
+    assert.ok(currentURL().indexOf('/routes/1') === 0, 'should navigate to show route');
     assert.equal(find(".description").length, 1, "should show a description");
   });
 });
