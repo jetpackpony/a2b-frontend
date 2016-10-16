@@ -10,7 +10,7 @@
     {{#if formFilled }}
       {{#each model as |route|}}
         <article class="route">
-          <h3>{{route.title}}</h3>
+          <h3>{{#link-to 'routes.show' route}}{{route.title}}{{/link-to}}</h3>
         </article>
       {{else}}
         <div class="error">No routes found between locations you've specified</div>
@@ -23,4 +23,4 @@
     Map here
   </div>
 </div>
-
+{{outlet}}

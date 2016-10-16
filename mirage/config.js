@@ -48,4 +48,8 @@ export default function() {
       return { data: [] };
     }
   });
+
+  this.get('/routes/:id', function(schema, request) {
+    return { data: routes.find((x) => x.id === request.params.id) };
+  });
 }
