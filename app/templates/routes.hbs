@@ -1,10 +1,4 @@
-<div class="search-form">
-  <form {{ action "search" on="submit" }}>
-    <input type="text" id="from" value={{from}} placeholder="Bangkok, Thailand" />
-    <input type="text" id="to" value={{to}} placeholder="Phuket, Thailand" />
-    <button id="submit" type="submit">Search</button>
-  </form>
-</div>
+{{search-route-form from=from to=to submitSearch=(action 'search')}}
 <div class="routes">
   <div class="routes-list">
     {{#if formFilled }}
