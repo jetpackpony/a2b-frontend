@@ -5,20 +5,30 @@ moduleForComponent('search-route-form', 'Integration | Component | search route 
   integration: true
 });
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-
-  this.render(hbs`{{search-route-form}}`);
-
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
+test('it renders a form with pre-filled fields', function(assert) {
   this.render(hbs`
-    {{#search-route-form}}
-      template block text
-    {{/search-route-form}}
+      {{search-route-form from="test-from" to="test-to"}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$('input#from').val().trim(), 'test-from');
+  assert.equal(this.$('input#to').val().trim(), 'test-to');
+});
+
+test('it calls a specified action with correct values', function(assert) {
+
+  this.set('actionStub', (actual_from, actual_to) => {
+    assert.equal(actual_from, 'new-from');
+    assert.equal(actual_to, 'new-to');
+  });
+
+  this.render(hbs`
+      {{search-route-form from="test-from" to="test-to" submitSearch=(action actionStub)}}
+  `);
+
+  this.$('input#from').val('new-from');
+  this.$('input#to').val('new-to');
+  this.$('input#from').change();
+  this.$('input#to').change();
+
+  this.$('button#submit').click();
 });
