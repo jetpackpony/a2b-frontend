@@ -8,10 +8,10 @@ export default Ember.Controller.extend({
     return this.get('from') !== null && this.get('to') !== null;
   }),
   actions: {
-    search() {
+    search(from_city, to_city) {
       this.transitionToRoute({ queryParams: {
-        from: event.target.querySelector("#from").value,
-        to: event.target.querySelector("#to").value
+        from: from_city,
+        to: to_city
       }});
     }
   }
