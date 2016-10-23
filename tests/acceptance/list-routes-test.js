@@ -51,7 +51,7 @@ test('should show details for a specific route', function(assert) {
   fillIn("#from", from);
   fillIn("#to", to);
   click("button#submit");
-  click("a:contains('Bus Siam Tour')");
+  click("a:contains('bus to Phuket')");
 
   andThen(() => {
     assert.ok(currentURL().indexOf('/routes/1') === 0, 'should navigate to show route');
