@@ -6,6 +6,12 @@ export default Ember.Route.extend({
     to: { refreshModel: true }
   },
   model(params) {
-    return this.get('store').query('route', { from: params.from, to: params.to });
+    return this.get('store').
+      query('itinerary', {
+        filter: {
+          from: params.from,
+          to: params.to
+        }
+      });
   }
 });

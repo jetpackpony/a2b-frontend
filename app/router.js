@@ -10,6 +10,7 @@ Router.map(function() {
   this.route('routes', function() {
     this.route('show', { path: "/:route_id"});
   });
+  this.route('itineraries');
 });
 
 export default Router;
