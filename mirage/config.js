@@ -57,12 +57,13 @@ export default function() {
   ];
 
   this.get('/routes', function(schema, request) {
-    if (request.queryParams.from !== undefined &&
-        request.queryParams.to !== undefined) {
+    let params = request.queryParams;
+    if (params['filter[from]'] !== undefined &&
+        params['filter[to]'] !== undefined) {
       return {
         data: routes.filter(function(x) {
-          return x.attributes['from-city'] === request.queryParams.from &&
-            x.attributes['to-city'] === request.queryParams.to;
+          return x.attributes['from-city'] === params['filter[from]'] &&
+            x.attributes['to-city'] === params['filter[to]'];
         })
       };
     } else {
