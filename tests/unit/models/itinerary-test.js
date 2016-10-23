@@ -1,8 +1,8 @@
 import { moduleForModel, test } from 'ember-qunit';
 
-moduleForModel('route', 'Unit | Model | route', {
+moduleForModel('itinerary', 'Unit | Model | itinerary', {
   // Specify the other units that are required for this test.
-  needs: ['model:itinerary']
+  needs: ['model:route']
 });
 
 test('it exists', function(assert) {
