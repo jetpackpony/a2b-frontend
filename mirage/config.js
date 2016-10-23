@@ -24,47 +24,81 @@ export default function() {
       type: "routes",
       attributes: {
         "from-city": "Bangkok, Thailand",
-        "to-city": "Phuket, Thailand",
+        "to-city": "Surat Thani, Thailand",
         "transport-type": "train",
         "organization": "Phuket Tour",
         "from-address": "2 Kamphaeng Phet Rd, Lat Yao, Khet Chatuchak, Krung Thep Maha Nakhon 10900, Thailand",
-        "to-address": "Mai Khao, Thalang District, Phuket 83110, Thailand",
-        "description": "Train to the airport. Yeah.",
+        "to-address": "Talat, Mueang Surat Thani District, Surat Thani 84000, Thailand",
+        "description": "Train to Surat Thani.",
         "duration": "7.00",
         "price": "66",
         "timetable": "12:00 AM",
         "from-coords": "13.813034, 100.548614",
-        "to-coords": "8.110904, 98.307548"
+        "to-coords": "9.143770, 99.330648"
       }
     }, {
       id: "3",
       type: "routes",
       attributes: {
-        "from-city": "Bangkok, Thailand",
+        "from-city": "Surat Thani, Thailand",
         "to-city": "Phuket, Thailand",
         "transport-type": "ferry",
         "organization": "Swimming on land with a very long name Tour",
-        "from-address": "ช่องจำหน่ายตั๋วพรนิภาทัวร์ สถานีขนส่งเอกมัย Khwaeng Phra Khanong, Khet Khlong Toei, Krung Thep Maha Nakhon 10110, Thailand",
+        "from-address": "348/17 Talad Mai Road Soi 19, Tumbol Talad, Talat, Mueang Surat Thani District, Surat Thani 84000, Thailand",
         "to-address": "Luangphow Soi 1, Tambon Talat Yai, Amphoe Mueang Phuket, Chang Wat Phuket 83000, Thailand",
         "description": "Verry ferry",
         "duration": "28.00",
         "price": "6",
         "timetable": "3:00 PM",
-        "from-coords": "13.719909, 100.583871",
+        "from-coords": "9.139888, 99.323887",
         "to-coords": "7.884160, 98.395704"
       }
     }
   ];
 
-  this.get('/routes', function(schema, request) {
+  let itineraries = [
+    {
+      id: "1",
+      type: "itineraries",
+      attributes: {
+        "from-city": "Bangkok, Thailand",
+        "to-city": "Phuket, Thailand"
+      },
+      relationships: {
+        "routes": {
+          "data": [
+            { type: "routes", id: 1 }
+          ]
+        }
+      }
+    }, {
+      id: "2-3",
+      type: "itineraries",
+      attributes: {
+        "from-city": "Bangkok, Thailand",
+        "to-city": "Phuket, Thailand"
+      },
+      relationships: {
+        "routes": {
+          "data": [
+            { type: "routes", id: 2 },
+            { type: "routes", id: 3 }
+          ]
+        }
+      }
+    }
+  ];
+
+  this.get('/itineraries', function(schema, request) {
     let params = request.queryParams;
     if (params['filter[from]'] !== undefined &&
         params['filter[to]'] !== undefined) {
       return {
-        data: routes.filter(function(x) {
+        data: itineraries.filter(function(x) {
           return x.attributes['from-city'] === params['filter[from]'] &&
             x.attributes['to-city'] === params['filter[to]'];
-        })
+        }),
+        included: routes
       };
     } else {
       return { data: [] };

@@ -1,11 +1,12 @@
+Itineraries!
 {{search-route-form from=from to=to submitSearch=(action 'search')}}
-<div class="routes">
-  <div class="routes-list">
+<div class="itineraries">
+  <div class="itineraries-list">
     {{#if formFilled }}
-      {{#each model as |route|}}
-        <article class="route">
-          <h3>{{#link-to 'routes.show' route}}{{route.title}}{{/link-to}}</h3>
-        </article>
+      {{#each model as |itinerary|}}
+        <div class="itinerary">
+          <h3>{{itinerary.title}}</h3>
+        </div>
       {{else}}
         <div class="error">No routes found between locations you've specified</div>
       {{/each}}
@@ -13,7 +14,7 @@
       <div class="error">Please specify locations in the form above</div>
     {{/if}}
   </div>
-  <div class="routes-map">
+  <div class="map">
     Map here
   </div>
 </div>

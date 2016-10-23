@@ -7,7 +7,7 @@ export default Ember.Route.extend({
   },
   model(params) {
     return this.get('store').
-      query('route', {
+      query('itinerary', {
         filter: {
           from: params.from,
           to: params.to
