@@ -1,0 +1,8 @@
+{{#each itineraries as |itinerary|}}
+  {{itineraries-list-item
+    itinerary=itinerary
+    itemHovered=(action 'itemHovered')
+  }}
+{{else}}
+  <div class="error">No routes found between locations you've specified</div>
+{{/each}}
