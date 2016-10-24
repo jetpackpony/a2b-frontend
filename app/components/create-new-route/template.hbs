@@ -1,0 +1,19 @@
+<form id="new-route">
+  {{input value=newRoute.fromAddress placeholder="From Address"}}
+  {{input value=newRoute.fromCity placeholder="From City"}}
+  {{input value=newRoute.fromCoords placeholder="From Coordinates"}}
+
+  {{input value=newRoute.toAddress placeholder="To Address"}}
+  {{input value=newRoute.toCity placeholder="To City"}}
+  {{input value=newRoute.toCoords placeholder="To Coordinates"}}
+
+  {{input value=newRoute.transportType placeholder="Transport Type"}}
+  {{input value=newRoute.organization placeholder="Organization"}}
+  {{input value=newRoute.description placeholder="Description"}}
+
+  {{input value=newRoute.duration placeholder="Duration"}}
+  {{input value=newRoute.price placeholder="Price"}}
+  {{input value=newRoute.timetable placeholder="Timetable"}}
+
+  <button id="submit" {{action "createRoute" newRoute}}>Submit</button>
+</form>
