@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
     createRoute(route) {
       route.save().
         then(() => this.transitionToRoute('itineraries')).
-        catch(() => console.error("Failed to save", route));
+        catch(() => console.error('Failed to save', route));
     }
   }
 });
