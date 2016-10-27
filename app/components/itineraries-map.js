@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   lng: -86.8359375,
   zoom: 4,
   onItineraryChange: Ember.observer('selectedItinerary', function() {
+    console.log('(map) itinerary changed');
     this.set('polylines', Ember.A([]));
     this.get('selectedItinerary').get('routes').map((item) => {
       let from = item.get('fromCoords').split(', ').map(parseFloat);
@@ -14,7 +15,7 @@ export default Ember.Component.extend({
   }),
   makeLine(from, to) {
     return {
-          id: `${from} -> ${to}`, // Recommended
+          id: `${from} -> ${to}`,
           path: [ from, to ],
           clickable: true,
           editable: false,
@@ -26,7 +27,7 @@ export default Ember.Component.extend({
             offset: '100%'
           }],
           strokeColor: 'blue',
-          strokeOpacity: 0.3,
+          strokeOpacity: 1,
           strokeWeight: 3,
           visible: true,
           zIndex: 999

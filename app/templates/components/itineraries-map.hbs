@@ -2,5 +2,7 @@
   Map here
   <br />
   {{selectedItinerary.title}}
-  {{g-maps name="my-map" lat=lat lng=lng zoom=zoom polylines=polylines}}
+  <div class="map-container">
+    {{g-maps name="my-map" lat=lat lng=lng zoom=zoom polylines=polylines}}
+  </div>
 </div>
