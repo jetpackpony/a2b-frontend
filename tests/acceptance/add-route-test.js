@@ -32,12 +32,14 @@ test('sends a new route to the server when submitted', (assert) => {
     timetable: "timetable",
   };
   visit('/routes/new');
-  for (let key in Object.keys(route)) {
-    fillIn(key, route[key]);
+  for (let key in route) {
+    fillIn(`input#${key}`, route[key]);
   }
   click("button#submit");
 
   andThen(() => {
-    assert.equal(server.db.routes[0].fromAddress, "from address");
+    let record = server.db.routes[0].data.attributes;
+    assert.equal(record['from-address'], "from address");
+    assert.equal(record['to-city'], "to city");
   });
 });

@@ -110,6 +110,7 @@ export default function() {
   });
 
   this.post('/routes', function(schema, request) {
-    return request.requestBody;
+    const attrs = JSON.parse(request.requestBody);
+    return schema.routes.create(attrs);
   });
 }
