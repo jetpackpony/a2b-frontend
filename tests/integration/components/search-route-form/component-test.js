@@ -7,14 +7,15 @@ moduleForComponent('search-route-form', 'Integration | Component | search route 
 
 test('it renders a form with pre-filled fields', function(assert) {
   this.render(hbs`
-      {{search-route-form from="test-from" to="test-to"}}
+    {{search-route-form from="test-from" to="test-to"}}
   `);
 
   assert.equal(this.$('input#from').val().trim(), 'test-from');
   assert.equal(this.$('input#to').val().trim(), 'test-to');
 });
 
-test('it calls a specified action with correct values', function(assert) {
+test('it calls a specified search action with correct values', function(assert) {
+  assert.expect(2);
 
   this.set('actionStub', (actual_from, actual_to) => {
     assert.equal(actual_from, 'new-from');
@@ -22,7 +23,10 @@ test('it calls a specified action with correct values', function(assert) {
   });
 
   this.render(hbs`
-      {{search-route-form from="test-from" to="test-to" submitSearch=(action actionStub)}}
+    {{search-route-form
+       from="test-from"
+       to="test-to"
+       submitSearch=(action actionStub)}}
   `);
 
   this.$('input#from').val('new-from');
