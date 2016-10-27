@@ -5,8 +5,10 @@ moduleForModel('route', 'Unit | Model | route', {
   needs: ['model:itinerary']
 });
 
-test('it exists', function(assert) {
-  let model = this.subject();
-  // let store = this.store();
-  assert.ok(!!model);
+test('it generates the title properly', function(assert) {
+  const type = "bus";
+  const city = "Test, Thailand";
+  const route = this.subject({ transportType: type, toCity: city });
+
+  assert.equal(route.get('title'), `${type} to ${city}`, "wrong");
 });

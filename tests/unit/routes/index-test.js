@@ -5,7 +5,11 @@ moduleFor('route:index', 'Unit | Route | index', {
   // needs: ['controller:foo']
 });
 
-test('it exists', function(assert) {
-  let route = this.subject();
-  assert.ok(route);
+test('should transition to itineraries route', function(assert) {
+  let route = this.subject({
+    replaceWith(newRoute) {
+      assert.equal(newRoute, 'itineraries', 'replace with itineraries route');
+    }
+  });
+  route.beforeModel();
 });
