@@ -1,10 +1,19 @@
+/* globals server */
+
 import { test } from 'qunit';
 import moduleForAcceptance from 'a2b/tests/helpers/module-for-acceptance';
 
 moduleForAcceptance('Acceptance | search itineraries');
 
-test('should list itineraries for specified locations', function(assert) {
+test('should list itineraries only for specified locations', function(assert) {
   let [from, to] = ["Bangkok, Thailand", "Phuket, Thailand"];
+  server.create('itinerary', { fromCity: from, toCity: to });
+  server.create('itinerary', { fromCity: from, toCity: to });
+  server.create('itinerary', {
+    fromCity: "Moscow, Russia",
+    toCity: "Tver, Russia"
+  });
+
   visit('/');
   fillIn("#from", from);
   fillIn("#to", to);
@@ -24,10 +33,9 @@ test('should show a message if no locations are specified', function(assert) {
 });
 
 test('should show a message if no itineraries have been found', function(assert) {
-  let [from, to] = ["Blah, Thailand", "Ololo, Thailand"];
   visit('/');
-  fillIn("#from", from);
-  fillIn("#to", to);
+  fillIn("#from", "Blah, Thailand");
+  fillIn("#to", "Ololo, Thailand");
   click("button#submit");
 
   andThen(() => {
