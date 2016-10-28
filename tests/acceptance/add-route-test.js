@@ -14,32 +14,20 @@ test('displays a form to add a route', function(assert) {
 });
 
 test('sends a new route to the server when submitted', (assert) => {
-  let route = {
-    fromAddress: "from address",
-    fromCity: "from city",
-    fromCoords: "from coords",
-
-    toAddress: "to address",
-    toCity: "to city",
-    toCoords: "to coords",
-
-    transportType: "transport type",
-    organization: "organization",
-    description: "description",
-
-    duration: "duration",
-    price: "price",
-    timetable: "timetable",
-  };
+  let route = server.create('route', {
+    fromAddress: "test from address",
+    toCity: "test to city",
+  });
   visit('/routes/new');
-  for (let key in route) {
+  for (let key in route.attrs) {
+    if (key === 'id') { continue; }
     fillIn(`input#${key}`, route[key]);
   }
   click("button#submit");
 
   andThen(() => {
-    let record = server.db.routes[0].data.attributes;
-    assert.equal(record['from-address'], "from address");
-    assert.equal(record['to-city'], "to city");
+    let record = server.db.routes[1].data.attributes;
+    assert.equal(record['from-address'], "test from address");
+    assert.equal(record['to-city'], "test to city");
   });
 });
