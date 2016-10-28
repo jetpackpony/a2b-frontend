@@ -1,35 +1,52 @@
 import BaseSerializer from './application';
 const { dasherize } = Ember.String;
 
-export default BaseSerializer.extend({
+let getRouteIDsFor = function(itinerary) {
+  return itinerary.relationships["itinerary-routes"].data.map((itiRo) => {
+    return {
+      type: 'routes',
+      id: this.registry.schema.itineraryRoutes.find(itiRo.id).routeId
+    };
+  });
+};
 
+let getRouteByID = function(routeId) {
+  let attrs = this.registry.schema.routes.find(routeId).attrs;
+  return {
+    id: routeId,
+    type: "routes",
+    attributes: Object.keys(attrs).reduce((hash, key) => {
+      if (key === 'id') return hash; // skip id attribute
+      hash[dasherize(key)] = attrs[key];
+      return hash;
+    }, {})
+  };
+};
+
+export default BaseSerializer.extend({
+  include: ['routes'],
   serialize(response, request) {
     let json = BaseSerializer.prototype.serialize.apply(this, [response, request]);
+    let people = json.data;
+    let include = this.include.includes('routes');
+    if (!Array.isArray(people)) {
+      people = [people];
+    }
 
-    json.included = [];
-    json.data.forEach((iti) => {
-      iti.relationships.routes = { data: [] };
-      iti.relationships["itinerary-routes"].data.forEach((itRo) => {
-        // Add route to relationships
-        let routeId = this.registry.schema.itineraryRoutes.find(itRo.id).routeId;
-        let route = this.registry.schema.routes.find(routeId);
-        iti.relationships.routes.data.push({
-          type: 'routes',
-          id: routeId
-        });
-
-        // Add routes to included instances
-        let newRoute = {};
-        for(let key in route.attrs) {
-          newRoute[dasherize(key)] = route.attrs[key];
-        }
-        delete(newRoute.id);
-        json.included.push({
-          id: routeId,
-          type: "routes",
-          attributes: newRoute
-        });
-      });
+    if (include) {
+      json.included = [];
+    }
+    people.forEach((itinerary) => {
+      itinerary.relationships.routes = {
+        data: getRouteIDsFor.call(this, itinerary)
+      };
+      if (include) {
+        json.included = json.included.concat(
+            itinerary.relationships.routes.data.map((route) => {
+              return getRouteByID.call(this, route.id);
+            })
+            );
+      }
     });
 
     return json;
