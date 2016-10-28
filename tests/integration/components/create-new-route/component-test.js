@@ -33,10 +33,10 @@ test('it sends the route to the controller on submit', function(assert) {
        createRoute=(action createRouteStub)}}
   `);
 
-  this.$('input#from-city').val("test-from");
-  this.$('input#to-city').val("test-to");
-  this.$('input#from-city').change();
-  this.$('input#to-city').change();
+  this.$('input#fromCity').val("test-from");
+  this.$('input#toCity').val("test-to");
+  this.$('input#fromCity').change();
+  this.$('input#toCity').change();
 
   this.$('button#submit').click();
 });
