@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import BaseSerializer from './application';
 const { dasherize } = Ember.String;
 
@@ -16,7 +17,7 @@ let getRouteByID = function(routeId) {
     id: routeId,
     type: "routes",
     attributes: Object.keys(attrs).reduce((hash, key) => {
-      if (key === 'id') return hash; // skip id attribute
+      if (key === 'id') { return hash; } // skip id attribute
       hash[dasherize(key)] = attrs[key];
       return hash;
     }, {})

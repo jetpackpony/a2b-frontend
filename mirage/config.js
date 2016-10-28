@@ -11,10 +11,6 @@ export default function() {
     }
   });
 
-  this.get('/routes/:id', function(schema, request) {
-    return { data: routes.find((x) => x.id === request.params.id) };
-  });
-
   this.post('/routes', function(schema, request) {
     const attrs = JSON.parse(request.requestBody);
     return schema.routes.create(attrs);
