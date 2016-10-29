@@ -1,24 +1,30 @@
+import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('itineraries-list', 'Integration | Component | itineraries list', {
-  integration: true
+  integration: true,
+  beforeEach() {
+    this.register('component:itineraries-list-item', Ember.Component.extend());
+    this.register('template:components/itineraries-list-item', '');
+  }
 });
 
-test('it renders', function(assert) {
+test('it renders a list of items', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+  assert.expect(1);
+  this.render(hbs`{{itinerary-list-item}}`);
+});
 
-  this.render(hbs`{{itineraries-list}}`);
+test('it shows a message if the collection is empty', function(assert) {
+  assert.expect(1);
+});
 
-  assert.equal(this.$().text().trim(), '');
+test('it changes the selectedItem if another item is hovered', function(assert) {
+  assert.expect(1);
+});
 
-  // Template block usage:
-  this.render(hbs`
-    {{#itineraries-list}}
-      template block text
-    {{/itineraries-list}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+test('it doesn\'t change the selectedItem if the same item is hovered', function(assert) {
+  assert.expect(1);
 });
