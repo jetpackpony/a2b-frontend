@@ -25,9 +25,11 @@ test('should list itineraries only for specified locations', function(assert) {
 });
 
 test('should show a message if no locations are specified', function(assert) {
-  visit('/itineraries');
+  visit('/');
+  fillIn("#from", "");
+  fillIn("#to", "");
+  click("button#submit");
   andThen(() => {
-    assert.equal(currentURL(), '/itineraries', 'should navigate to empty route');
     assert.equal(find(".error").text().trim(), "Please specify locations in the form above", "should show error message");
   });
 });
