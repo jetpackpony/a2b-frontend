@@ -29,7 +29,7 @@ test('it shows a message if form is not filled in', function(assert) {
 
   this.render(hbs`{{display-itineraries itineraries=itineraries formFilled=formFilled}}`);
 
-  assert.equal(this.$('.error').text(), "Please specify locations in the form above");
+  assert.equal(this.$('.error').text().trim(), "Please specify locations in the form above");
 });
 
 test('it renders a itineraries map component', function(assert) {

@@ -28,7 +28,7 @@ test('should show a message if no locations are specified', function(assert) {
   visit('/itineraries');
   andThen(() => {
     assert.equal(currentURL(), '/itineraries', 'should navigate to empty route');
-    assert.equal(find(".error").text(), "Please specify locations in the form above", "should show error message");
+    assert.equal(find(".error").text().trim(), "Please specify locations in the form above", "should show error message");
   });
 });
 
@@ -40,7 +40,7 @@ test('should show a message if no itineraries have been found', function(assert)
 
   andThen(() => {
     assert.equal(find(".itinerary").length, 0, "should show 0 itineraries");
-    assert.equal(find(".error").text(), "No routes found between locations you've specified", "should show error message");
+    assert.equal(find(".error").text().trim(), "No routes found between locations you've specified", "should show error message");
   });
 });
 
