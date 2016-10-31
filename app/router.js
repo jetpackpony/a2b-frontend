@@ -12,6 +12,7 @@ Router.map(function() {
   this.route('routes', function() {
     this.route('new');
   });
+  this.route('about');
 });
 
 export default Router;
