@@ -11,7 +11,7 @@ export default Ember.Controller.extend({
           this.get('messages').pushObject("Route added successfully. Add another one!");
         }).
         catch(() => {
-          console.error('Failed to save', route)
+          console.error('Failed to save', route);
           this.get('errors').pushObject("Failed to save route. Server problems, sorry");
         });
     }
