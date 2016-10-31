@@ -13,7 +13,7 @@ moduleFor('controller:routes/new', 'Unit | Controller | routes/new', {
   }
 });
 
-test('it redirects to itineraries if model is saved', function(assert) {
+test('adds a message to messages array if model is saved', function(assert) {
   assert.expect(1);
   const model = {
     save() {
@@ -27,6 +27,8 @@ test('it redirects to itineraries if model is saved', function(assert) {
 
   ctrl.send('createRoute', model);
 });
+
+test('adds an error to errors array if model is rejected', function() {});
 
 test('it logs an error if model save is rejected', function(assert) {
   assert.expect(1);
