@@ -1,6 +1,6 @@
 /* globals server */
 
-import { test } from 'qunit';
+import { test, skip } from 'qunit';
 import moduleForAcceptance from 'a2b/tests/helpers/module-for-acceptance';
 
 moduleForAcceptance('Acceptance | add route');
@@ -32,6 +32,6 @@ test('sends a new route to the server when submitted', (assert) => {
   });
 });
 
-test('displays a success message if successfully added', function() {});
-test('displays an error message if failed to add', function() {});
-test('displays a loader icon while waiting for the server', function() {});
+skip('displays a success message if successfully added', function() {});
+skip('displays an error message if failed to add', function() {});
+skip('displays a loader icon while waiting for the server', function() {});

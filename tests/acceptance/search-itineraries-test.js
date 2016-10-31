@@ -1,6 +1,6 @@
 /* globals server */
 
-import { test } from 'qunit';
+import { test, skip } from 'qunit';
 import moduleForAcceptance from 'a2b/tests/helpers/module-for-acceptance';
 
 moduleForAcceptance('Acceptance | search itineraries');
@@ -46,7 +46,7 @@ test('should show a message if no itineraries have been found', function(assert)
   });
 });
 
-test('should show details for a specific itinerary', function(assert) {
+skip('should show details for a specific itinerary', function(assert) {
   let [from, to] = ["Bangkok, Thailand", "Phuket, Thailand"];
   visit('/');
   fillIn("#from", from);

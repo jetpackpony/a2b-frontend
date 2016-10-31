@@ -1,12 +1,12 @@
 /* globals server */
 
 import Ember from 'ember';
-import { test } from 'qunit';
+import { test, skip } from 'qunit';
 import moduleForAcceptance from 'a2b/tests/helpers/module-for-acceptance';
 
 moduleForAcceptance('Acceptance | map actions');
 
-test('should display first itinerary map', function(assert) {
+skip('should display first itinerary map', function(assert) {
   assert.expect(2);
 
   // Create models
@@ -33,7 +33,7 @@ test('should display first itinerary map', function(assert) {
   click("button#submit");
 });
 
-test('should display another itinerary when hovered', function(assert) {
+skip('should display another itinerary when hovered', function(assert) {
   assert.expect(2);
 
   // Create models
