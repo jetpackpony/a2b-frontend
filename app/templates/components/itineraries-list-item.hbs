@@ -1,3 +1,5 @@
-<div id="itinerary-{{itinerary.id}}" class="itinerary" {{action "itemHovered" itinerary on="mouseEnter"}}>
-  <h3>{{itinerary.title}}</h3>
+<div class="itinerary card" id="itinerary-{{itinerary.id}}" {{action "itemHovered" itinerary on="mouseEnter"}}>
+  <div class="card-block">
+    <p class="card-test">{{itinerary.title}}</p>
+  </div>
 </div>

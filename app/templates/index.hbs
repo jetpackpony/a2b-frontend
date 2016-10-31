@@ -1,1 +1,20 @@
-{{outlet}}
+<div class="bg-image"></div>
+<div class="site-wrapper">
+  <div class="site-wrapper-inner">
+    <div class="cover-container">
+      {{partial "cover-navigation"}}
+      <div class="inner cover">
+        <h1 class="cover-heading">Get from point A to point B</h1>
+        <p class="lead">Search thousands of ways to get from one city to another. Just enter origin and destination and click search:</p>
+        {{search-route-form submitSearch=(action 'search')}}
+        <p>&nbsp;</p>
+        <p class="lead">or share what you know about the different ways to travel around the world:</p>
+        <p>
+        {{#link-to 'routes.new' tagName='button' classNames="btn btn-lg btn-secondary"}}
+        Add a Route
+        {{/link-to}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { moduleForComponent, test, skip } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('search-route-form', 'Integration | Component | search route form', {
@@ -35,4 +35,8 @@ test('it calls a specified search action with correct values', function(assert) 
   this.$('input#to').change();
 
   this.$('button#submit').click();
+});
+
+skip('it renders an inline form if a parameter is passed', function() {
+
 });

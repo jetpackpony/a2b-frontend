@@ -1,9 +1,26 @@
-body {
+/*
+ * Base structure
+ */
+$bg-color: #333;
 
-}
-.map-container {
-  height: 600px;
-}
-.ember-cli-g-map {
+html,
+body {
   height: 100%;
 }
+body {
+  color: #fff;
+  background-color: $bg-color;
+  text-align: left;
+}
+
+nav.bg-inverse {
+  background-color: $bg-color !important;
+}
+
+/*
+ * Import things
+ */
+@import 'index.scss';
+@import 'itineraries.scss';
+@import 'routes-new.scss';
+@import 'about.scss';

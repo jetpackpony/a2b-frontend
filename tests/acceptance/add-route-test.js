@@ -1,6 +1,6 @@
 /* globals server */
 
-import { test } from 'qunit';
+import { test, skip } from 'qunit';
 import moduleForAcceptance from 'a2b/tests/helpers/module-for-acceptance';
 
 moduleForAcceptance('Acceptance | add route');
@@ -9,7 +9,7 @@ test('displays a form to add a route', function(assert) {
   visit('/routes/new');
 
   andThen(function() {
-    assert.equal(find("form#new-route").length, 1, "should see a form");
+    assert.equal(find("form#route-form").length, 1, "should see a form");
   });
 });
 
@@ -31,3 +31,7 @@ test('sends a new route to the server when submitted', (assert) => {
     assert.equal(record['to-city'], "test to city");
   });
 });
+
+skip('displays a success message if successfully added', function() {});
+skip('displays an error message if failed to add', function() {});
+skip('displays a loader icon while waiting for the server', function() {});

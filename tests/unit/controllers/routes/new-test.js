@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import wait from 'ember-test-helpers/wait';
-import { moduleFor, test } from 'ember-qunit';
+import { moduleFor, test, skip } from 'ember-qunit';
 
 let originalConsole;
 
@@ -13,7 +13,7 @@ moduleFor('controller:routes/new', 'Unit | Controller | routes/new', {
   }
 });
 
-test('it redirects to itineraries if model is saved', function(assert) {
+skip('adds a message to messages array if model is saved', function(assert) {
   assert.expect(1);
   const model = {
     save() {
@@ -27,6 +27,8 @@ test('it redirects to itineraries if model is saved', function(assert) {
 
   ctrl.send('createRoute', model);
 });
+
+skip('adds an error to errors array if model is rejected', function() {});
 
 test('it logs an error if model save is rejected', function(assert) {
   assert.expect(1);

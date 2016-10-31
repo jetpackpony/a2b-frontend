@@ -5,7 +5,8 @@ export default Ember.Controller.extend({
   from: null,
   to: null,
   formFilled: Ember.computed('from', 'to', function() {
-    return this.get('from') !== null && this.get('to') !== null;
+    return this.get('from') !== null && this.get('to') !== null &&
+      this.get('from') !== "" && this.get('to') !== "";
   }),
   actions: {
     search(from_city, to_city) {
