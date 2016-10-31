@@ -22,8 +22,9 @@ module.exports = function(defaults) {
 
   app.import(app.bowerDirectory + '/jquery/dist/jquery.min.js');
   app.import(app.bowerDirectory + '/tether/dist/js/tether.min.js');
-  app.import(app.bowerDirectory + '/bootstrap/dist/css/bootstrap.css');
-  app.import(app.bowerDirectory + '/bootstrap/dist/js/bootstrap.js');
+  app.import(app.bowerDirectory + '/tether/dist/css/tether.min.css');
+  app.import(app.bowerDirectory + '/bootstrap/dist/css/bootstrap.min.css');
+  app.import(app.bowerDirectory + '/bootstrap/dist/js/bootstrap.min.js');
 
   return app.toTree();
 };
