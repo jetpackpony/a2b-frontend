@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-xs-12">
       <h1>Add a route</h1>
-      {{create-new-route newRoute=model createRoute=(action "createRoute")}}
+      {{create-new-route newRoute=model createRoute=(action "createRoute") messages=messages errors=errors}}
     </div>
   </div>
 </div><!-- /.container -->

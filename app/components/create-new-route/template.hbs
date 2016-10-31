@@ -1,3 +1,9 @@
+{{#each messages as |message|}}
+  <div class="alert alert-success message">{{message}}</div>
+{{/each}}
+{{#each errors as |error|}}
+  <div class="alert alert-danger error">{{error}}</div>
+{{/each}}
 <form id="route-form">
   <div class="form-group row">
     <label for="fromCity" class="col-xs-3 col-form-label">From City</label>
