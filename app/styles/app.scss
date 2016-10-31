@@ -15,3 +15,10 @@ body {
  * Import things
  */
 @import 'index.scss';
+
+.map-container {
+  height: 600px;
+}
+.ember-cli-g-map {
+  height: 100%;
+}
