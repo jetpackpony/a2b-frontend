@@ -10,8 +10,8 @@
         <div class="inner">
           <h3 class="masthead-brand">a2b</h3>
           <nav class="nav nav-masthead">
-            <a class="nav-link active" href="#">Home</a>
-            <a class="nav-link" href="#">Add Route</a>
+            {{#link-to 'index' classNames="nav-link"}}Home{{/link-to}}
+            {{#link-to 'routes.new' classNames="nav-link"}}Add Route{{/link-to}}
             <a class="nav-link" href="#">About</a>
           </nav>
         </div>
@@ -38,7 +38,9 @@
         <p>&nbsp;</p>
         <p class="lead">or share what you know about the different ways to travel around the world:</p>
         <p>
-        <button class="btn btn-lg btn-secondary">Add a Route</button>
+        {{#link-to 'routes.new' tagName='button' classNames="btn btn-lg btn-secondary"}}
+        Add a Route
+        {{/link-to}}
         </p>
       </div>
     </div>
