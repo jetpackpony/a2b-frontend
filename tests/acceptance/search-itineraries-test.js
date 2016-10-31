@@ -25,7 +25,7 @@ test('should list itineraries only for specified locations', function(assert) {
 });
 
 test('should show a message if no locations are specified', function(assert) {
-  visit('/');
+  visit('/itineraries');
   andThen(() => {
     assert.equal(currentURL(), '/itineraries', 'should navigate to empty route');
     assert.equal(find(".error").text(), "Please specify locations in the form above", "should show error message");
