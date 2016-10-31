@@ -36,3 +36,7 @@ test('it calls a specified search action with correct values', function(assert) 
 
   this.$('button#submit').click();
 });
+
+test('it renders an inline form if a parameter is passed', function(assert) {
+
+});
