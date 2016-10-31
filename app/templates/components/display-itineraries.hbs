@@ -1,13 +1,16 @@
-<div class="itineraries">
-  <div class="itineraries-list">
-    {{#if formFilled }}
-      {{itineraries-list
-        itineraries=itineraries
-        selectedItinerary=selectedItinerary
-      }}
-    {{else}}
-      <div class="error">Please specify locations in the form above</div>
-    {{/if}}
-  </div>
+<div class="col-xs-4 itineraries-list-container">
+  {{#if formFilled }}
+    {{itineraries-list
+    itineraries=itineraries
+    selectedItinerary=selectedItinerary
+    }}
+  {{else}}
+    <div class="error alert alert-danger">
+      Please specify locations in the form above
+    </div>
+  {{/if}}
+</div>
+<div class="col-xs-8 itineraries-map-container">
   {{itineraries-map selectedItinerary=selectedItinerary}}
 </div>
+

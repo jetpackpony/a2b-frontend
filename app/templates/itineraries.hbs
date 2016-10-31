@@ -1,3 +1,11 @@
-Itineraries!
-{{search-route-form from=from to=to submitSearch=(action 'search')}}
-{{display-itineraries itineraries=model formFilled=formFilled}}
+{{render "navigation"}}
+<div class="container-fluid content">
+  <div class="row">
+    <div class="col-xs-12">
+      {{search-route-form from=from to=to submitSearch=(action 'search') inline=true}}
+    </div>
+  </div>
+  <div class="row">
+    {{display-itineraries itineraries=model formFilled=formFilled}}
+  </div>
+</div><!-- /.container -->
