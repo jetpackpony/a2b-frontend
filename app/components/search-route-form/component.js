@@ -25,11 +25,9 @@ export default Ember.Component.extend({
     },
     fromChanged(obj) {
       this.set('from_val', `${obj.address_components.find((item) => item.types.includes("locality")).long_name}, ${obj.address_components.find((item) => item.types.includes("country")).long_name}`);
-      console.log(this.get('from_val'));
     },
     toChanged(obj) {
       this.set('to_val', `${obj.address_components.find((item) => item.types.includes("locality")).long_name}, ${obj.address_components.find((item) => item.types.includes("country")).long_name}`);
-      console.log(this.get('to_val'));
     }
   }
 });
