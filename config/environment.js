@@ -52,9 +52,14 @@ module.exports = function(environment) {
   };
 
   ENV.googleMap = {
-    libraries: ['drawing'],
+    libraries: ['drawing','places'],
     apiKey: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk'
   }
+
+  ENV['place-autocomplete'] = {
+    exclude: true,
+    key: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk'
+  };
 
   return ENV;
 };
