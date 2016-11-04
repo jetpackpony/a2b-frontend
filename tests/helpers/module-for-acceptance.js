@@ -4,7 +4,7 @@ import { module } from 'qunit';
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
-import GooglePlaceAutocompleteResponseMock from '../helpers/google-place-autocomplete-response-mock';
+import GooglePlaceAutocompleteResponseMockBangkok from '../helpers/google-place-autocomplete-response-mock-bangkok';
 import Resolver from '../../resolver';
 
 const { RSVP: { Promise } } = Ember;
@@ -37,7 +37,7 @@ export default function(name, options = {}) {
               f.call();
             },
             getPlace() {
-              return GooglePlaceAutocompleteResponseMock;
+              return GooglePlaceAutocompleteResponseMockBangkok;
             }
           };
         }
