@@ -6,17 +6,17 @@ import moduleForAcceptance from 'a2b/tests/helpers/module-for-acceptance';
 moduleForAcceptance('Acceptance | search itineraries');
 
 test('should list itineraries only for specified locations', function(assert) {
-  let [from, to] = ["Bangkok, Thailand", "Phuket, Thailand"];
-  server.create('itinerary', { fromCity: from, toCity: to });
-  server.create('itinerary', { fromCity: from, toCity: to });
+  let city = "Bangkok, Thailand";
+  server.create('itinerary', { fromCity: city, toCity: city });
+  server.create('itinerary', { fromCity: city, toCity: city });
   server.create('itinerary', {
     fromCity: "Moscow, Russia",
     toCity: "Tver, Russia"
   });
 
   visit('/');
-  fillIn("#from-wrapper input", from);
-  fillIn("#to-wrapper input", to);
+  fillIn("#from-wrapper input", city);
+  fillIn("#to-wrapper input", city);
   click("button#submit");
 
   andThen(() => {
@@ -25,10 +25,8 @@ test('should list itineraries only for specified locations', function(assert) {
 });
 
 test('should show a message if no locations are specified', function(assert) {
-  visit('/');
-  fillIn("#from-wrapper input", "");
-  fillIn("#to-wrapper input", "");
-  click("button#submit");
+  visit('/itineraries');
+
   andThen(() => {
     assert.equal(find(".error").text().trim(), "Please specify locations in the form above", "should show error message");
   });
