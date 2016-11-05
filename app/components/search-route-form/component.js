@@ -5,8 +5,8 @@ export default Ember.Component.extend({
   to: null,
   from_input: Ember.computed.oneWay('from'),
   to_input: Ember.computed.oneWay('to'),
-  from_val: null,
-  to_val: null,
+  from_val: Ember.computed.oneWay('from'),
+  to_val: Ember.computed.oneWay('to'),
   didRender() {
     this._super(...arguments);
 

@@ -42,3 +42,5 @@ skip('it renders an inline form if a parameter is passed', function() {
 });
 
 skip('it calls google places api with correct inputs');
+
+skip('it works correctly when entering values multiple times');
