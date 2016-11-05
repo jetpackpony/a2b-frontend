@@ -19,15 +19,22 @@ export default Ember.Component.extend({
       }
     });
   },
+  _processResponse(obj) {
+    if (obj.address_components) {
+      return `${obj.address_components.find((item) => item.types.includes("locality")).long_name}, ${obj.address_components.find((item) => item.types.includes("country")).long_name}`;
+    } else {
+      return obj.name;
+    }
+  },
   actions: {
     search() {
       this.attrs.submitSearch(this.get('from_val'), this.get('to_val'));
     },
     fromChanged(obj) {
-      this.set('from_val', `${obj.address_components.find((item) => item.types.includes("locality")).long_name}, ${obj.address_components.find((item) => item.types.includes("country")).long_name}`);
+      this.set('from_val', this._processResponse(obj));
     },
     toChanged(obj) {
-      this.set('to_val', `${obj.address_components.find((item) => item.types.includes("locality")).long_name}, ${obj.address_components.find((item) => item.types.includes("country")).long_name}`);
+      this.set('to_val', this._processResponse(obj));
     }
   }
 });
