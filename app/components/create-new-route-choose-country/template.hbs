@@ -1,0 +1,7 @@
+<h2>Choose a country</h2>
+<select {{action 'setCountry' on='change'}}>
+  <option disabled selected>---</option>
+  {{#each countries as |country|}}
+    <option value={{country}}>{{country}}</option>
+  {{/each}}
+</select>
