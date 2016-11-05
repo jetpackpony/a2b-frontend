@@ -4,6 +4,7 @@ import { module } from 'qunit';
 import Ember from 'ember';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
+import GooglePlaceAutocompleteResponseMockBangkok from '../helpers/google-place-autocomplete-response-mock-bangkok';
 import Resolver from '../../resolver';
 
 const { RSVP: { Promise } } = Ember;
@@ -27,6 +28,20 @@ export default function(name, options = {}) {
       });
       this.application.unregister('component:g-maps');
       this.application.register('component:g-maps', Ember.Component.extend());
+
+      // Mock only google places
+      window.google.maps.places = {
+        Autocomplete() {
+          return {
+            addListener(event, f) {
+              f.call();
+            },
+            getPlace() {
+              return GooglePlaceAutocompleteResponseMockBangkok;
+            }
+          };
+        }
+      };
 
       if (options.beforeEach) {
         return options.beforeEach.apply(this, arguments);

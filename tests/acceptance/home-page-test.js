@@ -6,8 +6,8 @@ moduleForAcceptance('Acceptance | home page');
 test('should show the fields of the form', function(assert) {
   visit('/');
   andThen(() => {
-    assert.equal(find("input#from").length, 1, "should see a From field");
-    assert.equal(find("input#to").length, 1, "should see a To field");
+    assert.equal(find("#from-wrapper input").length, 1, "should see a From field");
+    assert.equal(find("#to-wrapper input").length, 1, "should see a To field");
     assert.equal(find("button#submit").length, 1, "should see a Submit button");
   });
 });
