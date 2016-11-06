@@ -1,81 +1,31 @@
-{{#each messages as |message|}}
-  <div class="alert alert-success message">{{message}}</div>
-{{/each}}
-{{#each errors as |error|}}
-  <div class="alert alert-danger error">{{error}}</div>
-{{/each}}
-<form id="route-form">
-  <div class="form-group row">
-    <label for="fromCity" class="col-xs-3 col-form-label">From City</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="Bangkok, Thailand" id="fromCity" value=newRoute.fromCity}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="fromAddress" class="col-xs-3 col-form-label">From Address</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="1234, Some Streeet, Some district" id="fromAddress" value=newRoute.fromAddress}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="fromCoords" class="col-xs-3 col-form-label">From Coordinates</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="00.0000, -0.0000" id="fromCoords" value=newRoute.fromCoords}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="toAddress" class="col-xs-3 col-form-label">To Address</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="Bangkok, Thailand" id="toAddress" value=newRoute.toAddress}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="toCity" class="col-xs-3 col-form-label">To City</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="1234, Some Streeet, Some district" id="toCity" value=newRoute.toCity}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="toCoords" class="col-xs-3 col-form-label">To Coordinates</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="00.0000, -0.0000" id="toCoords" value=newRoute.toCoords}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="transportType" class="col-xs-3 col-form-label">Transport Type</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="bus" id="transportType" value=newRoute.transportType}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="organization" class="col-xs-3 col-form-label">Organization</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="Somethign Tour" id="organization" value=newRoute.organization}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="description" class="col-xs-3 col-form-label">Description</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="Tell us somethig about this route" id="description" value=newRoute.description}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="duration" class="col-xs-3 col-form-label">Duration</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="3.25" id="duration" value=newRoute.duration}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="price" class="col-xs-3 col-form-label">Price</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="33.55" id="price" value=newRoute.price}}
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="timetable" class="col-xs-3 col-form-label">Timetable</label>
-    <div class="col-xs-9">
-      {{input class="form-control" placeholder="7:00 AM" id="timetable" value=newRoute.timetable}}
-    </div>
-  </div>
-  <button id="submit" type="submit" {{action "createRoute" newRoute}} class="btn btn-secondary">Submit</button>
-</form>
+{{#if (if-eq currentStep 1)}}
+  {{create-new-route-choose-country setCountry=(action "setCountry") countries=countries}}
+{{/if}}
+
+{{#if (if-eq currentStep 2)}}
+  {{create-new-route-choose-location
+      header="Enter city of origin"
+      city=newRoute.fromCity
+      address=newRoute.fromAddress
+      coords=newRoute.fromCoords
+      next=(action "next")
+  }}
+{{/if}}
+
+{{#if (if-eq currentStep 3)}}
+  {{create-new-route-choose-location
+      header="Enter city of destination"
+      city=newRoute.toCity
+      address=newRoute.toAddress
+      coords=newRoute.toCoords
+      next=(action "next")
+  }}
+{{/if}}
+
+{{#if (if-eq currentStep 4)}}
+  {{create-new-route-details
+      newRoute=newRoute
+      submit=(action "submit")
+  }}
+{{/if}}
+
