@@ -1,5 +1,5 @@
 <div class="alert alert-danger">At the moment you can only add routes in 11 countries in South-East Asia: Vietnam, Cambodia, Laos, Myanmar, Thailand, Malaysia, Brunei, East Timor, Indonesia, Singapore, Philippines</div>
-<h3>{{countryHeader}}</h3>
+<h4>{{countryHeader}}</h4>
 <select {{action "countryChanged" on='change'}}>
   <option value="---" disabled selected>---</option>
   {{#each countries as |country|}}
@@ -7,7 +7,7 @@
   {{/each}}
 </select>
 
-  <h3>{{cityHeader}}</h3>
+  <h4>{{cityHeader}}</h4>
   {{place-autocomplete-field
       handlerController=this
       inputClass="form-control form-control"
