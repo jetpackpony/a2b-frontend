@@ -3,6 +3,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   fromCityObject: null,
   toCityObject: null,
+  fromAddressObject: null,
+  toAddressObject: null,
   currentStep: 2,
   formPosition: Ember.computed('currentStep', function() {
     switch(this.get('currentStep')) {
@@ -34,6 +36,7 @@ export default Ember.Component.extend({
     next() {
       this.$('.carousel').carousel('next');
       this.incrementProperty('currentStep');
+      console.log(this.get('newRoute'));
     },
     back() {
       this.$('.carousel').carousel('prev');

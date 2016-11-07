@@ -25,6 +25,11 @@ export default Ember.Component.extend({
         this.set('cityObject', obj);
       }
     },
+    addressChanged(obj) {
+      let coords = `${obj.geometry.location.lat()}, ${obj.geometry.location.lng()}`;
+      this.set('coords', coords);
+      this.set('addressObject', obj);
+    },
     next() {
       this.attrs.next();
     }

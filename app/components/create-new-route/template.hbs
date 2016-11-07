@@ -7,6 +7,7 @@
         cityHeader="Enter city of origin"
         cityObject=fromCityObject
         city=newRoute.fromCity
+        addressObject=fromAddressObject
         address=newRoute.fromAddress
         coords=newRoute.fromCoords
         next=(action "next")
@@ -18,6 +19,7 @@
         cityHeader="Enter city of origin"
         cityObject=toCityObject
         city=newRoute.toCity
+        addressObject=toAddressObject
         address=newRoute.toAddress
         coords=newRoute.toCoords
         next=(action "next")
@@ -40,10 +42,12 @@
   {{create-new-route-map
       fromCityObject=fromCityObject
       fromCity=newRoute.fromCity
+      fromAddressObject=fromAddressObject
       fromAddress=newRoute.fromAddress
       fromCoords=newRoute.fromCoords
       toCityObject=toCityObject
       toCity=newRoute.toCity
+      toAddressObject=toAddressObject
       toAddress=newRoute.toAddress
       toCoords=newRoute.toCoords
       formPosition=formPosition
