@@ -1,31 +1,45 @@
-{{#if (if-eq currentStep 1)}}
-  {{create-new-route-choose-country setCountry=(action "setCountry") countries=countries}}
-{{/if}}
+<div class="col-xs-6">
+  <div class="carousel slide">
+    <div class="carousel-inner" role="listbox">
+      <div class="carousel-item active">
+        {{create-new-route-choose-location
+        header="Enter city of origin"
+        city=newRoute.fromCity
+        address=newRoute.fromAddress
+        coords=newRoute.fromCoords
+        next=(action "next")
+        }}
+      </div>
+      <div class="carousel-item">
+        {{create-new-route-choose-location
+        header="Enter city of destination"
+        city=newRoute.toCity
+        address=newRoute.toAddress
+        coords=newRoute.toCoords
+        next=(action "next")
+        }}
+      </div>
+      <div class="carousel-item">
+        {{create-new-route-details
+        newRoute=newRoute
+        submit=(action "submit")
+        }}
+      </div>
+    </div>
+  </div>
+  {{#if showBackButton}}
+    <button {{action "back"}}>Back</button>
+  {{/if}}
 
-{{#if (if-eq currentStep 2)}}
-  {{create-new-route-choose-location
-      header="Enter city of origin"
-      city=newRoute.fromCity
-      address=newRoute.fromAddress
-      coords=newRoute.fromCoords
-      next=(action "next")
+</div>
+<div class="col-xs-6">
+  {{create-new-route-map
+      fromCity=newRoute.fromCity
+      fromAddress=newRoute.fromAddress
+      fromCoords=newRoute.fromCoords
+      toCity=newRoute.toCity
+      toAddress=newRoute.toAddress
+      toCoords=newRoute.toCoords
+      formPosition=formPosition
   }}
-{{/if}}
-
-{{#if (if-eq currentStep 3)}}
-  {{create-new-route-choose-location
-      header="Enter city of destination"
-      city=newRoute.toCity
-      address=newRoute.toAddress
-      coords=newRoute.toCoords
-      next=(action "next")
-  }}
-{{/if}}
-
-{{#if (if-eq currentStep 4)}}
-  {{create-new-route-details
-      newRoute=newRoute
-      submit=(action "submit")
-  }}
-{{/if}}
-
+</div>
