@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   countryRestriction: null,
+  showAddress: true,
   countries: [
     { text: "Vietnam", value: "vn" },
     { text: "Cambodia", value: "kh" },
@@ -29,6 +30,9 @@ export default Ember.Component.extend({
       let coords = `${obj.geometry.location.lat()}, ${obj.geometry.location.lng()}`;
       this.set('coords', coords);
       this.set('addressObject', obj);
+    },
+    toggleAddress() {
+      this.set('showAddress', !this.get('showAddress'));
     },
     next() {
       this.attrs.next();

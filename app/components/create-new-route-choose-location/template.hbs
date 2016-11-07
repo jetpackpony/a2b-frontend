@@ -16,9 +16,13 @@
       restrictions=countryRestriction
   }}
 
-  <div class="form-group row">
-    <label for="address" class="col-xs-3 col-form-label">Address</label>
-    <div class="col-xs-9">
+  <h4>Enter the address below or point it on the map</h4>
+
+  {{#if showAddress}}
+    <a href='#' {{action "toggleAddress" on='click'}}>
+      I don't know the exact address!
+    </a>
+    <div class="form-group">
       {{place-autocomplete-field
           value=address
           handlerController= this
@@ -28,12 +32,21 @@
           restrictions=countryRestriction
       }}
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="coords" class="col-xs-3 col-form-label">Coords</label>
-    <div class="col-xs-9">
+
+    <div class="form-group">
+      <label for="coords" class="col-form-label">Coords</label>
       {{input class="form-control" id="coords" value=coords}}
     </div>
-  </div>
+  {{else}}
+    <div>
+      <label class='col-form-label'>Describe the location for us</label>
+      {{textarea class="form-control" value=fromComment}}
+    </div>
+    <div>
+      <a href='#' {{action "toggleAddress" on='click'}}>
+        Let me try to search for an address again!
+      </a>
+    </div>
+  {{/if}}
 
   <button {{action "next"}}>Next</button>
