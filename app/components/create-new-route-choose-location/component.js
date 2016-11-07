@@ -21,7 +21,8 @@ export default Ember.Component.extend({
     },
     cityChanged(obj) {
       if (obj.address_components) {
-        console.log('city changed: ', obj);
+        this.set('city', obj.formatted_address);
+        this.set('cityObject', obj);
       }
     },
     next() {

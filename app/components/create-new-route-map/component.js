@@ -5,6 +5,24 @@ export default Ember.Component.extend({
   lat: 32.75494243654723,
   lng: -86.8359375,
   zoom: 4,
+  _fitMapToBounds(bounds) {
+    this.get('gMap').maps.select('my-map').map.fitBounds(bounds);
+  },
+  fromCityChanged: Ember.observer('fromCityObject', function() {
+    this._fitMapToBounds(this.get('fromCityObject').geometry.viewport);
+  }),
+  toCityChanged: Ember.observer('toCityObject', function() {
+    this._fitMapToBounds(this.get('toCityObject').geometry.viewport);
+  }),
+  formPositionChanged: Ember.observer('formPosition', function() {
+    if (this.get('formPosition') === 'details') {
+      let bounds = new google.maps.LatLngBounds();
+      this.get('markers').forEach((m) => {
+        bounds.extend(new google.maps.LatLng(m.lat, m.lng));
+      });
+      this._fitMapToBounds(bounds);
+    }
+  }),
   actions: {
     mapClicked(e) {
       let point = {

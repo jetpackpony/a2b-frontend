@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  travelCountry: "",
-  countries: ["Vietnam","Thailand","Cambodia"],
+  fromCityObject: null,
+  toCityObject: null,
   currentStep: 2,
   formPosition: Ember.computed('currentStep', function() {
     switch(this.get('currentStep')) {
@@ -10,6 +10,8 @@ export default Ember.Component.extend({
         return "from";
       case 3:
         return "to";
+      case 4:
+        return "details";
       default:
         return null;
     };

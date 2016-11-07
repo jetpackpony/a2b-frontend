@@ -3,7 +3,9 @@
     <div class="carousel-inner" role="listbox">
       <div class="carousel-item active">
         {{create-new-route-choose-location
-        header="Enter city of origin"
+        countryHeader="Choose a country of origin"
+        cityHeader="Enter city of origin"
+        cityObject=fromCityObject
         city=newRoute.fromCity
         address=newRoute.fromAddress
         coords=newRoute.fromCoords
@@ -12,7 +14,9 @@
       </div>
       <div class="carousel-item">
         {{create-new-route-choose-location
-        header="Enter city of destination"
+        countryHeader="Choose a country of origin"
+        cityHeader="Enter city of origin"
+        cityObject=toCityObject
         city=newRoute.toCity
         address=newRoute.toAddress
         coords=newRoute.toCoords
@@ -34,9 +38,11 @@
 </div>
 <div class="col-xs-6">
   {{create-new-route-map
+      fromCityObject=fromCityObject
       fromCity=newRoute.fromCity
       fromAddress=newRoute.fromAddress
       fromCoords=newRoute.fromCoords
+      toCityObject=toCityObject
       toCity=newRoute.toCity
       toAddress=newRoute.toAddress
       toCoords=newRoute.toCoords
