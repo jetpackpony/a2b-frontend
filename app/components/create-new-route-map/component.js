@@ -5,22 +5,51 @@ export default Ember.Component.extend({
   lat: 18,
   lng: 100,
   zoom: 4,
-  _fitMapToBounds(bounds) {
-    this.get('gMap').maps.select('my-map').map.fitBounds(bounds);
-  },
+  markers: Ember.A([ ]),
+  polylines: Ember.A([]),
+
   fromCityChanged: Ember.observer('fromCityObject', function() {
     this._fitMapToBounds(this.get('fromCityObject').geometry.viewport);
   }),
   toCityChanged: Ember.observer('toCityObject', function() {
     this._fitMapToBounds(this.get('toCityObject').geometry.viewport);
   }),
+  fromAddressChanged: Ember.observer('fromAddressObject', function() {
+    this._addMarker(0, {
+      lat: this.get('fromAddressObject').geometry.location.lat(),
+      lng: this.get('fromAddressObject').geometry.location.lng()
+    });
+    this._centerAtMarker(0);
+  }),
+  toAddressChanged: Ember.observer('toAddressObject', function() {
+    this._addMarker(1, {
+      lat: this.get('toAddressObject').geometry.location.lat(),
+      lng: this.get('toAddressObject').geometry.location.lng()
+    });
+    this._centerAtMarker(1);
+  }),
+
   formPositionChanged: Ember.observer('formPosition', function() {
-    if (this.get('formPosition') === 'details') {
-      let bounds = new google.maps.LatLngBounds();
-      this.get('markers').forEach((m) => {
-        bounds.extend(new google.maps.LatLng(m.lat, m.lng));
-      });
-      this._fitMapToBounds(bounds);
+    switch(this.get('formPosition')) {
+      case 'from':
+        this._centerAtMarker(0);
+        break;
+      case 'to':
+        if (!this._centerAtMarker(1)) {
+          this._centerAtMarker(0);
+        }
+        break;
+      case 'details':
+        let bounds = this._createBoundsFor(this.get('markers'));
+        this._fitMapToBounds(bounds);
+        break;
+    }
+  }),
+
+  markersChanged: Ember.observer('markers.[]', function() {
+    console.log("markers changed", this.get('markers').length);
+    if (this.get('markers').length > 1) {
+      this._updateLines();
     }
   }),
   actions: {
@@ -31,30 +60,67 @@ export default Ember.Component.extend({
         lng: e.latLng.lng()
       };
       if (this.get('formPosition') === "from") {
-        let prev = this.get('markers').objectAt(1);
-        let markers = Ember.A();
-        markers.pushObject(point);
-        if (prev !== undefined) {
-          markers.pushObject(prev);
-        }
-
-        this.set('markers', markers);
         this._updateAddressParams('fromAddress', 'fromCoords', point);
+        this._addMarker(0, point);
       } else if (this.get('formPosition') === "to") {
-        let prev = this.get('markers').objectAt(0);
-        let markers = Ember.A();
-        if (prev !== undefined) {
-          markers.pushObject(prev);
-        }
-        markers.pushObject(point);
-
-        this.set('markers', markers);
         this._updateAddressParams('toAddress', 'toCoords', point);
+        this._addMarker(1, point);
       }
     }
   },
-  markers: Ember.A([ ]),
 
+  _updateLines() {
+    console.log("draw lines");
+    this.set('polylines', Ember.A([]));
+    let from = this.get('fromCoords').split(', ').map(parseFloat);
+    let to = this.get('toCoords').split(', ').map(parseFloat);
+    this.get('polylines').pushObject(this.get('_makeLine')(from, to));
+  },
+  _makeLine(from, to) {
+    return {
+          id: `${from} -> ${to}`,
+          path: [ from, to ],
+          clickable: true,
+          editable: false,
+          geodesic: true,
+          icons: [{
+            icon: {
+              path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+            },
+            offset: '100%'
+          }],
+          strokeColor: 'blue',
+          strokeOpacity: 1,
+          strokeWeight: 3,
+          visible: true,
+          zIndex: 999
+        };
+  },
+  _fitMapToBounds(bounds) {
+    this.get('gMap').maps.select('my-map').map.fitBounds(bounds);
+  },
+  _createBoundsFor(coords) {
+    let bounds = new google.maps.LatLngBounds();
+    coords.forEach((m) => {
+      bounds.extend(new google.maps.LatLng(m.lat, m.lng));
+    });
+    return bounds;
+  },
+  _addMarker(id, point) {
+    if (this.get('markers').length < id + 1) {
+      this.get('markers').pushObject(point);
+    } else {
+      let markers = Ember.A([]);
+      this.get('markers').forEach((item, index) => {
+        if (index === id) {
+          markers.pushObject(point);
+        } else {
+          markers.pushObject(item);
+        }
+      });
+      this.set('markers', markers);
+    }
+  },
   _updateAddressParams(addr, coords, point) {
     this.set(coords, `${point.lat}, ${point.lng}`);
     this.get('gMap')
@@ -67,5 +133,16 @@ export default Ember.Component.extend({
       console.error(err);
       this.set(addr, "--error--");
     });
+  },
+  _centerAtMarker(id) {
+    let marker = this.get('markers').objectAt(id);
+    if (marker) {
+      this.set('lat', marker.lat);
+      this.set('lng', marker.lng);
+      this.set('zoom', 14);
+      return true;
+    } else {
+      return false;
+    }
   }
 });
