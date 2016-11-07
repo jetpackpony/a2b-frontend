@@ -36,6 +36,7 @@ export default Ember.Component.extend({
       }
     },
     addressChanged(obj) {
+      console.log("choose location > address changed: ", obj);
       let coords = `${obj.geometry.location.lat()}, ${obj.geometry.location.lng()}`;
       this.set('coords', coords);
       this.set('addressObject', obj);
