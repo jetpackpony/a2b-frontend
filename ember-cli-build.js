@@ -20,7 +20,6 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
-  app.import(app.bowerDirectory + '/jquery/dist/jquery.min.js');
   app.import(app.bowerDirectory + '/tether/dist/js/tether.min.js');
   app.import(app.bowerDirectory + '/tether/dist/css/tether.min.css');
   app.import(app.bowerDirectory + '/bootstrap/dist/js/bootstrap.min.js');
