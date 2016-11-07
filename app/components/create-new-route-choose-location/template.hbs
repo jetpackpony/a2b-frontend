@@ -1,23 +1,32 @@
-<h3>{{header}}</h3>
-{{place-autocomplete-field
-    value=city
-    handlerController=this
-    inputClass="form-control form-control"
-    placeChangedCallback='cityChanged'
-    types='(cities)'
-}}
+<div class="alert alert-danger">At the moment you can only add routes in 11 countries in South-East Asia: Vietnam, Cambodia, Laos, Myanmar, Thailand, Malaysia, Brunei, East Timor, Indonesia, Singapore, Philippines</div>
+<h3>{{countryHeader}}</h3>
+<select {{action "countryChanged" on='change'}}>
+  <option value="---" disabled selected>---</option>
+  {{#each countries as |country|}}
+    <option value={{country.value}}>{{country.text}}</option>
+  {{/each}}
+</select>
 
-<div class="form-group row">
-  <label for="address" class="col-xs-3 col-form-label">Address</label>
-  <div class="col-xs-9">
-    {{input class="form-control" id="address" value=address}}
-  </div>
-</div>
-<div class="form-group row">
-  <label for="coords" class="col-xs-3 col-form-label">Coords</label>
-  <div class="col-xs-9">
-    {{input class="form-control" id="coords" value=coords}}
-  </div>
-</div>
+  <h3>{{cityHeader}}</h3>
+  {{place-autocomplete-field
+      handlerController=this
+      inputClass="form-control form-control"
+      placeChangedCallback='cityChanged'
+      types='(cities)'
+      restrictions=countryRestriction
+  }}
 
-<button {{action "next"}}>Next</button>
+  <div class="form-group row">
+    <label for="address" class="col-xs-3 col-form-label">Address</label>
+    <div class="col-xs-9">
+      {{input class="form-control" id="address" value=address}}
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="coords" class="col-xs-3 col-form-label">Coords</label>
+    <div class="col-xs-9">
+      {{input class="form-control" id="coords" value=coords}}
+    </div>
+  </div>
+
+  <button {{action "next"}}>Next</button>
