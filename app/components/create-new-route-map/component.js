@@ -34,14 +34,18 @@ export default Ember.Component.extend({
         let prev = this.get('markers').objectAt(1);
         let markers = Ember.A();
         markers.pushObject(point);
-        if (prev !== undefined) markers.pushObject(prev);
+        if (prev !== undefined) {
+          markers.pushObject(prev);
+        }
 
         this.set('markers', markers);
         this._updateAddressParams('fromAddress', 'fromCoords', point);
       } else if (this.get('formPosition') === "to") {
         let prev = this.get('markers').objectAt(0);
         let markers = Ember.A();
-        if (prev !== undefined) markers.pushObject(prev);
+        if (prev !== undefined) {
+          markers.pushObject(prev);
+        }
         markers.pushObject(point);
 
         this.set('markers', markers);
