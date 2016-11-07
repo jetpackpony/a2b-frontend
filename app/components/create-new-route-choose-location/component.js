@@ -3,6 +3,15 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   countryRestriction: null,
   showAddress: true,
+  countrySet: Ember.computed('countryRestriction', function() {
+    return this.get('countryRestriction') !== null;
+  }),
+  citySet: Ember.computed('city', function() {
+    return !!this.get('city');
+  }),
+  addressSet: Ember.computed('coords', 'comment', function() {
+    return !!this.get('coords') || !!this.get('comment');
+  }),
   countries: [
     { text: "Vietnam", value: "vn" },
     { text: "Cambodia", value: "kh" },

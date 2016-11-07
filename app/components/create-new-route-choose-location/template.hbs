@@ -7,6 +7,7 @@
   {{/each}}
 </select>
 
+{{#if countrySet}}
   <h4>{{cityHeader}}</h4>
   {{place-autocomplete-field
       handlerController=this
@@ -16,37 +17,42 @@
       restrictions=countryRestriction
   }}
 
-  <h4>Enter the address below or point it on the map</h4>
+  {{#if citySet}}
+    <h4>Enter the address below or point it on the map</h4>
 
-  {{#if showAddress}}
-    <a href='#' {{action "toggleAddress" on='click'}}>
-      I don't know the exact address!
-    </a>
-    <div class="form-group">
-      {{place-autocomplete-field
-          value=address
-          handlerController= this
-          inputClass="form-control form-control"
-          placeChangedCallback='addressChanged'
-          types='address'
-          restrictions=countryRestriction
-      }}
-    </div>
-
-    <div class="form-group">
-      <label for="coords" class="col-form-label">Coords</label>
-      {{input class="form-control" id="coords" value=coords}}
-    </div>
-  {{else}}
-    <div>
-      <label class='col-form-label'>Describe the location for us</label>
-      {{textarea class="form-control" value=fromComment}}
-    </div>
-    <div>
+    {{#if showAddress}}
       <a href='#' {{action "toggleAddress" on='click'}}>
-        Let me try to search for an address again!
+        I don't know the exact address!
       </a>
-    </div>
-  {{/if}}
+      <div class="form-group">
+        {{place-autocomplete-field
+            value=address
+            handlerController= this
+            inputClass="form-control form-control"
+            placeChangedCallback='addressChanged'
+            types='address'
+            restrictions=countryRestriction
+        }}
+      </div>
 
-  <button {{action "next"}}>Next</button>
+      <div class="form-group">
+        <label for="coords" class="col-form-label">Coords</label>
+        {{input class="form-control" id="coords" value=coords}}
+      </div>
+    {{else}}
+      <div>
+        <label class='col-form-label'>Describe the location for us</label>
+        {{textarea class="form-control" value=fromComment}}
+      </div>
+      <div>
+        <a href='#' {{action "toggleAddress" on='click'}}>
+          Let me try to search for an address again!
+        </a>
+      </div>
+    {{/if}}
+
+    {{#if addressSet}}
+      <button {{action "next"}}>Next</button>
+    {{/if}}
+  {{/if}}
+{{/if}}
