@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  lat: 32.75494243654723,
-  lng: -86.8359375,
+  lat: 18,
+  lng: 100,
   zoom: 4,
   onItineraryChange: Ember.observer('selectedItinerary', function() {
     this.set('polylines', Ember.A([]));

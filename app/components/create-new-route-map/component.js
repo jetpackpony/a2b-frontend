@@ -2,8 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   gMap: Ember.inject.service(),
-  lat: 32.75494243654723,
-  lng: -86.8359375,
+  lat: 18,
+  lng: 100,
   zoom: 4,
   _fitMapToBounds(bounds) {
     this.get('gMap').maps.select('my-map').map.fitBounds(bounds);
