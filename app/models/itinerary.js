@@ -9,6 +9,9 @@ export default DS.Model.extend({
   organizations: Ember.computed('routes', function() {
     return this.get('routes').mapBy('organization').uniq().join(' + ');
   }),
+  stops: Ember.computed('routes', function() {
+    return this.get('routes').get('length') - 1;
+  }),
   price: DS.attr('number'),
   duration: DS.attr('number')
 });
