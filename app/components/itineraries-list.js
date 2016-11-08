@@ -6,6 +6,8 @@ export default Ember.Component.extend({
       if (itinerary !== this.get('selectedItinerary')) {
         // Change classes on all other itineraries - unselect them
         this.set('selectedItinerary', itinerary);
+        this.$('.itinerary').removeClass('selected');
+        this.$(`#itinerary-${itinerary.id}`).addClass('selected');
       }
     }
   }
