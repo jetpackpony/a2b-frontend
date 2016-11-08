@@ -7,10 +7,12 @@ export default DS.Model.extend({
   fromAddress: DS.attr("string"),
   fromCity: DS.attr("string"),
   fromCoords: DS.attr("string"),
+  fromComment: DS.attr("string"),
 
   toAddress: DS.attr("string"),
   toCity: DS.attr("string"),
   toCoords: DS.attr("string"),
+  toComment: DS.attr("string"),
 
   transportType: DS.attr("string"),
   organization: DS.attr("string"),
