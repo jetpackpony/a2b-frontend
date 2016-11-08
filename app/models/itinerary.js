@@ -4,10 +4,10 @@ import DS from 'ember-data';
 export default DS.Model.extend({
   routes: DS.hasMany('route'),
   types: Ember.computed('routes', function() {
-    return this.get('routes').mapBy('transportType').uniq().join(', ');
+    return this.get('routes').mapBy('transportType').uniq().join(' + ');
   }),
   organizations: Ember.computed('routes', function() {
-    return this.get('routes').mapBy('organization').uniq().join(', ');
+    return this.get('routes').mapBy('organization').uniq().join(' + ');
   }),
   price: DS.attr('number'),
   duration: DS.attr('number')
