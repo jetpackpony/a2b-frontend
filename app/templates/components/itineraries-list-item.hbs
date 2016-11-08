@@ -1,5 +1,9 @@
 <div class="itinerary card" id="itinerary-{{itinerary.id}}" {{action "itemHovered" itinerary on="mouseEnter"}}>
   <div class="card-block">
-    <p class="card-test">{{itinerary.title}}</p>
+    <h3>{{itinerary.organizations}}</h3>
+    <div class="card-test">
+      <span class="types">{{itinerary.types}}</span>
+      <span class="price">$ {{itinerary.price}}</span>
+    </div>
   </div>
 </div>
