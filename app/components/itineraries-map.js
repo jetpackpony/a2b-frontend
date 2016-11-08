@@ -17,12 +17,21 @@ export default Ember.Component.extend({
     });
     return bounds;
   }),
-  polylines: Ember.computed('selectedItinerary', function() {
-    return this.get('selectedItinerary').get('routes').map((item) => {
-      let from = item.get('fromCoords').split(', ').map(parseFloat);
-      let to = item.get('toCoords').split(', ').map(parseFloat);
-      return this.get('_makeLine')(from, to);
+  polylines: Ember.computed('selectedItinerary', 'itineraries', function() {
+    let lines = Ember.A([]);
+    let selected = this.get('selectedItinerary').get('id');
+    this.get('itineraries').forEach((iti) => {
+      iti.get('routes').forEach((route) => {
+        let from = route.get('fromCoords').split(', ').map(parseFloat);
+        let to = route.get('toCoords').split(', ').map(parseFloat);
+        if (selected === iti.get('id')) {
+          lines.pushObject(this._makeLineSelected(from, to));
+        } else {
+          lines.pushObject(this._makeLine(from, to));
+        }
+      });
     });
+    return lines;
   }),
   actions: {
     mapLoaded() {
@@ -30,24 +39,32 @@ export default Ember.Component.extend({
         map.fitBounds(this.get('bounds'));
     }
   },
-  _makeLine(from, to) {
+  _line(from, to) {
     return {
           id: `${from} -> ${to}`,
           path: [ from, to ],
           clickable: true,
           editable: false,
           geodesic: true,
-          icons: [{
-            icon: {
-              path: window.google.maps.SymbolPath.FORWARD_CLOSED_ARROW
-            },
-            offset: '100%'
-          }],
           strokeColor: 'blue',
           strokeOpacity: 1,
           strokeWeight: 3,
           visible: true,
           zIndex: 999
         };
+  },
+  _makeLine(from, to) {
+    let line = this._line(from, to);
+    line.strokeColor = 'grey';
+    line.strokeOpacity = 0.7;
+    line.strokeWeight = 3;
+    return line;
+  },
+  _makeLineSelected(from, to) {
+    let line = this._line(from, to);
+    line.strokeColor = '#2c9bba';
+    line.strokeOpacity = 1;
+    line.strokeWeight = 5;
+    return line;
   }
 });
