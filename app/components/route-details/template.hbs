@@ -1,0 +1,18 @@
+<div class="route card" id="route-{{route.id}}">
+  <div class="card-block">
+    <h3>{{route.organization}}</h3>
+    <div class="card-test">
+      <span class="types">{{route.transportType}}</span>
+      <span class="price">$ {{route.price}}</span>
+    </div>
+  </div>
+</div>
+<div class="route-info card">
+  <div class="card-block">
+    <p>Duration: {{route.duration}}</p>
+    <p>Timetable: {{route.timetable}}</p>
+    <p>Description: <br>
+    {{route.description}}</p>
+  </div>
+</div>
+<div class="alert alert-warning">Price and timetable could change. Please contact the transpotation company for details.</div>

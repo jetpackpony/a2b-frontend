@@ -27,5 +27,10 @@
   expanded="true"
   routeHovered=routeHovered
   routeOpened=routeOpened}}
+</div>
 
+<div class="col-xs-4 rotue-details-container hidden">
+  <p><a {{action "closeRoute"}} class="back-button">&larr; Back</a></p>
+  {{route-details
+  route=routeOpened}}
 </div>

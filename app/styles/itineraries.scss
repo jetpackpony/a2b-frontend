@@ -22,17 +22,11 @@
   bottom: 0;
   left: 0;
   overflow: auto;
-}
-.itinerary-details-container {
-  background-color: #fff;
-  padding: 0;
-  position: absolute;
-  top: 7em;
-  bottom: 0;
-  left: 0;
-  overflow: auto;
   display: block;
+}
 
+.itinerary-details-container {
+  @extend .itineraries-list-container;
   .back-button {
     cursor: pointer;
   }
@@ -40,6 +34,17 @@
 .itinerary-details-container.hidden {
   display: none;
 }
+
+.rotue-details-container {
+  @extend .itineraries-list-container;
+  .back-button {
+    cursor: pointer;
+  }
+}
+.rotue-details-container.hidden {
+  display: none;
+}
+
 .ember-cli-g-map {
   height: 100%;
 }
