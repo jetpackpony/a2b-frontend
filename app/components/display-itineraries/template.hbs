@@ -15,6 +15,17 @@
   {{itineraries-map
   itineraries=itineraries
   selectedItinerary=selectedItinerary
+  routeHovered=routeHovered
   }}
 </div>
 
+<div class="col-xs-4 itinerary-details-container hidden">
+  <p><a {{action "closeItinerary"}} class="back-button">&larr; Back</a></p>
+
+  {{itineraries-list-item
+  itinerary=openedItinerary
+  expanded="true"
+  routeHovered=routeHovered
+  routeOpened=routeOpened}}
+
+</div>

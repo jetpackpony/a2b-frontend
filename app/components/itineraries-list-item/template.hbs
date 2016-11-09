@@ -1,0 +1,33 @@
+<div class="itinerary card" id="itinerary-{{itinerary.id}}">
+  <div class="card-block">
+    <h3>{{itinerary.organizations}}</h3>
+    <div class="card-test">
+      <span class="types">{{itinerary.types}}</span>
+      <span class="price">$ {{itinerary.price}}</span>
+    </div>
+    <div class="stops">
+      {{#if itinerary.stops}}
+        {{itinerary.stops}} stops
+      {{else}}
+        direct
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+{{#if expanded}}
+  <div class="routes">
+  {{#each itinerary.routes as |route|}}
+    <div class="route card" id="route-{{route.id}}" {{action "routeHovered" route on="mouseEnter"}} {{action "routeClicked" route on="click"}}>
+      <div class="card-block">
+        <h4>{{route.organization}}</h4>
+        <div class="card-test">
+          <span class="types">{{route.transportType}}</span>
+          <span class="price">$ {{route.price}}</span>
+        </div>
+        <div class='down-arrow'>&darr;</div>
+      </div>
+    </div>
+  {{/each}}
+  </div>
+{{/if}}
