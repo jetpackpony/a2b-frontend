@@ -2,6 +2,11 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['display-itineraries'],
+
+  selectedItinerary: Ember.computed('itineraries', function() {
+    return this.get('itineraries').get('firstObject');
+  }),
+
   openedItinerary: null,
   openedItineraryChanged: Ember.observer('openedItinerary', function() {
     let iti = this.get('openedItinerary');
@@ -10,9 +15,6 @@ export default Ember.Component.extend({
     } else {
       this.$('.itinerary-details-container').addClass('hidden');
     }
-  }),
-  selectedItinerary: Ember.computed('itineraries', function() {
-    return this.get('itineraries').get('firstObject');
   }),
 
   routeHovered: null,

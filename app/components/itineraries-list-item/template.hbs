@@ -20,7 +20,7 @@
   {{#each itinerary.routes as |route|}}
     <div class="route card" id="route-{{route.id}}" {{action "routeHovered" route on="mouseEnter"}} {{action "routeClicked" route on="click"}}>
       <div class="card-block">
-        <h3>{{route.organization}}</h3>
+        <h4>{{route.organization}}</h4>
         <div class="card-test">
           <span class="types">{{route.transportType}}</span>
           <span class="price">$ {{route.price}}</span>
