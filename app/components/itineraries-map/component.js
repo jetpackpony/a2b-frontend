@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   lat: 15,
   lng: 100,
   zoom: 4,
+  routeHovered: null,
   selectedItinerary: null,
   itineraries: Ember.A([]),
   bounds: Ember.computed('itineraries', function() {
@@ -19,14 +20,16 @@ export default Ember.Component.extend({
     });
     return bounds;
   }),
-  polylines: Ember.computed('selectedItinerary', 'itineraries', function() {
+  polylines: Ember.computed('selectedItinerary', 'itineraries', 'routeHovered', function() {
     let lines = Ember.A([]);
-    let selected = (this.get('selectedItinerary')) ? this.get('selectedItinerary').get('id') : null;
     this.get('itineraries').forEach((iti) => {
       iti.get('routes').forEach((route) => {
         let from = route.get('fromCoords').split(', ').map(parseFloat);
         let to = route.get('toCoords').split(', ').map(parseFloat);
-        if (selected === iti.get('id')) {
+
+        if (this._isRouteSelected(route.get('id'))) {
+          lines.pushObject(this._makeLineHighlighted(from, to));
+        } else if (this._isItinerarySelected(iti.get('id'))) {
           lines.pushObject(this._makeLineSelected(from, to));
         } else {
           lines.pushObject(this._makeLine(from, to));
@@ -40,6 +43,24 @@ export default Ember.Component.extend({
       this.get('gMap').maps.select('my-map').
         map.fitBounds(this.get('bounds'));
     }
+  },
+  _isItinerarySelected(id) {
+    if (!this.get('selectedItinerary')) {
+      return false;
+    }
+    if (this.get('selectedItinerary').get('id') !== id) {
+      return false;
+    }
+    return true;
+  },
+  _isRouteSelected(id) {
+    if (!this.get('routeHovered')) {
+      return false;
+    }
+    if (this.get('routeHovered').get('id') !== id) {
+      return false;
+    }
+    return true;
   },
   _line(from, to) {
     return {
@@ -65,6 +86,13 @@ export default Ember.Component.extend({
   _makeLineSelected(from, to) {
     let line = this._line(from, to);
     line.strokeColor = '#2c9bba';
+    line.strokeOpacity = 1;
+    line.strokeWeight = 5;
+    return line;
+  },
+  _makeLineHighlighted(from, to) {
+    let line = this._line(from, to);
+    line.strokeColor = '#f94572';
     line.strokeOpacity = 1;
     line.strokeWeight = 5;
     return line;

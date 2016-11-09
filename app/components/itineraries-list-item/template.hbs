@@ -18,7 +18,7 @@
 {{#if expanded}}
   <div class="routes">
   {{#each itinerary.routes as |route|}}
-    <div class="route card" id="route-{{route.id}}">
+    <div class="route card" id="route-{{route.id}}" {{action "routeHovered" route on="mouseEnter"}} {{action "routeClicked" route on="click"}}>
       <div class="card-block">
         <h3>{{route.organization}}</h3>
         <div class="card-test">

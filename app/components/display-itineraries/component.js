@@ -14,9 +14,14 @@ export default Ember.Component.extend({
   selectedItinerary: Ember.computed('itineraries', function() {
     return this.get('itineraries').get('firstObject');
   }),
+
+  routeHovered: null,
+  routeOpened: null,
+
   actions: {
     closeItinerary() {
       this.set('openedItinerary', null);
+      this.set('routeHovered', null);
     }
   }
 });
