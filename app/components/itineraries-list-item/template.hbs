@@ -16,5 +16,18 @@
 </div>
 
 {{#if expanded}}
-  Expanded with details
+  <div class="routes">
+  {{#each itinerary.routes as |route|}}
+    <div class="route card" id="route-{{route.id}}">
+      <div class="card-block">
+        <h3>{{route.organization}}</h3>
+        <div class="card-test">
+          <span class="types">{{route.transportType}}</span>
+          <span class="price">$ {{route.price}}</span>
+        </div>
+        <div class='down-arrow'>&darr;</div>
+      </div>
+    </div>
+  {{/each}}
+  </div>
 {{/if}}
