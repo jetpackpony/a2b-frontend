@@ -5,6 +5,8 @@ export default Ember.Component.extend({
   lat: 15,
   lng: 100,
   zoom: 4,
+  selectedItinerary: null,
+  itineraries: Ember.A([]),
   bounds: Ember.computed('itineraries', function() {
     let bounds = new google.maps.LatLngBounds();
     this.get('itineraries').forEach((iti) => {
@@ -19,7 +21,7 @@ export default Ember.Component.extend({
   }),
   polylines: Ember.computed('selectedItinerary', 'itineraries', function() {
     let lines = Ember.A([]);
-    let selected = this.get('selectedItinerary').get('id');
+    let selected = (this.get('selectedItinerary')) ? this.get('selectedItinerary').get('id') : null;
     this.get('itineraries').forEach((iti) => {
       iti.get('routes').forEach((route) => {
         let from = route.get('fromCoords').split(', ').map(parseFloat);
