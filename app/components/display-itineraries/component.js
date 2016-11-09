@@ -12,6 +12,12 @@ export default Ember.Component.extend({
     let iti = this.get('openedItinerary');
     if (iti !== null) {
       this.$('.itinerary-details-container').removeClass('hidden');
+
+      // If there is only one route, open it directly
+      if (iti.get('routes').get('length') === 1) {
+        this.set('routeHovered', iti.get('routes').get('firstObject'));
+        this.set('routeOpened', iti.get('routes').get('firstObject'));
+      }
     } else {
       this.$('.itinerary-details-container').addClass('hidden');
     }
@@ -33,6 +39,11 @@ export default Ember.Component.extend({
       this.set('routeHovered', null);
     },
     closeRoute() {
+      let iti = this.get('openedItinerary');
+      if (iti.get('routes').get('length') === 1) {
+        this.set('openedItinerary', null);
+      }
+      this.set('routeHovered', null);
       this.set('routeOpened', null);
     }
   }
