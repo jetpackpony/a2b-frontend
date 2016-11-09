@@ -1,16 +1,22 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  classNames: ['display-itineraries'],
   openedItinerary: null,
   openedItineraryChanged: Ember.observer('openedItinerary', function() {
     let iti = this.get('openedItinerary');
     if (iti !== null) {
-      console.log("show the side-slider");
+      this.$('.itinerary-details-container').removeClass('hidden');
     } else {
-      console.log("hide the side-slider");
+      this.$('.itinerary-details-container').addClass('hidden');
     }
   }),
   selectedItinerary: Ember.computed('itineraries', function() {
     return this.get('itineraries').get('firstObject');
-  })
+  }),
+  actions: {
+    closeItinerary() {
+      this.set('openedItinerary', null);
+    }
+  }
 });

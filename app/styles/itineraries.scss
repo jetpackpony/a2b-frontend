@@ -1,3 +1,6 @@
+.display-itineraries {
+  color: #000;
+}
 .itineraries-map {
   height:100%;
 }
@@ -20,6 +23,23 @@
   left: 0;
   overflow: auto;
 }
+.itinerary-details-container {
+  background-color: #fff;
+  padding: 0;
+  position: absolute;
+  top: 7em;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+  display: block;
+
+  .back-button {
+    cursor: pointer;
+  }
+}
+.itinerary-details-container.hidden {
+  display: none;
+}
 .ember-cli-g-map {
   height: 100%;
 }
@@ -27,7 +47,6 @@
   margin: 0;
   border-radius: 0;
   border-top-width: 0;
-  color: #000;
   cursor: pointer;
 }
 .itinerary.selected {
