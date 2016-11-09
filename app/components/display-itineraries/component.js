@@ -19,11 +19,21 @@ export default Ember.Component.extend({
 
   routeHovered: null,
   routeOpened: null,
-
+  routeOpenedChanged: Ember.observer('routeOpened', function() {
+    let route = this.get('routeOpened');
+    if (route !== null) {
+      this.$('.rotue-details-container').removeClass('hidden');
+    } else {
+      this.$('.rotue-details-container').addClass('hidden');
+    }
+  }),
   actions: {
     closeItinerary() {
       this.set('openedItinerary', null);
       this.set('routeHovered', null);
+    },
+    closeRoute() {
+      this.set('routeOpened', null);
     }
   }
 });
