@@ -31,6 +31,6 @@
 
 <div class="col-xs-4 rotue-details-container hidden">
   <p><a {{action "closeRoute"}} class="back-button">&larr; Back</a></p>
-  {{routeOpened.organization}} - {{routeOpened.transportTypes}} - {{routeOpened.price}}
-
+  {{route-details
+  route=routeOpened}}
 </div>
