@@ -1,10 +1,6 @@
 <div class="itineraries-list">
   {{#each itineraries as |itinerary|}}
-    {{itineraries-list-item
-    itinerary=itinerary
-    itemHovered=(action 'itemHovered')
-    itemClicked=(action 'itemClicked')
-    }}
+    {{partial "itinerary-list-item"}}
   {{else}}
   <div class="error alert alert-info">
     This route is not in our database yet
