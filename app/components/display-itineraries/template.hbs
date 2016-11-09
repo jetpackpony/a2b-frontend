@@ -21,6 +21,8 @@
 <div class="col-xs-4 itinerary-details-container hidden">
   <p><a {{action "closeItinerary"}} class="back-button">&larr; Back</a></p>
 
-  {{itinerary-details itinerary=openedItinerary}}
+  {{itineraries-list-item
+  itinerary=openedItinerary
+  expanded="true"}}
 
 </div>
