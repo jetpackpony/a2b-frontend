@@ -3,7 +3,7 @@
     <h3>{{itinerary.organizations}}</h3>
     <div class="card-test">
       <span class="types">{{itinerary.types}}</span>
-      <span class="price">$ {{itinerary.price}}</span>
+      <span class="price">${{itinerary.price}}</span>
     </div>
     <div class="stops">
       {{#if itinerary.stops}}
@@ -23,7 +23,7 @@
         <h4>{{route.organization}}</h4>
         <div class="card-test">
           <span class="types">{{route.transportType}}</span>
-          <span class="price">$ {{route.price}}</span>
+          <span class="price">${{route.price}}</span>
         </div>
         <div class='down-arrow'>&darr;</div>
       </div>
