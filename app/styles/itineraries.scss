@@ -30,6 +30,6 @@
   color: #000;
   cursor: pointer;
 }
-.itinerary:hover {
+.itinerary.selected {
   background-color: #eee;
 }

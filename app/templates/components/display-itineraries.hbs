@@ -3,6 +3,7 @@
     {{itineraries-list
     itineraries=itineraries
     selectedItinerary=selectedItinerary
+    openedItinerary=openedItinerary
     }}
   {{else}}
     <div class="error alert alert-danger">
@@ -11,6 +12,9 @@
   {{/if}}
 </div>
 <div class="col-xs-8 itineraries-map-container">
-  {{itineraries-map selectedItinerary=selectedItinerary}}
+  {{itineraries-map
+  itineraries=itineraries
+  selectedItinerary=selectedItinerary
+  }}
 </div>
 
