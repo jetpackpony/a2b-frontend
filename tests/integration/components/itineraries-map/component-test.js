@@ -47,12 +47,14 @@ test('it changes polylines when the selected itinerary is changed', function(ass
 
   // Create an itinerary with 1 line and render the component
   this.set('selectedItinerary', Ember.Object.create({
+    id: "first",
     routes: [ route1 ]
   }));
   this.render(hbs`{{itineraries-map selectedItinerary=selectedItinerary}}`);
 
   // Change the itinerary to a different one
   this.set('selectedItinerary', Ember.Object.create({
+    id: "second",
     routes: [ route1, route2 ]
   }));
 

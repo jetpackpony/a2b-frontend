@@ -40,7 +40,7 @@ test('should show a message if no itineraries have been found', function(assert)
 
   andThen(() => {
     assert.equal(find(".itinerary").length, 0, "should show 0 itineraries");
-    assert.equal(find(".error").text().trim(), "No routes found between locations you've specified", "should show error message");
+    assert.equal(find(".error").text().trim(), "This route is not in our database yet", "should show error message");
   });
 });
 

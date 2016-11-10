@@ -1,3 +1,6 @@
+.display-itineraries {
+  color: #000;
+}
 .itineraries-map {
   height:100%;
 }
@@ -19,17 +22,38 @@
   bottom: 0;
   left: 0;
   overflow: auto;
+  display: block;
 }
+
+.itinerary-details-container {
+  @extend .itineraries-list-container;
+  .back-button {
+    cursor: pointer;
+  }
+}
+.itinerary-details-container.hidden {
+  left: -33.33333%;
+}
+
+.rotue-details-container {
+  @extend .itineraries-list-container;
+  .back-button {
+    cursor: pointer;
+  }
+}
+.rotue-details-container.hidden {
+  @extend .itinerary-details-container.hidden;
+}
+
 .ember-cli-g-map {
   height: 100%;
 }
-.itinerary {
+.itinerary, .route {
   margin: 0;
   border-radius: 0;
   border-top-width: 0;
-  color: #000;
   cursor: pointer;
 }
-.itinerary:hover {
+.itinerary.selected, .route.selected {
   background-color: #eee;
 }

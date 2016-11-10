@@ -2,11 +2,12 @@
   {{#each itineraries as |itinerary|}}
     {{itineraries-list-item
     itinerary=itinerary
-    itemHovered=(action 'itemHovered')
+    click=(action "itemClicked" itinerary)
+    mouseEnter=(action "itemHovered" itinerary)
     }}
   {{else}}
   <div class="error alert alert-info">
-    No routes found between locations you've specified
+    This route is not in our database yet
   </div>
   {{/each}}
 </div>

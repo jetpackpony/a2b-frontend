@@ -1,0 +1,36 @@
+<div class="col-xs-4 itineraries-list-container">
+  {{#if formFilled }}
+    {{itineraries-list
+    itineraries=itineraries
+    selectedItinerary=selectedItinerary
+    openedItinerary=openedItinerary
+    }}
+  {{else}}
+    <div class="error alert alert-danger">
+      Please specify locations in the form above
+    </div>
+  {{/if}}
+</div>
+<div class="col-xs-8 itineraries-map-container">
+  {{itineraries-map
+  itineraries=itineraries
+  selectedItinerary=selectedItinerary
+  routeHovered=routeHovered
+  }}
+</div>
+
+<div class="col-xs-4 itinerary-details-container hidden">
+  <p><a {{action "closeItinerary"}} class="back-button">&larr; Back</a></p>
+
+  {{itineraries-list-item
+  itinerary=openedItinerary
+  expanded="true"
+  routeHovered=routeHovered
+  routeOpened=routeOpened}}
+</div>
+
+<div class="col-xs-4 rotue-details-container hidden">
+  <p><a {{action "closeRoute"}} class="back-button">&larr; Back</a></p>
+  {{route-details
+  route=routeOpened}}
+</div>
