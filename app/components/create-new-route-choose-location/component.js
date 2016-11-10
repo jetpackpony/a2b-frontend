@@ -31,11 +31,17 @@ export default Ember.Component.extend({
     countryChanged() {
       let code = event.target.value;
       let name = this.get('countries').find((item) => item.value === code).text;
-      this.set('countryRestriction', { country: code });
+
+      this.set('countryRestriction', null);
+      this.set('city', null);
+      this.set('coords', null);
+      this.set('address', null);
+      this.set('addressObject', null);
       this.get('gMap')
         .geocode({ address: name })
         .then((geocodes) => {
           this.set('mapFocusObject', geocodes[0]);
+          this.set('countryRestriction', { country: code });
         })
         .catch((err) => console.error(err));
     },
