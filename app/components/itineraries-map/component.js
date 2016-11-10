@@ -8,6 +8,12 @@ export default Ember.Component.extend({
   routeHovered: null,
   selectedItinerary: null,
   itineraries: Ember.A([]),
+  mapLoaded: false,
+  itinerariesChanged: Ember.observer('itineraries', function() {
+    if (this.get('mapLoaded')) {
+      this._setMapToBounds();
+    }
+  }),
   bounds: Ember.computed('itineraries', function() {
     let bounds = new google.maps.LatLngBounds();
     this.get('itineraries').forEach((iti) => {
@@ -40,8 +46,14 @@ export default Ember.Component.extend({
   }),
   actions: {
     mapLoaded() {
-      this.get('gMap').maps.select('my-map').
-        map.fitBounds(this.get('bounds'));
+      this.set('mapLoaded', true);
+      this._setMapToBounds();
+    }
+  },
+  _setMapToBounds() {
+    let bounds = this.get('bounds');
+    if (!bounds.isEmpty()) {
+      this.get('gMap').maps.select('my-map').map.fitBounds(bounds);
     }
   },
   _isItinerarySelected(id) {
