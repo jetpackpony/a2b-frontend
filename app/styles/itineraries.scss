@@ -32,7 +32,7 @@
   }
 }
 .itinerary-details-container.hidden {
-  display: none;
+  left: -33.33333%;
 }
 
 .rotue-details-container {
@@ -42,7 +42,7 @@
   }
 }
 .rotue-details-container.hidden {
-  display: none;
+  @extend .itinerary-details-container.hidden;
 }
 
 .ember-cli-g-map {
