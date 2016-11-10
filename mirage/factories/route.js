@@ -8,6 +8,7 @@ export default Factory.extend({
   fromCoords() {
     return faker.fake("{{address.city}}, {{address.country}}");
   },
+  fromComment: faker.lorem.paragraph,
 
   toAddress: faker.address.streetName,
   toCity() {
@@ -16,16 +17,21 @@ export default Factory.extend({
   toCoords() {
     return faker.fake("{{address.city}}, {{address.country}}");
   },
+  toComment: faker.lorem.paragraph,
+
+  organization: faker.list.cycle('Giant Express', 'AsiaLines', 'WaterCamb'),
+  companyMail: faker.internet.email,
+  companyPhone: faker.phone.phoneNumber,
+  companySite: faker.internet.url,
+  companyDescription: "Delays, delays, delays",
 
   transportType: faker.list.cycle('bus', 'train', 'ferry'),
-  organization: faker.list.cycle('Giant Express', 'AsiaLines', 'WaterCamb'),
-  description: "Such comfort! Much VIP! WOW!",
-
   duration() {
     return faker.random.number(24);
   },
   price() {
     return faker.random.number(150);
   },
-  timetable: faker.list.random("7:00 AM, 8:00 PM", "5:00 PM", "12:00 PM", "12:02 AM")
+  timetable: faker.list.random("7:00 AM, 8:00 PM", "5:00 PM", "12:00 PM", "12:02 AM"),
+  description: "Such comfort! Much VIP! WOW!"
 });
