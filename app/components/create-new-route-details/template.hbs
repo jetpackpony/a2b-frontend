@@ -35,4 +35,6 @@
   </div>
 </div>
 
-<button {{action "submit"}} class="btn btn-secondary">Submit</button>
+{{#if showSubmitButton}}
+  <button {{action "submit"}} class="btn btn-secondary">Submit</button>
+{{/if}}
