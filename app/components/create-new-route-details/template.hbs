@@ -10,9 +10,15 @@
   </div>
 </div>
 <div class="form-group row">
-  <label for="organization" class="col-xs-3 col-form-label">Organization <span class='required'>*</span></label>
+  <label for="organization" class="col-xs-3 col-form-label">Transport Company <span class='required'>*</span></label>
   <div class="col-xs-9">
     {{input class="form-control" placeholder="Somethign Tour" id="organization" value=newRoute.organization}}
+  </div>
+</div>
+<div class="form-group row">
+  <label for="organization-info" class="col-xs-3 col-form-label">Transport Company Contacts</label>
+  <div class="col-xs-9">
+    {{textarea class="form-control" placeholder="Add company's website, phone or other contacts" id="organization" value=""}}
   </div>
 </div>
 <div class="form-group row">
@@ -39,7 +45,7 @@
 <div class="form-group row">
   <label for="description" class="col-xs-3 col-form-label">Description</label>
   <div class="col-xs-9">
-    {{input class="form-control" placeholder="Comfortable VIP Van, TV, Wi-fi, Water, polite drivers" id="description" value=newRoute.description}}
+    {{textarea class="form-control" placeholder="Comfortable VIP Van, TV, Wi-fi, Water, polite drivers" id="description" value=newRoute.description}}
   </div>
 </div>
 {{#if showSubmitButton}}
