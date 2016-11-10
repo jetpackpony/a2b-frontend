@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  gMap: Ember.inject.service(),
   countryRestriction: null,
+  mapFocusObject: null,
   showAddress: true,
   countrySet: Ember.computed('countryRestriction', function() {
     return this.get('countryRestriction') !== null;
@@ -12,7 +14,7 @@ export default Ember.Component.extend({
   addressSet: Ember.computed('coords', 'comment', function() {
     return !!this.get('coords') || !!this.get('comment');
   }),
-  countries: [
+  countries: Ember.A([
     { text: "Vietnam", value: "vn" },
     { text: "Cambodia", value: "kh" },
     { text: "Laos", value: "la" },
@@ -24,15 +26,23 @@ export default Ember.Component.extend({
     { text: "Indonesia", value: "id" },
     { text: "Singapore", value: "sg" },
     { text: "Philippines", value: "ph" }
-  ],
+  ]),
   actions: {
     countryChanged() {
-      this.set('countryRestriction', { country: event.target.value });
+      let code = event.target.value;
+      let name = this.get('countries').find((item) => item.value === code).text;
+      this.set('countryRestriction', { country: code });
+      this.get('gMap')
+        .geocode({ address: name })
+        .then((geocodes) => {
+          this.set('mapFocusObject', geocodes[0]);
+        })
+        .catch((err) => console.error(err));
     },
     cityChanged(obj) {
       if (obj.address_components) {
         this.set('city', obj.formatted_address);
-        this.set('cityObject', obj);
+        this.set('mapFocusObject', obj);
       }
     },
     addressChanged(obj) {

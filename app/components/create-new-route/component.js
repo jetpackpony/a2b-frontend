@@ -1,8 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  fromCityObject: null,
-  toCityObject: null,
+  mapFocusObject: null,
   fromAddressObject: null,
   toAddressObject: null,
   currentStep: 2,

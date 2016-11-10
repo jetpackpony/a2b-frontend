@@ -8,12 +8,10 @@ export default Ember.Component.extend({
   markers: Ember.A([ ]),
   polylines: Ember.A([]),
 
-  fromCityChanged: Ember.observer('fromCityObject', function() {
-    this._fitMapToBounds(this.get('fromCityObject').geometry.viewport);
+  focusChanged: Ember.observer('mapFocusObject', function() {
+    this._fitMapToBounds(this.get('mapFocusObject').geometry.viewport);
   }),
-  toCityChanged: Ember.observer('toCityObject', function() {
-    this._fitMapToBounds(this.get('toCityObject').geometry.viewport);
-  }),
+
   fromAddressChanged: Ember.observer('fromAddressObject', function() {
     this._addMarker(0, {
       lat: this.get('fromAddressObject').geometry.location.lat(),
