@@ -1,7 +1,12 @@
 <div class="form-group row">
   <label for="transportType" class="col-xs-3 col-form-label">Transport Type <span class='required'>*</span></label>
   <div class="col-xs-9">
-    {{input class="form-control" placeholder="bus" id="transportType" value=newRoute.transportType}}
+    <select class="form-control" {{action "transportTypeChanged" on="change"}}>
+      <option value="" disabled selected>---</option>
+      {{#each transportTypes as |type|}}
+        <option value="{{type}}">{{type}}</option>
+      {{/each}}
+    </select>
   </div>
 </div>
 <div class="form-group row">

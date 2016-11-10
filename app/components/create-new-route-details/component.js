@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  transportTypes: Ember.A(["Bus", "Ferry", "Train"]),
   newRoute: null,
   showSubmitButton: Ember.computed('newRoute.{transportType,organization,duration,price,timetable}', function() {
     let route = this.get('newRoute');
@@ -14,6 +15,9 @@ export default Ember.Component.extend({
   actions: {
     submit() {
       this.attrs.submit();
+    },
+    transportTypeChanged() {
+      this.set('newRoute.transportType', event.target.value);
     }
   }
 });
