@@ -18,6 +18,12 @@ export default Ember.Component.extend({
     },
     transportTypeChanged() {
       this.set('newRoute.transportType', event.target.value);
+    },
+    durationChanged() {
+      let duration = parseInt(this.$('#duration-hours').val())
+        + parseInt(this.$('#duration-minutes').val() || "0") / 60;
+      this.set('newRoute.duration', duration.toString());
     }
   }
+
 });

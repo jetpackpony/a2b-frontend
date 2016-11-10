@@ -24,7 +24,8 @@
 <div class="form-group row">
   <label for="duration" class="col-xs-3 col-form-label">Duration <span class='required'>*</span></label>
   <div class="col-xs-9">
-    {{input class="form-control" placeholder="3.25" id="duration" value=newRoute.duration}}
+    {{input type="number" class="form-control" placeholder="0" id="duration-hours" focus-out="durationChanged" min=0 max=72 step=1}} hours
+    {{input type="number" class="form-control" placeholder="0" id="duration-minutes" focus-out="durationChanged" min=0 max=60 step=15}} minutes
   </div>
 </div>
 <div class="form-group row">
