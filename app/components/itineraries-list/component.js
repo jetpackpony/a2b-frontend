@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   selectedItinerary:null,
-  didInsertElement() {
+  didRender() {
     if (this.get('selectedItinerary')) {
       this.$(`#itinerary-${this.get('selectedItinerary').id}`).addClass('selected');
     }

@@ -2,10 +2,19 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['display-itineraries'],
+  itineraries: Ember.A([]),
+  selectedItinerary: null,
+  openedItinerary: null,
+  routeHovered: null,
+  routeOpened: null,
 
-  selectedItinerary: Ember.computed('itineraries', function() {
-    return this.get('itineraries').get('firstObject');
-  }),
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.set('openedItinerary', null);
+    this.set('routeHovered', null);
+    this.set('routeOpened', null);
+    this.set('selectedItinerary', this.get('itineraries').get('firstObject'));
+  },
   _slideInLeft(el) {
     el.animate({ left: 0 }, 300);
   },
@@ -13,7 +22,6 @@ export default Ember.Component.extend({
     el.animate({ left: "-33.33333%" }, 300);
   },
 
-  openedItinerary: null,
   openedItineraryChanged: Ember.observer('openedItinerary', function() {
     let iti = this.get('openedItinerary');
     if (iti !== null) {
@@ -29,8 +37,6 @@ export default Ember.Component.extend({
     }
   }),
 
-  routeHovered: null,
-  routeOpened: null,
   routeOpenedChanged: Ember.observer('routeOpened', function() {
     let route = this.get('routeOpened');
     if (route !== null) {
