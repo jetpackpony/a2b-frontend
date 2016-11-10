@@ -35,10 +35,7 @@
         }}
       </div>
 
-      <div class="form-group">
-        <label for="coords" class="col-form-label">Coords</label>
-        {{input class="form-control" id="coords" value=coords}}
-      </div>
+      {{input type="hidden" id="coords" value=coords}}
     {{else}}
       <div>
         <label class='col-form-label'>Describe the location for us</label>
