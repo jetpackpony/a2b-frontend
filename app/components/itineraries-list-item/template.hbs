@@ -1,9 +1,9 @@
 <div class="itinerary card" id="itinerary-{{itinerary.id}}">
   <div class="card-block">
     <h3>{{itinerary.organizations}}</h3>
+    <div class="price text-xs-right">${{itinerary.price}}</div>
     <div class="card-test">
       <span class="types">{{itinerary.types}}</span>
-      <span class="price">${{itinerary.price}}</span>
     </div>
     <div class="stops">
       {{#if itinerary.stops}}
@@ -12,6 +12,7 @@
         direct
       {{/if}}
     </div>
+    <div class="duration text-xs-right">{{duration}}</div>
   </div>
 </div>
 
