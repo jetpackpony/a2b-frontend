@@ -18,8 +18,11 @@
 
 {{#if expanded}}
   <div class="routes">
-  {{#each itinerary.routes as |route|}}
+  {{#each itinerary.routes as |route index|}}
     <div class="route card" id="route-{{route.id}}" {{action "routeHovered" route on="mouseEnter"}} {{action "routeClicked" route on="click"}}>
+      <span class="top-line"></span>
+      <span class="route-number align-middle">{{inc index}}</span>
+      <span class="bottom-line"></span>
       <div class="card-block">
         <h4>{{route.organization}}</h4>
         <div class="card-test">
