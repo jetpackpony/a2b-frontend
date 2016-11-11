@@ -7,7 +7,7 @@
     </div>
     <div class="stops">
       {{#if itinerary.stops}}
-        {{itinerary.stops}} stops
+        {{itinerary.stops}} {{pluralize itinerary.stops "stop"}}
       {{else}}
         direct
       {{/if}}
