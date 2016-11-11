@@ -21,7 +21,7 @@ export default Factory.extend({
 
   organization: faker.list.cycle('Giant Express', 'AsiaLines', 'WaterCamb'),
   companyMail: faker.internet.email,
-  companyPhone: faker.phone.phoneNumber,
+  companyPhone: "+66 (933) 123-33-33",
   companySite: faker.internet.url,
   companyDescription: "Delays, delays, delays",
 

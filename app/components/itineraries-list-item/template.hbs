@@ -1,31 +1,36 @@
 <div class="itinerary card" id="itinerary-{{itinerary.id}}">
   <div class="card-block">
     <h3>{{itinerary.organizations}}</h3>
+    <div class="price text-xs-right">${{itinerary.price}}</div>
     <div class="card-test">
       <span class="types">{{itinerary.types}}</span>
-      <span class="price">${{itinerary.price}}</span>
     </div>
     <div class="stops">
       {{#if itinerary.stops}}
-        {{itinerary.stops}} stops
+        {{itinerary.stops}} {{pluralize itinerary.stops "stop"}}
       {{else}}
         direct
       {{/if}}
     </div>
+    <div class="duration text-xs-right">{{duration-string itinerary.duration}}</div>
   </div>
 </div>
 
 {{#if expanded}}
   <div class="routes">
-  {{#each itinerary.routes as |route|}}
+  {{#each itinerary.routes as |route index|}}
     <div class="route card" id="route-{{route.id}}" {{action "routeHovered" route on="mouseEnter"}} {{action "routeClicked" route on="click"}}>
+      <span class="top-line"></span>
+      <span class="route-number align-middle">{{inc index}}</span>
+      <span class="bottom-line"></span>
       <div class="card-block">
         <h4>{{route.organization}}</h4>
+        <div class="price text-xs-right">${{route.price}}</div>
         <div class="card-test">
           <span class="types">{{route.transportType}}</span>
-          <span class="price">${{route.price}}</span>
+          <span class="cities">{{route.fromCity}} &rarr; {{route.toCity}}</span>
         </div>
-        <div class='down-arrow'>&darr;</div>
+        <div class="duration text-xs-right">{{duration-string route.duration}}</div>
       </div>
     </div>
   {{/each}}

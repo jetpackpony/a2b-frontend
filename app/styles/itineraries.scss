@@ -1,5 +1,12 @@
 .display-itineraries {
   color: #000;
+
+  a {
+    color: #014c8c;
+  }
+  a:hover, a:focus {
+    color: #0275d8;
+  }
 }
 .itineraries-map {
   height:100%;
