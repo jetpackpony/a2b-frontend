@@ -12,7 +12,7 @@
         direct
       {{/if}}
     </div>
-    <div class="duration text-xs-right">{{duration}}</div>
+    <div class="duration text-xs-right">{{duration-string itinerary.duration}}</div>
   </div>
 </div>
 
@@ -25,11 +25,12 @@
       <span class="bottom-line"></span>
       <div class="card-block">
         <h4>{{route.organization}}</h4>
+        <div class="price text-xs-right">${{route.price}}</div>
         <div class="card-test">
           <span class="types">{{route.transportType}}</span>
-          <span class="price">${{route.price}}</span>
+          <span class="cities">{{route.fromCity}} &rarr; {{route.toCity}}</span>
         </div>
-        <div class='down-arrow'>&darr;</div>
+        <div class="duration text-xs-right">{{duration-string route.duration}}</div>
       </div>
     </div>
   {{/each}}
