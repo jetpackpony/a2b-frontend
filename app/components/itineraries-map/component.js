@@ -81,6 +81,23 @@ export default Ember.Component.extend({
           clickable: true,
           editable: false,
           geodesic: true,
+          icons: [{
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              strokeWeight: 2,
+              fillColor: "white",
+              fillOpacity: 1
+            },
+            offset: '100%'
+          },{
+            icon: {
+              path: google.maps.SymbolPath.CIRCLE,
+              strokeWeight: 2,
+              fillColor: "white",
+              fillOpacity: 1
+            },
+            offset: '0%'
+          }],
           strokeColor: 'blue',
           strokeOpacity: 1,
           strokeWeight: 3,
