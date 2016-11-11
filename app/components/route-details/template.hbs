@@ -1,15 +1,16 @@
 <div class="route card" id="route-{{route.id}}">
   <div class="card-block">
-    <h3>{{route.organization}}</h3>
+    <h4>{{route.organization}}</h4>
+    <div class="price text-xs-right">${{route.price}}</div>
     <div class="card-test">
       <span class="types">{{route.transportType}}</span>
-      <span class="price">$ {{route.price}}</span>
+      <span class="cities">{{route.fromCity}} &rarr; {{route.toCity}}</span>
     </div>
+    <div class="duration text-xs-right">{{duration-string route.duration}}</div>
   </div>
 </div>
 <div class="route-info card">
   <div class="card-block">
-    <p>Duration: {{route.duration}}</p>
     <p>Timetable: {{route.timetable}}</p>
     <p>Description: <br>
     {{route.description}}</p>
