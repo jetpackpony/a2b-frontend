@@ -1,14 +1,10 @@
-<nav class="navbar navbar-dark bg-inverse">
-  <a class="navbar-brand" href="#">a2b</a>
-  <ul class="nav navbar-nav float-xs-right">
-    <li class="nav-item">
-      {{#link-to 'index' classNames="nav-link"}}Home{{/link-to}}
-    </li>
-    <li class="nav-item">
-      {{#link-to 'routes.new' classNames="nav-link"}}Add Route{{/link-to}}
-    </li>
-    <li class="nav-item">
-      {{#link-to 'about' classNames="nav-link"}}About{{/link-to}}
-    </li>
-  </ul>
+<nav class="navbar navbar-full">
+  {{#link-to 'index' classNames="navbar-brand"}}
+    <img src="assets/images/a2b-logo-min.png" alt="A2B Logo">
+  {{/link-to}}
+  <div class="nav navbar-nav float-xs-right">
+    {{#link-to 'about' classNames="nav-item nav-link"}}Welcome{{/link-to}}
+    {{#link-to 'index' classNames="nav-item nav-link"}}Search{{/link-to}}
+    {{#link-to 'routes.new' classNames="nav-item nav-link"}}Add Route{{/link-to}}
+  </div>
 </nav>
