@@ -61,7 +61,7 @@
   {{textarea class="form-control" id="company-description" rows="3" placeholder="Phone, website, email, office address" value=newRoute.companyDescription}}
 </div>
 
-<button class="btn btn-primary float-xs-left">&lt; Back</button>
+<button class="btn btn-primary float-xs-left" {{action "back"}}>&lt; Back</button>
 
 {{#if showSubmitButton}}
   <button {{action "submit"}} class="btn btn-primary highlighted float-xs-right">Submit</button>

@@ -54,7 +54,10 @@
   .right-side {
     @extend .col-xs-6, .col-lg-7, .col-xl-8;
     right: 0;
-    background-image: url("#{$images}/map.png");
+
+    & > div, & > div > div {
+      height: 100%;
+    }
   }
 
 }

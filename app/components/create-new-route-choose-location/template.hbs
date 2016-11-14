@@ -61,4 +61,6 @@
     {{/if}}
   {{/if}}
 {{/if}}
-<button class="btn btn-primary float-xs-left" {{action "back"}}>&lt; Back</button>
+{{#if showBackButton}}
+  <button class="btn btn-primary float-xs-left" {{action "back"}}>&lt; Back</button>
+{{/if}}
