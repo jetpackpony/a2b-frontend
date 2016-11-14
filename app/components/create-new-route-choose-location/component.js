@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  tagName: "form",
   gMap: Ember.inject.service(),
   countryRestriction: null,
   mapFocusObject: null,

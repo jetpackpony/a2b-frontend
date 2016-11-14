@@ -1,55 +1,64 @@
-<div class="alert alert-danger">At the moment you can only add routes in 11 countries in South-East Asia: Vietnam, Cambodia, Laos, Myanmar, Thailand, Malaysia, Brunei, East Timor, Indonesia, Singapore, Philippines</div>
-<h4>{{countryHeader}}</h4>
-<select {{action "countryChanged" on='change'}}>
-  <option value="---" disabled selected>---</option>
-  {{#each countries as |country|}}
-    <option value={{country.value}}>{{country.text}}</option>
-  {{/each}}
-</select>
+<div class="form-group">
+  <label for="country">{{countryLabel}}</label>
+  <select class="form-control" id="country" {{action "countryChanged" on='change'}}>
+    <option disabled selected></option>
+    {{#each countries as |country|}}
+      <option value={{country.value}}>{{country.text}}</option>
+    {{/each}}
+  </select>
+</div>
 
 {{#if countrySet}}
-  <h4>{{cityHeader}}</h4>
-  {{place-autocomplete-field
-      handlerController=this
-      inputClass="form-control form-control"
-      placeChangedCallback='cityChanged'
-      types='(cities)'
-      restrictions=countryRestriction
-  }}
+  <div class="form-group">
+    <label for="city">{{cityLabel}}</label>
+    {{place-autocomplete-field
+    handlerController=this
+    inputClass="form-control"
+    placeChangedCallback='cityChanged'
+    types='(cities)'
+    restrictions=countryRestriction
+    id='city'
+    placeholder="Bangkok, Thailand"
+    }}
+  </div>
 
   {{#if citySet}}
-    <h4>Enter the address below or point it on the map</h4>
-
     {{#if showAddress}}
-      <a href='#' {{action "toggleAddress" on='click'}}>
-        I don't know the exact address!
-      </a>
       <div class="form-group">
-        {{place-autocomplete-field
-            value=address
-            handlerController= this
-            inputClass="form-control form-control"
-            placeChangedCallback='addressChanged'
-            types='address'
-            restrictions=countryRestriction
-        }}
-      </div>
+        <label for="address">{{addressLabel}}
+          <small id="addressHelp" class="form-text text-muted">
+            or enter it in the field below
+          </small>
+        </label>
 
-      {{input type="hidden" id="coords" value=coords}}
-    {{else}}
-      <div>
-        <label class='col-form-label'>Describe the location for us</label>
-        {{textarea class="form-control" value=comment}}
+        {{place-autocomplete-field
+        value=address
+        handlerController= this
+        inputClass="form-control"
+        placeChangedCallback='addressChanged'
+        types='address'
+        restrictions=countryRestriction
+        id='address'
+        placeholder="23 Sukhumvit Road, Bangkok, Thailand"
+        aria-describedby="addressHelp"
+        }}
+        <div class="form-text">
+          <a href="#" {{action "toggleAddress" on='click'}}>{{subAddressLabel}}</a>
+        </div>
       </div>
-      <div>
-        <a href='#' {{action "toggleAddress" on='click'}}>
-          Let me try to search for an address again!
-        </a>
+      <input type="hidden" id="coords" value="">
+    {{else}}
+      <div class="form-group">
+        <label for="comment">{{commentLabel}}</label>
+        {{textarea class="form-control" id="comment" rows="3" placeholder="In front of a Night Market; Near the police station; By the Buddha statue" value=comment}}
+        <div class="form-text">
+          <a href="#" {{action "toggleAddress" on='click'}}>Let me try to search for an address again!</a>
+        </div>
       </div>
     {{/if}}
-
     {{#if addressSet}}
-      <button {{action "next"}}>Next</button>
+      <button class="btn btn-primary float-xs-right" {{action "next"}}>Next &gt;</button>
     {{/if}}
   {{/if}}
 {{/if}}
+<button class="btn btn-primary float-xs-left" {{action "back"}}>&lt; Back</button>
