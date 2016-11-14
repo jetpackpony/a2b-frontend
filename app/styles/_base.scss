@@ -1,0 +1,69 @@
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritance from `body` */
+  background-color: #fff;
+  border: .05rem solid #fff;
+}
+
+/*
+ * Base structure
+ */
+$images: "/assets/images";
+$bg-image: "#{$images}/sea.jpg";
+
+$dark-bg: #1e1a16;
+$light-bg: #fff;
+$highlighted-bg: rgba(44,155,186,0.1);
+
+$light-color: #fff;
+$dark-color: #000;
+$muted-color: #999;
+$highlighted-color: rgba(249,69,114,1);
+$highlighted-color-shade: rgba(249,69,114,.8);
+$selected-color: rgba(44,155,186,1);
+$selected-color-shade: rgba(44,155,186,.8);
+
+$card-border: 1px solid rgba(0,0,0,0.1);
+
+$shadow: 4px 0 4px rgba(64,63,63,.4);
+
+html,
+body {
+  height: 100%;
+}
+body {
+  color: #fff;
+  background-color: $dark-bg;
+  text-align: left;
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.6),
+      rgba(0, 0, 0, 0.5)
+    ),
+    url($bg-image);
+  background-size: cover;
+}
+
+.text-shadow {
+  // Font styles
+  font-size: 1.1rem;
+  font-weight: 300;
+  text-shadow: 0 .05rem .1rem rgba(0,0,0,.5);
+}
+
+.centered {
+  margin-right: auto;
+  margin-left: auto;
+}
+

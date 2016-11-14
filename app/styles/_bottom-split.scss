@@ -1,0 +1,60 @@
+.bottom-split {
+  background-color: $light-bg;
+  color: #000;
+
+  margin: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 7rem;
+  bottom: 0;
+
+  .left-side, .right-side {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    padding: 0;
+  }
+  .left-side {
+    @extend .col-xs-6, .col-lg-5, .col-xl-4;
+    left: 0;
+    z-index: 2;
+    box-shadow: $shadow;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    a,
+    a:focus,
+    a:hover {
+      color: $selected-color;
+      text-decoration: underline;
+    }
+    .btn-primary,
+    .btn-primary:hover,
+    .btn-primary:focus {
+      color: #fff;
+      text-shadow: none;
+      background-color: $selected-color-shade;
+      border: .05rem solid $selected-color-shade;
+    }
+    .btn-primary:hover {
+      background-color: $selected-color;
+      border: .05rem solid $selected-color;
+    }
+    .btn-primary.highlighted,
+    .btn-primary.highlighted:focus {
+      background-color: $highlighted-color-shade;
+      border: .05rem solid $highlighted-color-shade;
+    }
+    .btn-primary.highlighted:hover {
+      background-color: $highlighted-color;
+      border: .05rem solid $highlighted-color;
+    }
+  }
+  .right-side {
+    @extend .col-xs-6, .col-lg-7, .col-xl-8;
+    right: 0;
+    background-image: url("#{$images}/map.png");
+  }
+
+}

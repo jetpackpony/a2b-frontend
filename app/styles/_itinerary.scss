@@ -1,0 +1,44 @@
+.itinerary-short {
+  padding: 1rem;
+  border-bottom: $card-border;
+
+  .price, .duration {
+    @extend .text-xs-right;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3rem;
+    max-height: 2.6rem;
+    overflow: hidden;
+  }
+
+  .price {
+    color: $highlighted-color;
+    font-weight: 600;
+  }
+
+  .info {
+    color: $muted-color;
+
+    div {
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .transport, .stops {
+      text-overflow: ellipsis;
+      max-width: 50%;
+      float: left;
+    }
+
+    .stops {
+      padding-left: .5rem;
+    }
+  }
+
+  &.highlighted {
+    background-color: $highlighted-bg;
+  }
+}

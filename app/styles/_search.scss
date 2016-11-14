@@ -1,0 +1,20 @@
+.search {
+  @extend .text-shadow;
+
+  .form-container {
+    @extend .centered;
+    @extend .text-xs-center;
+    max-width: 46rem;
+    margin-top: 10%;
+
+    .form-group {
+      margin-bottom: .7rem;
+    }
+    .form-group.first {
+      margin-right: .4rem;
+    }
+    .form-wrapper {
+      margin-bottom: 2rem;
+    }
+  }
+}
