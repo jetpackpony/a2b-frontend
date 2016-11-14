@@ -1,51 +1,31 @@
-<form class="form-inline" id="search-form">
+<form class="form-inline">
   {{#if inline}}
-    <div class="form-group">
-      {{place-autocomplete-field
-        value=from_input
-        handlerController=this
-        inputClass="form-control form-control"
-        id="from-wrapper"
-        placeChangedCallback='fromChanged'
-        types='(cities)'
-      }}
-    </div>
-    <div class="form-group">
-      {{place-autocomplete-field
-        value=to_input
-        handlerController=this
-        inputClass="form-control form-control"
-        id="to-wrapper"
-        placeChangedCallback='toChanged'
-        types='(cities)'
-      }}
-    </div>
-    <button id="submit" type="submit" class="btn btn-secondary" {{ action "search" }}>Search</button>
   {{else}}
-    <p class="lead">
-    <div class="form-group">
+    <div class="form-group first">
+      <label class="sr-only" for="from-wrapper">From City</label>
       {{place-autocomplete-field
-        value=from_input
-        handlerController=this
-        inputClass="form-control form-control-lg"
-        id="from-wrapper"
-        placeChangedCallback='fromChanged'
-        types='(cities)'
+      value=from_input
+      handlerController=this
+      inputClass="form-control form-control-lg"
+      id="from-wrapper"
+      placeChangedCallback='fromChanged'
+      types='(cities)'
+      placeholder="From City"
       }}
     </div>
     <div class="form-group">
+      <label class="sr-only" for="to">To City</label>
       {{place-autocomplete-field
-        value=to_input
-        handlerController=this
-        inputClass="form-control form-control-lg"
-        id="to-wrapper"
-        placeChangedCallback='toChanged'
-        types='(cities)'
+      value=to_input
+      handlerController=this
+      inputClass="form-control form-control-lg"
+      id="to-wrapper"
+      placeChangedCallback='toChanged'
+      types='(cities)'
+      placeholder="To City"
       }}
     </div>
-    </p>
-    <p>
-    <button id="submit" type="submit" class="btn btn-lg btn-secondary" {{ action "search" }}>Search</button>
-    </p>
+    <br>
+    <button type="submit" class="btn btn-lg btn-secondary" {{ action "search" }}>Search</button>
   {{/if}}
 </form>

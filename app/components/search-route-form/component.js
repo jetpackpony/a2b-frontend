@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  classNames: ['form-wrapper'],
   from: null,
   to: null,
   from_input: Ember.computed.oneWay('from'),
