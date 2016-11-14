@@ -34,13 +34,12 @@ export default Ember.Component.extend({
       this.attrs.createRoute(route);
     },
     next() {
-      this.$('.carousel').carousel('next');
       this.incrementProperty('currentStep');
-      console.log(this.get('newRoute'));
+      this.$('.carousel').carousel('next');
     },
     back() {
-      this.$('.carousel').carousel('prev');
       this.decrementProperty('currentStep');
+      this.$('.carousel').carousel('prev');
     },
     submit() {
       console.log("complete: ", this.get('newRoute'));

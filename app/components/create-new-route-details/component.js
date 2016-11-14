@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  tagName: "form",
   transportTypes: Ember.A(["Bus", "Ferry", "Train"]),
   newRoute: null,
   showSubmitButton: Ember.computed('newRoute.{transportType,organization,duration,price,timetable}', function() {

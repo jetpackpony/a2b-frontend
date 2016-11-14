@@ -6,7 +6,7 @@
         <small class="text-muted">Step {{currentStep}} of 3</small>
       </h1>
     </div>
-    <div class="carousel">
+    <div class="carousel slide">
       <div class="carousel-inner" role="listbox">
         <div class="carousel-item active">
           <div class="alert alert-warning">
@@ -51,6 +51,7 @@
           {{create-new-route-details
           newRoute=newRoute
           submit=(action "submit")
+          back=(action "back")
           }}
         </div>
         <div class="carousel-item">
