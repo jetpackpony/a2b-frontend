@@ -15,4 +15,17 @@ export default function() {
     const attrs = JSON.parse(request.requestBody);
     return schema.routes.create(attrs);
   });
+
+  this.post('/session/create', function(schema, request) {
+    return {
+      "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJlbWFpbCI6InRlc3RtZUBnbWFpbC5jb20ifQ.36IvcD5fisgSmPxGDbtuAZF3nSeBxX2xEy4vnQTa18E",
+      "token_type":"JWT",
+      "expires_in":3600
+    };
+  });
+
+  this.post('/users', function(schema, request) {
+    const attrs = JSON.parse(request.requestBody);
+    return { data: [] };
+  });
 }

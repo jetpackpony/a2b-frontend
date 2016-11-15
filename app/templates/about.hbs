@@ -16,41 +16,6 @@
   </div>
 
   <div class="col-xs-5 register-container">
-    {{#if loggedIn}}
-      <h2>Hello, username!</h2>
-      <p>Proceed to <a href="search.html">search</a><br>
-      or <a href="add-route.html">add a route</a></p>
-    {{else}}
-      <div class="login-form">
-        <h2>Log in to get started</h2>
-        <div class="social">
-          <img src="assets/images/login-with-facebook.png" alt="Login with facebook">
-        </div>
-        <div class="form">
-          <h2>or sign up using email</h2>
-          <form>
-            <div class="form-group has-danger">
-              <label class="sr-only" for="email">Email address</label>
-              <input type="email" class="form-control form-control-danger" id="email" placeholder="Enter email">
-              <div class="form-control-feedback">Please enter a valid email.</div>
-            </div>
-            <div class="form-group has-danger">
-              <label class="sr-only" for="password">Password</label>
-              <input type="password" class="form-control form-control-danger" id="password" placeholder="Enter password">
-              <div class="form-control-feedback">Password should be at least 4 symbols</div>
-            </div>
-            <div class="form-group has-danger">
-              <label class="sr-only" for="confirm-password">Confirm password</label>
-              <input type="password" class="form-control form-control-danger" id="password" placeholder="Confirm password">
-              <div class="form-control-feedback">Passwords don't match</div>
-            </div>
-            <button type="submit" class="btn btn-secondary">Join</button>
-          </form>
-        </div>
-        <div class="login">
-          <p>Already have and account? <a href="#">Log in</a></p>
-        </div>
-      </div>
-    {{/if}}
+    {{register-form user=model}}
   </div>
 </div>
