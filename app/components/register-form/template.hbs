@@ -1,0 +1,40 @@
+{{#if errorMessage}}
+  <div class="alert alert-danger">{{errorMessage}}</div>
+{{/if}}
+{{#if session.isAuthenticated}}
+  <h2>Hello, username!</h2>
+  <p>Proceed to <a href="search.html">search</a><br>
+  or <a href="add-route.html">add a route</a></p>
+  <a href="#" {{action "logout" on="click"}}>Log out</a>
+{{else}}
+  <div class="login-form">
+    <h2>Log in to get started</h2>
+    <div class="social">
+      <img src="assets/images/login-with-facebook.png" alt="Login with facebook">
+    </div>
+    <div class="form">
+      <h2>or sign up using email</h2>
+      <form {{action "register" on="submit"}}>
+        <div class="form-group has-danger">
+          <label class="sr-only" for="email">Email address</label>
+          {{input type="email" class="form-control form-control-danger" id="email" placeholder="Enter email" value=user.email}}
+          <div class="form-control-feedback">Please enter a valid email.</div>
+        </div>
+        <div class="form-group has-danger">
+          <label class="sr-only" for="password">Password</label>
+          {{input type="password" class="form-control form-control-danger" id="password" placeholder="Enter password" value=user.password}}
+          <div class="form-control-feedback">Password should be at least 4 symbols</div>
+        </div>
+        <div class="form-group has-danger">
+          <label class="sr-only" for="confirm-password">Confirm password</label>
+          {{input type="password" class="form-control form-control-danger" id="passwordConfirm" placeholder="Confirm password" value=user.passwordConfirm}}
+          <div class="form-control-feedback">Passwords don't match</div>
+        </div>
+        <button type="submit" class="btn btn-secondary">Join</button>
+      </form>
+    </div>
+    <div class="login">
+      <p>Already have and account? {{link-to "Log in" 'login'}}</p>
+    </div>
+  </div>
+{{/if}}
