@@ -61,5 +61,14 @@ module.exports = function(environment) {
     key: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk'
   };
 
+  ENV.torii = {
+    providers: {
+      'facebook-connect': {
+        appId: '1808779036077577',
+        scope: 'public_profile,email'
+      }
+    }
+  }
+
   return ENV;
 };
