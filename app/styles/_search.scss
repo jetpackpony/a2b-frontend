@@ -16,5 +16,12 @@
     .form-wrapper {
       margin-bottom: 2rem;
     }
+
+    input {
+      @extend .form-control-lg;
+    }
+    button {
+      @extend .btn-lg;
+    }
   }
 }
