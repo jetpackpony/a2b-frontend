@@ -4,7 +4,7 @@
   {{/link-to}}
   <div class="nav navbar-nav float-xs-right">
     {{#link-to 'about' classNames="nav-item nav-link"}}Welcome{{/link-to}}
-    {{#link-to 'index' classNames="nav-item nav-link"}}Search{{/link-to}}
+      {{#link-to 'index' current-when='itineraries' classNames="nav-item nav-link"}}Search{{/link-to}}
     {{#link-to 'routes.new' classNames="nav-item nav-link"}}Add Route{{/link-to}}
   </div>
 </nav>
