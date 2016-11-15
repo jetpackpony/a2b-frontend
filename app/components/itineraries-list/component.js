@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  classNames: ['itineraries-list'],
+
   selectedItinerary:null,
   didRender() {
     if (this.get('selectedItinerary')) {

@@ -1,29 +1,20 @@
-<div class="route card" id="route-{{route.id}}">
-  <div class="card-block">
-    <h4>{{route.organization}}</h4>
-    <div class="price text-xs-right">${{route.price}}</div>
-    <div class="card-test">
-      <span class="types">{{route.transportType}}</span>
-      <span class="cities">{{route.fromCity}} &rarr; {{route.toCity}}</span>
-    </div>
-    <div class="duration text-xs-right">{{duration-string route.duration}}</div>
-  </div>
+{{route-short route=route}}
+<div class="route-details">
+  <h3>Timetable</h3>
+  <p>{{route.timetable}}</p>
+  <h3>Description</h3>
+  <p>{{route.description}}</p>
 </div>
-<div class="route-info card">
-  <div class="card-block">
-    <p>Timetable: {{route.timetable}}</p>
-    <p>Description: <br>
-    {{route.description}}</p>
-  </div>
+<div class="alert alert-warning">
+  Price and timetable could change. Please contact the transpotation company for details.
 </div>
-<div class="alert alert-warning">Price and timetable could change. Please contact the transpotation company for details.</div>
-
-<div class="company-info card">
-  <div class="card-block">
-    <h4>Contact {{route.organization}} at:</h4>
+<div class="route-details company-contacts">
+  <h3>Contact {{route.organization}}</h3>
+  <div class="links">
     <p><a href="mailto:{{route.companyMail}}" target="_blank">{{route.companyMail}}</a></p>
     <p><a href="tel:{{route.companyPhone}}" target="_blank">{{route.companyPhone}}</a></p>
     <p><a href="{{route.companySite}}" target="_blank">{{route.companySite}}</a></p>
-    <p>About {{route.organization}}: {{route.companyDescription}}</p>
   </div>
+  <h3>About {{route.organization}}</h3>
+  <p>{{route.companyDescription}}</p>
 </div>

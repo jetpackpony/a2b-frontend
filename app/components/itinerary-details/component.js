@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  expanded: false,
   itinerary: null,
   routeHovered: null,
   routeOpened: null,

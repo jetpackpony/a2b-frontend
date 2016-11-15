@@ -28,8 +28,5 @@ export default DS.Model.extend({
 
   title: Ember.computed('transportType', 'toCity', function() {
     return `${this.get('transportType')} to ${this.get('toCity')}`;
-  }),
-  cities: Ember.computed('fromCity', 'toCity', function() {
-    return `${this.get('fromCity')} &rarr; ${this.get('toCity')}`;
   })
 });
