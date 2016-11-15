@@ -1,4 +1,7 @@
 // A top-level item in the list of routes
+.route-list .route-item {
+  cursor: pointer;
+}
 .route-item {
   position: relative;
   margin: 0;
@@ -13,7 +16,7 @@
     $path-color: $highlighted-color;
 
     position: absolute;
-    top: 0;
+    top: -5%;
     bottom: 0;
     left: .75rem;
 

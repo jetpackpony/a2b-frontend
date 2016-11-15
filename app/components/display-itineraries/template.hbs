@@ -1,4 +1,4 @@
-<div class="col-xs-4 itineraries-list-container">
+<div class="left-side">
   {{#if formFilled }}
     {{itineraries-list
     itineraries=itineraries
@@ -11,26 +11,23 @@
     </div>
   {{/if}}
 </div>
-<div class="col-xs-8 itineraries-map-container">
+<div class="right-side">
   {{itineraries-map
   itineraries=itineraries
   selectedItinerary=selectedItinerary
   routeHovered=routeHovered
   }}
 </div>
-
-<div class="col-xs-4 itinerary-details-container hidden">
-  <p><a {{action "closeItinerary"}} class="back-button">&larr; Back</a></p>
-
+<div class="details-slider hidden" id="itinerary-details">
+  <div class="close-button" {{action "closeItinerary"}}>&times;</div>
   {{itineraries-list-item
   itinerary=openedItinerary
   expanded="true"
   routeHovered=routeHovered
   routeOpened=routeOpened}}
 </div>
-
-<div class="col-xs-4 rotue-details-container hidden">
-  <p><a {{action "closeRoute"}} class="back-button">&larr; Back</a></p>
+<div class="details-slider hidden" id="route-details">
+  <div class="close-button" {{action "closeRoute"}}>&times;</div>
   {{route-details
   route=routeOpened}}
 </div>
