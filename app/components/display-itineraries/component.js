@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['display-itineraries'],
+  classNames: ['row','bottom-split'],
   itineraries: Ember.A([]),
   selectedItinerary: null,
   openedItinerary: null,
@@ -15,17 +15,11 @@ export default Ember.Component.extend({
     this.set('routeOpened', null);
     this.set('selectedItinerary', this.get('itineraries').get('firstObject'));
   },
-  _slideInLeft(el) {
-    el.animate({ left: 0 }, 300);
-  },
-  _slideOutLeft(el) {
-    el.animate({ left: "-33.33333%" }, 300);
-  },
 
   openedItineraryChanged: Ember.observer('openedItinerary', function() {
     let iti = this.get('openedItinerary');
     if (iti !== null) {
-      this._slideInLeft(this.$('.itinerary-details-container'));
+      this.$('#itinerary-details').removeClass('hidden');
 
       // If there is only one route, open it directly
       if (iti.get('routes').get('length') === 1) {
@@ -33,16 +27,16 @@ export default Ember.Component.extend({
         this.set('routeOpened', iti.get('routes').get('firstObject'));
       }
     } else {
-      this._slideOutLeft(this.$('.itinerary-details-container'));
+      this.$('#itinerary-details').addClass('hidden');
     }
   }),
 
   routeOpenedChanged: Ember.observer('routeOpened', function() {
     let route = this.get('routeOpened');
     if (route !== null) {
-      this._slideInLeft(this.$('.rotue-details-container'));
+      this.$('#route-details').removeClass('hidden');
     } else {
-      this._slideOutLeft(this.$('.rotue-details-container'));
+      this.$('#route-details').addClass('hidden');
     }
   }),
   actions: {

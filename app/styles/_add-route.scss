@@ -1,0 +1,42 @@
+.row.bottom-split.add-route-form {
+  top: 4rem;
+}
+.add-route {
+  $pad: 1rem;
+  .header {
+    padding: $pad $pad 0 $pad;
+
+    h1 {
+      font-size: 1.7rem;
+      small {
+        float: right;
+      }
+    }
+  }
+
+  .carousel-item {
+    padding: $pad;
+
+    label .form-text {
+      margin: 0;
+    }
+  }
+
+  .details-left {
+    @extend .col-xs-4;
+  }
+  .details-right {
+    @extend .col-xs-8;
+  }
+
+  .duration-hours {
+    padding-right: 7px;
+  }
+  .duration-minutes {
+    padding-left: 8px;
+  }
+
+  span.required {
+    color: $highlighted-color;
+  }
+}

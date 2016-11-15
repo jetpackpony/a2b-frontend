@@ -1,54 +1,68 @@
 <div class="form-group row">
-  <label for="transportType" class="col-xs-3 col-form-label">Transport Type <span class='required'>*</span></label>
-  <div class="col-xs-9">
-    <select class="form-control" {{action "transportTypeChanged" on="change"}}>
-      <option value="" disabled selected>---</option>
+  <label for="transportType" class="details-left col-form-label">Transport <span class="required">*</span></label>
+  <div class="details-right">
+    <select class="form-control" id="transportType" {{action "transportTypeChanged" on="change"}}>
+      <option value="" disabled selected></option>
       {{#each transportTypes as |type|}}
         <option value="{{type}}">{{type}}</option>
       {{/each}}
     </select>
   </div>
 </div>
+
 <div class="form-group row">
-  <label for="organization" class="col-xs-3 col-form-label">Transport Company <span class='required'>*</span></label>
-  <div class="col-xs-9">
-    {{input class="form-control" placeholder="Somethign Tour" id="organization" value=newRoute.organization}}
-  </div>
-</div>
-<div class="form-group row">
-  <label for="organization-info" class="col-xs-3 col-form-label">Transport Company Contacts</label>
-  <div class="col-xs-9">
-    {{textarea class="form-control" placeholder="Add company's website, phone or other contacts" id="organization-info" value=newRoute.companyDescription}}
-  </div>
-</div>
-<div class="form-group row">
-  <label for="duration" class="col-xs-3 col-form-label">Duration <span class='required'>*</span></label>
-  <div class="col-xs-9">
-    {{input type="number" class="form-control" placeholder="0" id="duration-hours" focus-out="durationChanged" min=0 max=72 step=1}} hours
-    {{input type="number" class="form-control" placeholder="0" id="duration-minutes" focus-out="durationChanged" min=0 max=60 step=15}} minutes
-  </div>
-</div>
-<div class="form-group row">
-  <label for="price" class="col-xs-3 col-form-label">Price <span class='required'>*</span></label>
-  <div class="col-xs-9">
+  <label for="price" class="details-left col-form-label">Price <span class="required">*</span></label>
+  <div class="details-right">
     <div class="input-group">
       <div class="input-group-addon">$</div>
-      {{input type="number" class="form-control" placeholder="33.55" id="price" value=newRoute.price}}
+      {{input type="number" class="form-control" placeholder="15" id="price" value=newRoute.price}}
     </div>
   </div>
 </div>
+
 <div class="form-group row">
-  <label for="timetable" class="col-xs-3 col-form-label">Timetable <span class='required'>*</span></label>
-  <div class="col-xs-9">
-    {{input class="form-control" placeholder="7:00 AM" id="timetable" value=newRoute.timetable}}
+  <label for="duration" class="details-left col-form-label">Duration <span class="required">*</span></label>
+  <div class="details-right">
+    <div class="row">
+      <div class="col-xs-6 duration-hours">
+        <div class="input-group">
+          {{input type="number" class="form-control" placeholder="3" id="duration-hours" focus-out="durationChanged" min=0 max=72 step=1}}
+          <div class="input-group-addon">h</div>
+        </div>
+      </div>
+      <div class="col-xs-6 duration-minutes">
+        <div class="input-group">
+          {{input type="number" class="form-control" placeholder="0" id="duration-minutes" focus-out="durationChanged" min=0 max=60 step=15}}
+          <div class="input-group-addon">m</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
 <div class="form-group row">
-  <label for="description" class="col-xs-3 col-form-label">Description</label>
-  <div class="col-xs-9">
-    {{textarea class="form-control" placeholder="Comfortable VIP Van, TV, Wi-fi, Water, polite drivers" id="description" value=newRoute.description}}
+  <label for="timetable" class="details-left col-form-label">Timetable <span class="required">*</span></label>
+  <div class="details-right">
+    {{input class="form-control" placeholder="7:00AM, 9:00PM" id="timetable" value=newRoute.timetable}}
   </div>
 </div>
+<div class="form-group">
+  <label for="description">Description</label>
+  {{textarea class="form-control" rows="3" placeholder="Comfortable VIP Van, TV, Wi-fi, Water, polite drivers" id="description" value=newRoute.description}}
+</div>
+
+<div class="form-group">
+  <label for="company-name">Transport Company Name <span class="required">*</span></label>
+  {{input class="form-control" placeholder="Somethign Tour" id="company-name" placeholder="AsiaLines" value=newRoute.organization}}
+</div>
+
+<div class="form-group">
+  <label for="company-description">Transport Company contacts</label>
+  {{textarea class="form-control" id="company-description" rows="3" placeholder="Phone, website, email, office address" value=newRoute.companyDescription}}
+</div>
+
+<button class="btn btn-primary float-xs-left" {{action "back"}}>&lt; Back</button>
+
 {{#if showSubmitButton}}
-  <button {{action "submit"}} class="btn btn-secondary">Submit</button>
+  <button {{action "submit"}} class="btn btn-primary highlighted float-xs-right">Submit</button>
 {{/if}}

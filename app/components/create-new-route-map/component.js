@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  classNames: ['create-new-map'],
   gMap: Ember.inject.service(),
   lat: 18,
   lng: 100,

@@ -61,7 +61,10 @@ export default Ember.Component.extend({
       this.set('showAddress', !this.get('showAddress'));
     },
     next() {
-      this.attrs.next();
+      this.get('next')();
+    },
+    back() {
+      this.get('back')();
     }
   }
 });

@@ -1,0 +1,36 @@
+$left-side-size: 4;
+.details-slider {
+  @extend .left-side;
+  background-color: $light-bg;
+  -webkit-transition: left .5s; /* Safari */
+  transition: left .5s;
+  z-index: 3;
+  box-shadow: $shadow;
+
+  .close-button {
+    @extend .close;
+    float: none;
+    text-align: right;
+    padding: 0 .3rem;
+    opacity: .3;
+  }
+  .close-button:hover {
+    opacity: .5;
+  }
+
+  @include media-breakpoint-up(xs) {
+    &.hidden {
+      left: (100% / 12 * 6 * -1) - 10;
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    &.hidden {
+      left: (100% / 12 * 5 * -1) - 10;
+    }
+  }
+  @include media-breakpoint-up(xl) {
+    &.hidden {
+      left: (100% / 12 * 4 * -1) - 10;
+    }
+  }
+}

@@ -1,46 +1,67 @@
-<div class="col-xs-6">
-  <div class="carousel slide">
-    <div class="carousel-inner" role="listbox">
-      <div class="carousel-item active">
-        {{create-new-route-choose-location
-        mapFocusObject=mapFocusObject
-        countryHeader="Choose a country of origin"
-        cityHeader="Enter city of origin"
-        city=newRoute.fromCity
-        addressObject=fromAddressObject
-        address=newRoute.fromAddress
-        coords=newRoute.fromCoords
-        comment=newRoute.fromComment
-        next=(action "next")
-        }}
-      </div>
-      <div class="carousel-item">
-        {{create-new-route-choose-location
-        mapFocusObject=mapFocusObject
-        countryHeader="Choose a country of destination"
-        cityHeader="Enter city of destination"
-        city=newRoute.toCity
-        addressObject=toAddressObject
-        address=newRoute.toAddress
-        coords=newRoute.toCoords
-        comment=newRoute.toComment
-        next=(action "next")
-        }}
-      </div>
-      <div class="carousel-item">
-        {{create-new-route-details
-        newRoute=newRoute
-        submit=(action "submit")
-        }}
+<div class="left-side">
+  <div class="add-route">
+    <div class="header">
+      <h1>
+        Adding a route
+        <small class="text-muted">Step {{currentStep}} of 3</small>
+      </h1>
+    </div>
+    <div class="carousel slide">
+      <div class="carousel-inner" role="listbox">
+        <div class="carousel-item active">
+          <div class="alert alert-warning">
+            At the moment you can only add routes in 11 countries in South-East Asia: Vietnam, Cambodia, Laos, Myanmar, Thailand, Malaysia, Brunei, East Timor, Indonesia, Singapore, Philippines
+          </div>
+          {{create-new-route-choose-location
+          mapFocusObject=mapFocusObject
+          countryLabel="Choose country of origin"
+          cityLabel="Choose city of origin"
+          addressLabel="Point the departure address on the map"
+          subAddressLabel="I don't know the exact departure address!"
+          commentLabel="Describe the departure location please"
+          city=newRoute.fromCity
+          addressObject=fromAddressObject
+          address=newRoute.fromAddress
+          coords=newRoute.fromCoords
+          comment=newRoute.fromComment
+          showBackButton=false
+          next=(action "next")
+          back=(action "back")
+          }}
+        </div>
+        <div class="carousel-item">
+          {{create-new-route-choose-location
+          mapFocusObject=mapFocusObject
+          countryLabel="Choose country of destination"
+          cityLabel="Choose city of destination"
+          addressLabel="Point the arrival address on the map"
+          subAddressLabel="I don't know the exact arrival address!"
+          commentLabel="Describe the arrival location please"
+          city=newRoute.toCity
+          addressObject=toAddressObject
+          address=newRoute.toAddress
+          coords=newRoute.toCoords
+          comment=newRoute.toComment
+          showBackButton=true
+          next=(action "next")
+          back=(action "back")
+          }}
+        </div>
+        <div class="carousel-item">
+          {{create-new-route-details
+          newRoute=newRoute
+          submit=(action "submit")
+          back=(action "back")
+          }}
+        </div>
+        <div class="carousel-item">
+          {{create-new-route-thanks}}
+        </div>
       </div>
     </div>
   </div>
-  {{#if showBackButton}}
-    <button {{action "back"}}>Back</button>
-  {{/if}}
-
 </div>
-<div class="col-xs-6">
+<div class="right-side">
   {{create-new-route-map
       mapFocusObject=mapFocusObject
       fromCity=newRoute.fromCity

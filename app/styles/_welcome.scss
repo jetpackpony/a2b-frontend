@@ -1,0 +1,49 @@
+.welcome {
+  @extend .centered;
+  max-width: 1200px;
+  padding-top: 5%;
+
+  // Message alignment
+  .message {
+    border-right: .25rem white solid;
+    padding-right: 2.25rem;
+  }
+
+  // Register form alignment
+  .register-container {
+    padding-left: 2.25rem;
+    padding-top: .4rem;
+  }
+}
+
+.welcome, .login {
+  @extend .text-xs-center;
+  @extend .text-shadow;
+
+  // Login and register fonts
+  .login-form {
+    max-width: 20rem;
+
+    .social {
+      margin-bottom: 2rem;
+      margin-top: 0.7rem;
+
+      img {
+        max-height: 2.7rem;
+      }
+    }
+
+    .form {
+      margin-bottom: 2rem;
+
+      input {
+        max-width: 20rem;
+        margin: 0 auto;
+      }
+
+      .form-control-feedback {
+        text-align: left;
+      }
+    }
+  }
+}

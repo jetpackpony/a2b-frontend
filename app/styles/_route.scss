@@ -1,0 +1,122 @@
+// A top-level item in the list of routes
+.route-list .route-item {
+  cursor: pointer;
+}
+.route-item {
+  position: relative;
+  margin: 0;
+  border-bottom: $card-border;
+
+  &.highlighted {
+    background-color: $highlighted-bg;
+  }
+
+  // A path showing stops on the left of routes list
+  .path {
+    $path-color: $highlighted-color;
+
+    position: absolute;
+    top: -5%;
+    bottom: 0;
+    left: .75rem;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    &::before, &::after {
+      content: "";
+      border-left: 5px solid $path-color;
+      height: 50%;
+    }
+
+    span {
+      border-radius: 50%;
+      background-color: $path-color;
+      width: .7rem;
+      height: .7rem;
+      color: white;
+      text-align: center;
+      font-size: .9rem;
+      font-weight: bold;
+      line-height: 1.5rem;
+    }
+  }
+
+  &:last-of-type {
+    .path::after {
+      opacity: 0;
+    }
+  }
+  &:first-of-type {
+    .path::before {
+      opacity: 0;
+    }
+  }
+
+  .route-container {
+    padding: 0;
+    margin-left: 1.3rem;
+  }
+}
+
+.route-short {
+  .price, .duration {
+    @extend .text-xs-right;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.3rem;
+    max-height: 2.6rem;
+    overflow: hidden;
+  }
+
+  .price {
+    color: $selected-color;
+    font-weight: 600;
+  }
+
+  .cities {
+    color: $muted-color;
+  }
+
+  .info {
+    color: $muted-color;
+
+    div {
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .transport {
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.route-short, .route-details, .company-contacts {
+  padding: 1rem;
+}
+
+.route-summary {
+  border-bottom: $card-border;
+}
+
+.route-details {
+  h3 {
+    font-size: 1rem;
+    font-weight: bold;
+    color: rgba(0,0,0,0.5);
+  }
+}
+
+.company-contacts {
+  p {
+    margin-bottom: .3rem;
+  }
+  .links {
+    margin-bottom: 1rem;
+  }
+}

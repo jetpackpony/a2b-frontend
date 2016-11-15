@@ -1,29 +1,15 @@
-@import "_custom.scss";
 @import "ember-cli-bootstrap-4/bootstrap";
 
-/*
- * Base structure
- */
-$bg-color: #333;
+@import "_base";
+@import "_nav";
+@import "_bottom-split";
+@import "_details-slider";
 
-html,
-body {
-  height: 100%;
-}
-body {
-  color: #fff;
-  background-color: $bg-color;
-  text-align: left;
-}
+@import "_welcome";
+@import "_login";
+@import "_search";
 
-nav.bg-inverse {
-  background-color: $bg-color !important;
-}
+@import "_itinerary.scss";
+@import "_route.scss";
 
-/*
- * Import things
- */
-@import 'index.scss';
-@import 'itineraries.scss';
-@import 'routes-new.scss';
-@import 'about.scss';
+@import "_add-route.scss";
