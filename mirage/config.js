@@ -6,7 +6,7 @@ export default function() {
     let from = request.queryParams['filter[from]'];
     let to = request.queryParams['filter[to]'];
     if (from !== undefined && to !== undefined) {
-      return schema.itineraries.where({ fromCity: from, toCity: to });
+      return schema.itineraries.where({ fromCoords: from, toCoords: to });
     } else {
       return { data: [] };
     }

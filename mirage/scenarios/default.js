@@ -40,11 +40,15 @@ export default function(server) {
 
   let itinerary1 = server.create('itinerary', {
     fromCity: "Bangkok, Thailand",
-    toCity: "Phuket, Thailand"
+    toCity: "Phuket, Thailand",
+    fromCoords: "13.7563309, 100.50176510000006",
+    toCoords: "7.8804479, 98.39225039999997"
   });
   let itinerary2 = server.create('itinerary', {
     fromCity: "Bangkok, Thailand",
-    toCity: "Phuket, Thailand"
+    toCity: "Phuket, Thailand",
+    fromCoords: "13.7563309, 100.50176510000006",
+    toCoords: "7.8804479, 98.39225039999997"
   });
 
   server.create('itinerary-route', { itinerary: itinerary1, route: route1 });
