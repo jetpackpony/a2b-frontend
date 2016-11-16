@@ -65,6 +65,10 @@ export default Ember.Component.extend({
         this._updateAddressParams('toAddress', 'toCoords', point);
         this._addMarker(1, point);
       }
+    },
+    mapLoaded() {
+      this.get('gMap').maps.select('my-map')
+        .map.setOptions({ draggableCursor: 'cell' });
     }
   },
 

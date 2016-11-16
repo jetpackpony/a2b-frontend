@@ -53,12 +53,17 @@ module.exports = function(environment) {
 
   ENV.googleMap = {
     libraries: ['drawing','places'],
-    apiKey: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk'
+    apiKey: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk',
+    language: 'en'
   };
 
   ENV['place-autocomplete'] = {
-    exclude: true,
-    key: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk'
+    exclude: true
+      /*
+      ,
+    key: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk',
+    language: 'en'
+    */
   };
 
   ENV.torii = {
