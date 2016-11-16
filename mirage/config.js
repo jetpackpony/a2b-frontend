@@ -25,7 +25,13 @@ export default function() {
       "token_type":"JWT",
       "expires_in":3600
     };
-  });
+    /*
+    return {
+      "error": "invalid_request",
+      "error_description": "This is an error and it makes us very sad"
+    };
+    */
+  }/*, 400*/);
 
   this.post('/users', function(schema, request) {
     console.log(request);
