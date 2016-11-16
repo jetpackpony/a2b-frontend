@@ -20,6 +20,12 @@
   @extend .text-xs-center;
   @extend .text-shadow;
 
+  .errors {
+    font-size: 1rem;
+    font-weight: normal;
+    text-shadow: none;
+  }
+
   // Login and register fonts
   .login-form {
     max-width: 20rem;

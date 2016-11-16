@@ -54,11 +54,23 @@ module.exports = function(environment) {
   ENV.googleMap = {
     libraries: ['drawing','places'],
     apiKey: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk'
-  }
+  };
 
   ENV['place-autocomplete'] = {
     exclude: true,
     key: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk'
+  };
+
+  ENV.torii = {
+    providers: {
+      'facebook-connect': {
+        appId: '1808779036077577',
+        scope: 'public_profile,email'
+      }
+    }
+  };
+  ENV['ember-simple-auth'] = {
+    authenticationRoute: 'about'
   };
 
   return ENV;
