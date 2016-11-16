@@ -18,8 +18,8 @@
   <div class="col-xs-5 register-container">
     {{#if session.isAuthenticated}}
       <h2>Hello!</h2>
-      <p>Proceed to <a href="search.html">search</a><br>
-      or <a href="add-route.html">add a route</a></p>
+      <p>Proceed to {{link-to 'search' 'index'}}<br>
+      or {{link-to 'add a route' 'routes.new'}}</p>
       <a href="#" {{action "logout" on="click"}}>Log out</a>
     {{else}}
       <div class="login-form">
