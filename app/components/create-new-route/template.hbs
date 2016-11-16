@@ -3,7 +3,13 @@
     <div class="header">
       <h1>
         Adding a route
-        <small class="text-muted">Step {{currentStep}} of 3</small>
+        <small class="text-muted">
+          {{#if complete}}
+            Complete
+          {{else}}
+            Step {{currentStep}} of 3
+          {{/if}}
+        </small>
       </h1>
     </div>
     <div class="carousel slide">
@@ -55,7 +61,7 @@
           }}
         </div>
         <div class="carousel-item">
-          {{create-new-route-thanks}}
+          {{create-new-route-thanks errorMessage=errorMessage}}
         </div>
       </div>
     </div>

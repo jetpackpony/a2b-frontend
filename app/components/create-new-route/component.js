@@ -5,14 +5,16 @@ export default Ember.Component.extend({
   mapFocusObject: null,
   fromAddressObject: null,
   toAddressObject: null,
-  currentStep: 2,
+  currentStep: 1,
+  complete: false,
+  errorMessage: null,
   formPosition: Ember.computed('currentStep', function() {
     switch(this.get('currentStep')) {
-      case 2:
+      case 1:
         return "from";
-      case 3:
+      case 2:
         return "to";
-      case 4:
+      case 3:
         return "details";
       default:
         return null;
@@ -26,7 +28,7 @@ export default Ember.Component.extend({
     });
   },
   showBackButton: Ember.computed('currentStep', function() {
-    return this.get('currentStep') > 2;
+    return this.get('currentStep') > 1;
   }),
   actions: {
     createRoute(route) {
@@ -42,7 +44,18 @@ export default Ember.Component.extend({
       this.$('.carousel').carousel('prev');
     },
     submit() {
-      console.log("complete: ", this.get('newRoute'));
+      console.log("sumitting route: ", this.get('newRoute'));
+      this.get('newRoute').save()
+        .then(() => {
+          this.send('next');
+          this.set('complete', true);
+        })
+        .catch((error) => {
+          console.log('error:', error);
+          this.set('errorMessage', error.message);
+          this.send('next');
+          this.set('complete', true);
+        });
     }
   }
 });

@@ -1,3 +1,5 @@
+import Mirage from 'ember-cli-mirage';
+
 export default function() {
   this.namespace = '/api';
 
@@ -16,6 +18,7 @@ export default function() {
     console.log(request);
     const attrs = JSON.parse(request.requestBody);
     return schema.routes.create(attrs);
+    //return new Mirage.Response(400, {}, 'some server error');
   });
 
   this.post('/session/create', function(schema, request) {

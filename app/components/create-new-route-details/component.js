@@ -3,11 +3,11 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   transportTypes: Ember.A(["Bus", "Ferry", "Train"]),
   newRoute: null,
-  showSubmitButton: Ember.computed('newRoute.{transportType,organization,duration,price,timetable}', function() {
+  showSubmitButton: Ember.computed('newRoute.{transportType,organization,duration,price,description}', function() {
     let route = this.get('newRoute');
     if (route.get('transportType') && route.get('organization')
         && route.get('duration') && route.get('price')
-        && route.get('timetable')) {
+        && route.get('description')) {
       return true;
     }
     return false;
