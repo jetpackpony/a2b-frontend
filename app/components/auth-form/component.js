@@ -42,7 +42,8 @@ export default Ember.Component.extend({
       this.get('session')
         .authenticate('authenticator:oauth2', user.get('email'), user.get('password'))
         .catch((reason) => {
-          this.set('errorMessage', reason.error || reason);
+          console.log('server request failed', reason);
+          this.set('errorMessage', reason.error_description || "Server error occured");
         });
     });
   },
@@ -54,7 +55,8 @@ export default Ember.Component.extend({
     this.get('session')
       .authenticate('authenticator:oauth2', user.get('email'), user.get('password'))
       .catch((reason) => {
-        this.set('errorMessage', reason.error || reason);
+        console.log('server request failed', reason);
+        this.set('errorMessage', reason.error_description || "Server error occured");
       });
   }
 });
