@@ -26,7 +26,9 @@
         {{#if errorMessage}}
           <div class="errors alert alert-danger">{{errorMessage}}</div>
         {{/if}}
-        <h2>Log in to get started</h2>
+        {{#if isRegisterForm}}
+          <h2>Sign up to get started</h2>
+        {{/if}}
         <div class="social">
           {{auth-facebook errorMessage=errorMessage}}
         </div>
@@ -35,7 +37,7 @@
           {{auth-form isRegisterForm=isRegisterForm user=model errorMessage=errorMessage}}
         </div>
         <div class="login">
-          <p>Already have and account?
+          <p>{{if isRegisterForm 'Already have and account?' 'Don\'t have an account yet?'}}
             <a href="#" {{action "toggleLoginForm"}}>
               {{if isRegisterForm 'Log in' 'Sign up'}}
             </a>
