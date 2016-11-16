@@ -12,7 +12,12 @@ export default Ember.Component.extend({
             .authenticate('authenticator:oauth2-credentials', auth.accessToken);
         })
         .catch((reason) => {
-          this.set('errorMessage', reason.error || reason);
+          console.log('server request failed', reason);
+          let error = "Server error occured";
+          if (reason === 'not_authorized') {
+            error = "You cancelled the auth with facebook";
+          }
+          this.set('errorMessage', reason.error_description || error);
         });
     }
   }

@@ -28,7 +28,7 @@
         {{/if}}
         <h2>Log in to get started</h2>
         <div class="social">
-          {{auth-facebook}}
+          {{auth-facebook errorMessage=errorMessage}}
         </div>
         <div class="form">
           <h2>or {{if isRegisterForm 'sign up' 'log in'}} using email</h2>
