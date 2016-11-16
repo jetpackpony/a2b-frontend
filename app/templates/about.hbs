@@ -16,6 +16,32 @@
   </div>
 
   <div class="col-xs-5 register-container">
-    {{register-form user=model}}
+    {{#if session.isAuthenticated}}
+      <h2>Hello!</h2>
+      <p>Proceed to <a href="search.html">search</a><br>
+      or <a href="add-route.html">add a route</a></p>
+      <a href="#" {{action "logout" on="click"}}>Log out</a>
+    {{else}}
+      {{#if errorMessage}}
+        <div class="errors alert alert-danger">{{errorMessage}}</div>
+      {{/if}}
+      <div class="login-form">
+        <h2>Log in to get started</h2>
+        <div class="social">
+          {{auth-facebook}}
+        </div>
+        <div class="form">
+          <h2>or {{if isRegisterForm 'sign up' 'log in'}} using email</h2>
+          {{auth-form isRegisterForm=isRegisterForm user=model}}
+        </div>
+        <div class="login">
+          <p>Already have and account?
+            <a href="#" {{action "toggleLoginForm"}}>
+              {{if isRegisterForm 'Log in' 'Sign up'}}
+            </a>
+          </p>
+        </div>
+      </div>
+    {{/if}}
   </div>
 </div>
