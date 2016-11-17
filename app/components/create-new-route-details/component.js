@@ -1,8 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  transportTypes: Ember.A(["Bus", "Ferry", "Train"]),
+  transportTypes: Ember.A(["Bus", "Ferry", "Train", "Other"]),
   newRoute: null,
+  showOtherTransportField: false,
   showSubmitButton: Ember.computed('newRoute.{transportType,organization,duration,price,description}', function() {
     let route = this.get('newRoute');
     if (route.get('transportType') && route.get('organization')
@@ -17,7 +18,12 @@ export default Ember.Component.extend({
       this.get('submit')();
     },
     transportTypeChanged() {
-      this.set('newRoute.transportType', event.target.value);
+      let val = event.target.value;
+      if (val === 'Other') {
+        this.set('showOtherTransportField', true);
+      } else {
+        this.set('newRoute.transportType', val);
+      }
     },
     durationChanged() {
       let duration = parseInt(this.$('#duration-hours').val())

@@ -7,6 +7,9 @@
         <option value="{{type}}">{{type}}</option>
       {{/each}}
     </select>
+    {{#if showOtherTransportField}}
+      {{input class="form-control" id="otherTransport" placeholder="tuk-tuk, taxi, camel" value=newRoute.transportType}}
+    {{/if}}
   </div>
 </div>
 
