@@ -35,3 +35,13 @@ $nav-link-active: #fff;
 .navbar-brand img {
   max-height: 2rem;
 }
+
+.tooltip-inner,  {
+  background-color: #fff;
+  color: #000;
+
+  &::before {
+    border-bottom-color: #fff !important;
+    background-color: black;
+  }
+}
