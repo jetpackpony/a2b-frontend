@@ -8,6 +8,10 @@ export default Ember.Component.extend({
   currentStep: 1,
   complete: false,
   errorMessage: null,
+  map: null,
+  stepOne: null,
+  stepTwo: null,
+  stepThree: null,
   formPosition: Ember.computed('currentStep', function() {
     switch(this.get('currentStep')) {
       case 1:
@@ -45,17 +49,32 @@ export default Ember.Component.extend({
     },
     submit() {
       console.log("sumitting route: ", this.get('newRoute'));
-      this.get('newRoute').save()
-        .then(() => {
-          this.send('next');
-          this.set('complete', true);
-        })
-        .catch((error) => {
-          console.log('error:', error);
-          this.set('errorMessage', error.message);
-          this.send('next');
-          this.set('complete', true);
-        });
+      this.get('createRoute')(
+          this.get('newRoute'),
+          () => {
+            this.send('next');
+            this.set('complete', true);
+          },
+          (error) => {
+            this.send('next');
+            this.set('complete', true);
+          }
+      );
+    },
+    resetForm() {
+      this.get('resetModel')();
+      this.set('complete', false);
+
+      this.get('map').reset();
+      this.get('stepOne').reset();
+      this.get('stepTwo').reset();
+      this.get('stepThree').reset();
+
+      this.set('currentStep', 1);
+      this.$('.carousel').carousel(0);
+    },
+    registerChild(id, child) {
+      this.set(id, child);
     }
   }
 });

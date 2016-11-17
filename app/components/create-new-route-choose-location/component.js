@@ -5,6 +5,21 @@ export default Ember.Component.extend({
   countryRestriction: null,
   mapFocusObject: null,
   showAddress: true,
+  init() {
+    this._super(...arguments);
+    this.get('registerChild')(this);
+  },
+  reset() {
+    this.$('#country').val("");
+    this.resetAddress();
+  },
+  resetAddress() {
+    this.set('countryRestriction', null);
+    this.set('city', null);
+    this.set('coords', null);
+    this.set('address', null);
+    this.set('addressObject', null);
+  },
   countrySet: Ember.computed('countryRestriction', function() {
     return this.get('countryRestriction') !== null;
   }),
@@ -32,11 +47,7 @@ export default Ember.Component.extend({
       let code = event.target.value;
       let name = this.get('countries').find((item) => item.value === code).text;
 
-      this.set('countryRestriction', null);
-      this.set('city', null);
-      this.set('coords', null);
-      this.set('address', null);
-      this.set('addressObject', null);
+      this.resetAddress();
       this.get('gMap')
         .geocode({ address: name })
         .then((geocodes) => {

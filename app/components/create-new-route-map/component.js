@@ -6,13 +6,29 @@ export default Ember.Component.extend({
   lat: 18,
   lng: 100,
   zoom: 4,
-  markers: Ember.A([ ]),
+  markers: Ember.A([]),
   polylines: Ember.A([]),
-
+  init() {
+    this._super(...arguments);
+    this.get('registerChild')(this);
+    this.reset();
+  },
+  reset() {
+    this.set('markers', Ember.A([]));
+    this.set('polylines', Ember.A([]));
+    this.set('mapFocusObject', null);
+    this.set('fromAddressObject', null);
+    this.set('toAddressObject', null);
+    this.set('lat', 18);
+    this.set('lng', 100);
+    this.set('zoom', 4);
+  },
   focusChanged: Ember.observer('mapFocusObject', function() {
+    if (!this.get('mapFocusObject')) {
+      return;
+    }
     this._fitMapToBounds(this.get('mapFocusObject').geometry.viewport);
   }),
-
   fromAddressChanged: Ember.observer('fromAddressObject', function() {
     this._addMarker(0, {
       lat: this.get('fromAddressObject').geometry.location.lat(),
@@ -27,7 +43,6 @@ export default Ember.Component.extend({
     });
     this._centerAtMarker(1);
   }),
-
   formPositionChanged: Ember.observer('formPosition', function() {
     switch(this.get('formPosition')) {
       case 'from':
@@ -44,9 +59,7 @@ export default Ember.Component.extend({
         break;
     }
   }),
-
   markersChanged: Ember.observer('markers.[]', function() {
-    console.log("markers changed", this.get('markers').length);
     if (this.get('markers').length > 1) {
       this._updateLines();
     }
@@ -73,7 +86,6 @@ export default Ember.Component.extend({
   },
 
   _updateLines() {
-    console.log("draw lines");
     this.set('polylines', Ember.A([]));
     let from = this.get('fromCoords').split(', ').map(parseFloat);
     let to = this.get('toCoords').split(', ').map(parseFloat);

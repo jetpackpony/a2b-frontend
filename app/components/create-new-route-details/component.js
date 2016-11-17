@@ -13,6 +13,17 @@ export default Ember.Component.extend({
     }
     return false;
   }),
+  init() {
+    this._super(...arguments);
+    this.get('registerChild')(this);
+  },
+  reset() {
+    this.$('#transportType').val("");
+    this.$('#otherTransport').val("");
+    this.$('#duration-hours').val("");
+    this.$('#duration-minutes').val("");
+    this.set('showOtherTransportField', false);
+  },
   actions: {
     submit() {
       this.get('submit')();

@@ -33,6 +33,7 @@
           showBackButton=false
           next=(action "next")
           back=(action "back")
+          registerChild=(action 'registerChild' 'stepOne')
           }}
         </div>
         <div class="carousel-item">
@@ -51,6 +52,7 @@
           showBackButton=true
           next=(action "next")
           back=(action "back")
+          registerChild=(action 'registerChild' 'stepTwo')
           }}
         </div>
         <div class="carousel-item">
@@ -58,10 +60,11 @@
           newRoute=newRoute
           submit=(action "submit")
           back=(action "back")
+          registerChild=(action 'registerChild' 'stepThree')
           }}
         </div>
         <div class="carousel-item">
-          {{create-new-route-thanks errorMessage=errorMessage}}
+          {{create-new-route-thanks errorMessage=errorMessage resetForm=(action "resetForm")}}
         </div>
       </div>
     </div>
@@ -79,5 +82,6 @@
       toAddress=newRoute.toAddress
       toCoords=newRoute.toCoords
       formPosition=formPosition
+      registerChild=(action 'registerChild' 'map')
   }}
 </div>
