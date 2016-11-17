@@ -72,6 +72,7 @@ export default Ember.Component.extend({
 
       this.set('currentStep', 1);
       this.$('.carousel').carousel(0);
+      this.set('errorMessage', null);
     },
     registerChild(id, child) {
       this.set(id, child);
