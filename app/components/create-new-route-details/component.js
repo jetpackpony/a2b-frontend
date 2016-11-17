@@ -22,6 +22,7 @@ export default Ember.Component.extend({
       if (val === 'Other') {
         this.set('showOtherTransportField', true);
       } else {
+        this.set('showOtherTransportField', false);
         this.set('newRoute.transportType', val);
       }
     },
