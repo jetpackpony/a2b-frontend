@@ -1,12 +1,36 @@
 import { Factory, faker } from 'ember-cli-mirage';
 
+let randomCoords = function(center, radius) {
+  let y0 = center.lat;
+  let x0 = center.lng;
+  let rd = radius/111300;
+
+  let u = Math.random();
+  let v = Math.random();
+
+  let w = rd * Math.sqrt(u);
+  let t = 2 * Math.PI * v;
+  let x = w * Math.cos(t);
+  let y = w * Math.sin(t);
+
+  return `${y + y0}, ${x + x0}`;
+};
+
+let randomInAsia = function() {
+  return randomCoords({lat: 5, lng: 110}, 1000000);
+};
+
+let randomInCity = function(coords) {
+  return randomCoords(coords, 2000);
+};
+
 export default Factory.extend({
   fromAddress: faker.address.streetName,
   fromCity() {
     return faker.fake("{{address.city}}, {{address.country}}");
   },
   fromCoords() {
-    return faker.fake("{{address.city}}, {{address.country}}");
+    return randomInAsia();
   },
   fromComment: faker.lorem.paragraph,
 
@@ -15,15 +39,15 @@ export default Factory.extend({
     return faker.fake("{{address.city}}, {{address.country}}");
   },
   toCoords() {
-    return faker.fake("{{address.city}}, {{address.country}}");
+    return randomInAsia();
   },
   toComment: faker.lorem.paragraph,
 
   organization: faker.list.cycle('Giant Express', 'AsiaLines', 'WaterCamb'),
   companyMail: faker.internet.email,
-  companyPhone: "+66 (933) 123-33-33",
+  companyPhone: faker.phone.phoneNumber,
   companySite: faker.internet.url,
-  companyDescription: "Delays, delays, delays",
+  companyDescription: faker.lorem.paragraph,
 
   transportType: faker.list.cycle('bus', 'train', 'ferry'),
   duration() {
@@ -33,5 +57,5 @@ export default Factory.extend({
     return faker.random.number(150);
   },
   timetable: faker.list.random("7:00 AM, 8:00 PM", "5:00 PM", "12:00 PM", "12:02 AM"),
-  description: "Such comfort! Much VIP! WOW!"
+  description: faker.lorem.paragraph
 });
