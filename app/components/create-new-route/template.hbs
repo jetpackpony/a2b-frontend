@@ -19,37 +19,24 @@
             At the moment you can only add routes in 11 countries in South-East Asia: Vietnam, Cambodia, Laos, Myanmar, Thailand, Malaysia, Brunei, East Timor, Indonesia, Singapore, Philippines
           </div>
           {{create-new-route-choose-location
-          mapFocusObject=mapFocusObject
           countryLabel="Choose country of origin"
           cityLabel="Choose city of origin"
           addressLabel="Point the departure address on the map"
           subAddressLabel="I don't know the exact departure address"
           commentLabel="Describe the departure location please"
-          city=newRoute.fromCity
-          addressObject=fromAddressObject
-          address=newRoute.fromAddress
-          coords=newRoute.fromCoords
-          comment=newRoute.fromComment
-          showBackButton=false
+          location=locations.[0]
           next=(action "next")
-          back=(action "back")
           registerChild=(action 'registerChild' 'stepOne')
           }}
         </div>
         <div class="carousel-item">
           {{create-new-route-choose-location
-          mapFocusObject=mapFocusObject
           countryLabel="Choose country of destination"
           cityLabel="Choose city of destination"
           addressLabel="Point the arrival address on the map"
           subAddressLabel="I don't know the exact arrival address"
           commentLabel="Describe the arrival location please"
-          city=newRoute.toCity
-          addressObject=toAddressObject
-          address=newRoute.toAddress
-          coords=newRoute.toCoords
-          comment=newRoute.toComment
-          showBackButton=true
+          location=locations.[1]
           next=(action "next")
           back=(action "back")
           registerChild=(action 'registerChild' 'stepTwo')
@@ -64,24 +51,22 @@
           }}
         </div>
         <div class="carousel-item">
-          {{create-new-route-thanks errorMessage=errorMessage resetForm=(action "resetForm")}}
+          {{create-new-route-thanks
+          errorMessage=errorMessage
+          resetForm=(action "resetForm")}}
         </div>
       </div>
     </div>
   </div>
 </div>
 <div class="right-side">
-  {{create-new-route-map
-      mapFocusObject=mapFocusObject
-      fromCity=newRoute.fromCity
-      fromAddressObject=fromAddressObject
-      fromAddress=newRoute.fromAddress
-      fromCoords=newRoute.fromCoords
-      toCity=newRoute.toCity
-      toAddressObject=toAddressObject
-      toAddress=newRoute.toAddress
-      toCoords=newRoute.toCoords
-      formPosition=formPosition
-      registerChild=(action 'registerChild' 'map')
+  {{gmaps-wrapper
+  lines=lines
+  markers=markers
+  bounds=bounds
+  center=center
+  zoom=zoom
+  mapClicked=(action "mapClicked")
+  draggableCursor="cell"
   }}
 </div>

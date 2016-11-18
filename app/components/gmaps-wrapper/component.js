@@ -40,7 +40,6 @@ let markerStyles = {
 };
 
 export default Ember.Component.extend({
-  classNames: ['gmaps-wrapper'],
   // Public options
   /*
    * {
@@ -79,6 +78,12 @@ export default Ember.Component.extend({
   bounds: null,
 
   /*
+   * [123, 123]
+   */
+  center: [15, 100],
+  zoom: 4,
+
+  /*
    * mapClicked - action called with coordinates of the click
    */
   mapClicked: null,
@@ -93,7 +98,7 @@ export default Ember.Component.extend({
   /*
    * Observers and computed
    */
-  _polylines: Ember.computed('lines.[]', function() {
+  _polylines: Ember.computed('lines.@each.{from,to,style,markers}', function() {
     let lines = Ember.A([]);
     let markers = Ember.A([]);
     this.get('lines').forEach((line) => {
@@ -119,6 +124,12 @@ export default Ember.Component.extend({
         });
       }
     });
+    let oldMarkers = this.get('markers');
+    oldMarkers.forEach((mark) => {
+      if (!markers.find((item) => item.id === mark.id)) {
+        markers.pushObject(mark);
+      }
+    });
     this.set('markers', markers);
     return lines;
   }),
@@ -134,17 +145,15 @@ export default Ember.Component.extend({
   boundsChanged: Ember.observer('bounds', function() {
     let bounds = this.get('bounds');
     if (bounds) {
-      this._zoomToBounds(bounds);
+      this._zoomMapTo(this._getGoogleBounds(bounds))
     }
   }),
 
   /*
    * Private options
    */
+  classNames: ['gmaps-wrapper'],
   _gMap: Ember.inject.service('gMap'),
-  _lat: 15,
-  _lng: 100,
-  _zoom: 4,
 
   actions: {
     mapLoaded() {
@@ -155,18 +164,28 @@ export default Ember.Component.extend({
       // Fit the map to the set bounds
       let bounds = this.get('bounds');
       if (bounds) {
-        this._zoomToBounds(bounds);
+        this._zoomMapTo(this._getGoogleBounds(bounds));
       }
     },
     mapClicked(e) {
       let mapClicked = this.get('mapClicked');
       if (mapClicked && typeof mapClicked === 'function') {
-        mapClicked([e.latLng.lat(), e.latLng.lng()]);
+        this.get('_gMap')
+          .geocode({
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng(),
+            language: 'en'
+          })
+          .then((geocodes) => {
+            mapClicked(geocodes, [e.latLng.lat(), e.latLng.lng()]);
+          })
+        .catch((err) => {
+          console.error(err);
+        });
       }
     }
   },
-  _zoomToBounds(bounds) {
-    let gBounds = this._getGoogleBounds(bounds);
+  _zoomMapTo(gBounds) {
     if (!gBounds.isEmpty()) {
       this.get('_gMap').maps.select('map').map.fitBounds(gBounds);
     }

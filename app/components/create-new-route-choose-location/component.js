@@ -3,32 +3,51 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   gMap: Ember.inject.service(),
   countryRestriction: null,
-  mapFocusObject: null,
   showAddress: true,
+  location: null,
   init() {
     this._super(...arguments);
     this.get('registerChild')(this);
   },
   reset() {
     this.$('#country').val("");
+    this.resetCity();
+  },
+  resetCity() {
+    this.set('countryRestriction', null);
+    this.set('location.city', null);
+    this.set('_cityValue', '');
     this.resetAddress();
   },
   resetAddress() {
-    this.set('countryRestriction', null);
-    this.set('city', null);
-    this.set('coords', null);
-    this.set('address', null);
-    this.set('addressObject', null);
+    this.set('location.address', null);
+    this.set('_addressValue', '');
+    this.set('location.comment', null);
+    this.set('showAddress', true);
   },
-  countrySet: Ember.computed('countryRestriction', function() {
-    return this.get('countryRestriction') !== null;
+
+  countrySet: Ember.computed.bool('countryRestriction'),
+  citySet: Ember.computed('location.city', function() {
+    let city = this.get('location.city');
+    if (city && city.formatted_address) {
+      this.set('_cityValue', city.formatted_address);
+      return true;
+    }
+    return false;
   }),
-  citySet: Ember.computed('city', function() {
-    return !!this.get('city');
+  addressSet: Ember.computed('location.{address,comment}', function() {
+    let addr = this.get('location.address');
+    let comment = this.get('location.comment');
+    if (addr && addr.formatted_address) {
+      this.set('_addressValue', addr.formatted_address);
+      return true;
+    }
+    if (comment) {
+      return true;
+    }
+    return false;
   }),
-  addressSet: Ember.computed('coords', 'comment', function() {
-    return !!this.get('coords') || !!this.get('comment');
-  }),
+
   countries: Ember.A([
     { text: "Vietnam", value: "vn" },
     { text: "Cambodia", value: "kh" },
@@ -47,27 +66,25 @@ export default Ember.Component.extend({
       let code = event.target.value;
       let name = this.get('countries').find((item) => item.value === code).text;
 
-      this.resetAddress();
+      this.resetCity();
       this.get('gMap')
         .geocode({ address: name })
         .then((geocodes) => {
-          this.set('mapFocusObject', geocodes[0]);
+          this.set('location.country', geocodes[0]);
           this.set('countryRestriction', { country: code });
         })
         .catch((err) => console.error(err));
     },
     cityChanged(obj) {
       if (obj.address_components) {
-        this.set('city', obj.formatted_address);
-        this.set('mapFocusObject', obj);
+        this.set('location.city', obj);
+        this.resetAddress();
       }
     },
     addressChanged(obj) {
-      console.log("choose location > address changed: ", obj);
-      let coords = `${obj.geometry.location.lat()}, ${obj.geometry.location.lng()}`;
-      this.set('coords', coords);
-      this.set('addressObject', obj);
+      this.set('location.address', obj);
     },
+
     toggleAddress() {
       this.set('showAddress', !this.get('showAddress'));
     },

@@ -12,6 +12,7 @@
   <div class="form-group">
     <label for="city">{{cityLabel}}</label>
     {{place-autocomplete-field
+    value=_cityValue
     handlerController=this
     inputClass="form-control"
     placeChangedCallback='cityChanged'
@@ -31,7 +32,7 @@
         </label>
 
         {{place-autocomplete-field
-        value=address
+        value=_addressValue
         handlerController= this
         inputClass="form-control"
         placeChangedCallback='addressChanged'
@@ -44,11 +45,10 @@
           <a href="#" {{action "toggleAddress" on='click'}}>{{subAddressLabel}}</a>
         </div>
       </div>
-      <input type="hidden" id="coords" value="">
     {{else}}
       <div class="form-group">
         <label for="comment">{{commentLabel}}</label>
-        {{textarea class="form-control" id="comment" rows="3" placeholder="In front of a Night Market; Near the police station; By the Buddha statue" value=comment}}
+        {{textarea class="form-control" id="comment" rows="3" placeholder="In front of a Night Market; Near the police station; By the Buddha statue" value=location.comment}}
         <div class="form-text">
           <a href="#" {{action "toggleAddress" on='click'}}>Let me try to search for an address again</a>
         </div>
@@ -59,6 +59,6 @@
     {{/if}}
   {{/if}}
 {{/if}}
-{{#if showBackButton}}
+{{#if back}}
   <button class="btn btn-primary float-xs-left" {{action "back"}}>&lt; Back</button>
 {{/if}}
