@@ -25,6 +25,13 @@ let route3 = {
   toCoords: "7.884160, 98.395704"
 };
 
+const times = x=> f=> {
+  if (x > 0) {
+    f()
+    times (x - 1) (f)
+  }
+}
+
 export default function(server) {
 
   /*
@@ -34,6 +41,7 @@ export default function(server) {
     Make sure to define a factory for each model you want to create.
   */
 
+  /*
   route1 = server.create('route', route1);
   route2 = server.create('route', route2);
   route3 = server.create('route', route3);
@@ -54,4 +62,25 @@ export default function(server) {
   server.create('itinerary-route', { itinerary: itinerary1, route: route1 });
   server.create('itinerary-route', { itinerary: itinerary2, route: route2 });
   server.create('itinerary-route', { itinerary: itinerary2, route: route3 });
+  */
+  times(10)(() => {
+    let itinerary = server.create('itinerary');
+    let routesNumber = Math.random() * 2 + 1;
+    let routes = [];
+
+    times(routesNumber)(() => {
+      let route = null;
+      if (routes.length > 0) {
+        let prev = routes[routes.length - 1];
+        route = server.create('route', {
+          fromCity: prev.toCity,
+          fromCoords: prev.toCoords
+        });
+      } else {
+        route = server.create('route');
+      }
+      routes.push(route);
+      server.create('itinerary-route', { itinerary, route });
+    });
+  });
 }

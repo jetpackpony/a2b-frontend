@@ -58,6 +58,10 @@
     & > div, & > div > div {
       height: 100%;
     }
+
+    .gmaps-wrapper, .ember-cli-g-map {
+      height: 100%;
+    }
   }
 
 }

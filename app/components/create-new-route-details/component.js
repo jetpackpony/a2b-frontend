@@ -1,23 +1,41 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  transportTypes: Ember.A(["Bus", "Ferry", "Train"]),
+  transportTypes: Ember.A(["Bus", "Ferry", "Train", "Other"]),
   newRoute: null,
-  showSubmitButton: Ember.computed('newRoute.{transportType,organization,duration,price,timetable}', function() {
+  showOtherTransportField: false,
+  showSubmitButton: Ember.computed('newRoute.{transportType,organization,duration,price,description}', function() {
     let route = this.get('newRoute');
     if (route.get('transportType') && route.get('organization')
         && route.get('duration') && route.get('price')
-        && route.get('timetable')) {
+        && route.get('description')) {
       return true;
     }
     return false;
   }),
+  init() {
+    this._super(...arguments);
+    this.get('registerChild')(this);
+  },
+  reset() {
+    this.$('#transportType').val("");
+    this.$('#otherTransport').val("");
+    this.$('#duration-hours').val("");
+    this.$('#duration-minutes').val("");
+    this.set('showOtherTransportField', false);
+  },
   actions: {
     submit() {
       this.get('submit')();
     },
     transportTypeChanged() {
-      this.set('newRoute.transportType', event.target.value);
+      let val = event.target.value;
+      if (val === 'Other') {
+        this.set('showOtherTransportField', true);
+      } else {
+        this.set('showOtherTransportField', false);
+        this.set('newRoute.transportType', val);
+      }
     },
     durationChanged() {
       let duration = parseInt(this.$('#duration-hours').val())

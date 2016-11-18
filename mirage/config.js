@@ -1,3 +1,5 @@
+import Mirage from 'ember-cli-mirage';
+
 export default function() {
   this.namespace = '/api';
 
@@ -6,7 +8,8 @@ export default function() {
     let from = request.queryParams['filter[from]'];
     let to = request.queryParams['filter[to]'];
     if (from !== undefined && to !== undefined) {
-      return schema.itineraries.where({ fromCoords: from, toCoords: to });
+      //return schema.itineraries.where({ fromCoords: from, toCoords: to });
+      return schema.itineraries.all();
     } else {
       return { data: [] };
     }
@@ -16,6 +19,7 @@ export default function() {
     console.log(request);
     const attrs = JSON.parse(request.requestBody);
     return schema.routes.create(attrs);
+    //return new Mirage.Response(400, {}, 'some server error');
   });
 
   this.post('/session/create', function(schema, request) {
