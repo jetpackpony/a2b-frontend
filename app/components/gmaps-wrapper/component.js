@@ -10,7 +10,7 @@ let lineStyles = {
   dimmed: {
     strokeOpacity: 0.7,
     strokeWeight: 3,
-    zIndex: 3
+    zIndex: 1
   },
   normal: {
     strokeOpacity: 1,
@@ -78,17 +78,31 @@ export default Ember.Component.extend({
   bounds: null,
 
   /*
+   * [123, 123]
+   */
+  center: [15, 100],
+  zoom: 4,
+
+  /*
+   * mapClicked - action called with coordinates of the click
+   */
+  mapClicked: null,
+
+  /*
    * "cell|pointer|hand|...."
    */
   draggableCursor: 'hand',
 
+
+
   /*
    * Observers and computed
    */
-  linesChanged: Ember.observer('lines.[]', function() {
-    this.set('_polylines', Ember.A([]));
+  _polylines: Ember.computed('lines.@each.{from,to,style,markers}', function() {
+    let lines = Ember.A([]);
+    let markers = Ember.A([]);
     this.get('lines').forEach((line) => {
-      this.get('_polylines').pushObject(this._makeLine({
+      lines.pushObject(this._makeLine({
         id: line.id,
         from: line.from,
         to: line.to,
@@ -96,13 +110,13 @@ export default Ember.Component.extend({
       }));
 
       if (line.markers && line.markers.titles) {
-        this.get('markers').pushObject({
+        markers.pushObject({
           id: `${line.id}-from`,
           coords: line.from,
           style: line.style,
           title: line.markers.titles.from
         });
-        this.get('markers').pushObject({
+        markers.pushObject({
           id: `${line.id}-to`,
           coords: line.to,
           style: line.style,
@@ -110,45 +124,70 @@ export default Ember.Component.extend({
         });
       }
     });
-  }),
-  markersChanged: Ember.observer('markers.[]', function() {
-    this.set('_markers', Ember.A([]));
-    this.get('markers').forEach((mark) => {
-      this.get('_markers').pushObject(this._makeMarker(mark));
+    let oldMarkers = this.get('markers');
+    oldMarkers.forEach((mark) => {
+      if (!markers.find((item) => item.id === mark.id)) {
+        markers.pushObject(mark);
+      }
     });
+    this.set('markers', markers);
+    return lines;
   }),
 
+  _markers: Ember.computed('markers.[]', function() {
+    let markers = Ember.A([]);
+    this.get('markers').forEach((mark) => {
+      markers.pushObject(this._makeMarker(mark));
+    });
+    return markers;
+  }),
+
+  boundsChanged: Ember.observer('bounds', function() {
+    let bounds = this.get('bounds');
+    if (bounds) {
+      this._zoomMapTo(this._getGoogleBounds(bounds))
+    }
+  }),
 
   /*
    * Private options
    */
-  _gMap: Ember.inject.service(),
-  _lat: 15,
-  _lng: 100,
-  _zoom: 4,
-  _markers: Ember.A([]),
-  _polylines: Ember.A([]),
+  classNames: ['gmaps-wrapper'],
+  _gMap: Ember.inject.service('gMap'),
 
   actions: {
     mapLoaded() {
       // Set the cursor for the map
-      this.get('gMap').maps.select('my-map')
+      this.get('_gMap').maps.select('map')
         .map.setOptions({ draggableCursor: this.get('draggableCursor') });
 
       // Fit the map to the set bounds
       let bounds = this.get('bounds');
       if (bounds) {
-        this._zoomToBounds(bounds);
+        this._zoomMapTo(this._getGoogleBounds(bounds));
       }
     },
     mapClicked(e) {
-      this.get('mapClicked')([e.latLng.lat(), e.latLng.lng()]);
+      let mapClicked = this.get('mapClicked');
+      if (mapClicked && typeof mapClicked === 'function') {
+        this.get('_gMap')
+          .geocode({
+            lat: e.latLng.lat(),
+            lng: e.latLng.lng(),
+            language: 'en'
+          })
+          .then((geocodes) => {
+            mapClicked(geocodes, [e.latLng.lat(), e.latLng.lng()]);
+          })
+        .catch((err) => {
+          console.error(err);
+        });
+      }
     }
   },
-  _zoomToBounds(bounds) {
-    let gBounds = this._getGoogleBounds(bounds);
+  _zoomMapTo(gBounds) {
     if (!gBounds.isEmpty()) {
-      this.get('_gMap').maps.select('my-map').map.fitBounds(gBounds);
+      this.get('_gMap').maps.select('map').map.fitBounds(gBounds);
     }
   },
   _getGoogleBounds(bounds) {

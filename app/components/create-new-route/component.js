@@ -2,28 +2,53 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   classNames: ['row', 'bottom-split', 'add-route-form'],
-  mapFocusObject: null,
-  fromAddressObject: null,
-  toAddressObject: null,
-  currentStep: 1,
   complete: false,
   errorMessage: null,
-  map: null,
-  stepOne: null,
-  stepTwo: null,
-  stepThree: null,
-  formPosition: Ember.computed('currentStep', function() {
-    switch(this.get('currentStep')) {
-      case 1:
-        return "from";
-      case 2:
-        return "to";
-      case 3:
-        return "details";
-      default:
-        return null;
-    };
+  locationsNumber: 2,
+  currentStep: 1,
+  children: Ember.A([]),
+  locations: Ember.computed('locationsNumber', function() {
+    return this.resetLocations();
   }),
+  resetLocations() {
+    let locations = Ember.A([]);
+    for (let i = 0; i < this.get('locationsNumber'); i++) {
+      locations.pushObject({
+        country: null,
+        city: null,
+        address: null,
+        comment: null
+      });
+    }
+    return locations;
+  },
+  locationChanged: Ember.observer('locations.@each.{country,city,address,comment}', 'stepTwoLocation', function() {
+    let locs = this.get('locations');
+
+    // Add the info to the model
+    this.set('newRoute.fromCity', this._getFormattedAddr(locs[0], "city"));
+    this.set('newRoute.fromAddress', this._getFormattedAddr(locs[0], "address"));
+    this.set('newRoute.fromCoords', this._getCoords(locs[0].address).join(', '));
+    this.set('newRoute.fromComment', locs[0].comment);
+
+    this.set('newRoute.toCity', this._getFormattedAddr(locs[1], "city"));
+    this.set('newRoute.toAddress', this._getFormattedAddr(locs[1], "address"));
+    this.set('newRoute.toCoords', this._getCoords(locs[1].address).join(', '));
+    this.set('newRoute.toComment', locs[1].comment);
+  }),
+  _getCoords(addr) {
+    if (addr && addr.geometry.location) {
+      return [addr.geometry.location.lat(), addr.geometry.location.lng()];
+    }
+    return [];
+  },
+  _getFormattedAddr(addr, prop) {
+    if (addr && addr[prop] && addr[prop].formatted_address) {
+      return addr[prop].formatted_address;
+    }
+    return null;
+  },
+
   didInsertElement() {
     this.$('.carousel').carousel({
       interval: false,
@@ -31,14 +56,7 @@ export default Ember.Component.extend({
       keyboard: false
     });
   },
-  showBackButton: Ember.computed('currentStep', function() {
-    return this.get('currentStep') > 1;
-  }),
   actions: {
-    createRoute(route) {
-      // Bubble the event up
-      this.attrs.createRoute(route);
-    },
     next() {
       this.incrementProperty('currentStep');
       this.$('.carousel').carousel('next');
@@ -48,7 +66,6 @@ export default Ember.Component.extend({
       this.$('.carousel').carousel('prev');
     },
     submit() {
-      console.log("sumitting route: ", this.get('newRoute'));
       this.get('createRoute')(
           this.get('newRoute'),
           () => {
@@ -62,20 +79,18 @@ export default Ember.Component.extend({
       );
     },
     resetForm() {
+      this.set('locations', this.resetLocations());
+      this.get('children').forEach((view) => {
+        return view.ref.reset();
+      });
       this.get('resetModel')();
       this.set('complete', false);
-
-      this.get('map').reset();
-      this.get('stepOne').reset();
-      this.get('stepTwo').reset();
-      this.get('stepThree').reset();
-
       this.set('currentStep', 1);
       this.$('.carousel').carousel(0);
       this.set('errorMessage', null);
     },
     registerChild(id, child) {
-      this.set(id, child);
+      this.get('children').pushObject({ id, ref: child });
     }
   }
 });
