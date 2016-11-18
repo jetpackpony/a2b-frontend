@@ -60,13 +60,9 @@
   </div>
 </div>
 <div class="right-side">
-  {{gmaps-wrapper
-  lines=lines
-  markers=markers
-  bounds=bounds
-  center=center
-  zoom=zoom
-  mapClicked=(action "mapClicked")
-  draggableCursor="cell"
+  {{create-new-route-map
+  locations=locations
+  currentStep=currentStep
+  registerChild=(action 'registerChild' 'map')
   }}
 </div>
