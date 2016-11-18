@@ -20,16 +20,15 @@ export default function(server) {
 
     times(routesNumber)(() => {
       let route = null;
+      let coords = {};
+      if (routes.length === routesNumber - 1) {
+        coords.toCity = to.toCity;
+        coords.toCoords = to.toCoords;
+      }
       if (routes.length > 0) {
         let prev = routes[routes.length - 1];
-        let coords = {
-          fromCity: prev.toCity,
-          fromCoords: prev.toCoords
-        };
-        if (routes.length === routesNumber - 1) {
-          coords.toCity = to.toCity;
-          coords.toCoords = to.toCoords;
-        }
+        coords.fromCity = prev.toCity;
+        coords.fromCoords = prev.toCoords;
         route = server.create('route', coords);
       } else {
         route = server.create('route', from);

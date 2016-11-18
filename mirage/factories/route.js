@@ -25,31 +25,45 @@ let randomInCity = function(coords) {
 };
 
 export default Factory.extend({
-  fromAddress: faker.address.streetName,
+  fromAddress() {
+    return faker.address.streetName();
+  },
   fromCity() {
     return faker.fake("{{address.city}}, {{address.country}}");
   },
   fromCoords() {
     return randomInThailand();
   },
-  fromComment: faker.lorem.paragraph,
+  fromComment() {
+    return faker.lorem.paragraph();
+  },
 
-  toAddress: faker.address.streetName,
+  toAddress() {
+    return faker.address.streetName();
+  },
   toCity() {
     return faker.fake("{{address.city}}, {{address.country}}");
   },
   toCoords() {
     return randomInThailand();
   },
-  toComment: faker.lorem.paragraph,
+  toComment() {
+    return faker.lorem.paragraph();
+  },
 
   organization: faker.list.cycle('Giant Express', 'AsiaLines', 'WaterCamb'),
-  companyMail: faker.internet.email,
+  companyMail() {
+    return faker.internet.email();
+  },
   companyPhone() {
     return faker.phone.phoneNumber("+66-(###)-###-####");
   },
-  companySite: faker.internet.url,
-  companyDescription: faker.lorem.paragraph,
+  companySite() {
+    return faker.internet.url();
+  },
+  companyDescription() {
+    return faker.lorem.paragraph();
+  },
 
   transportType: faker.list.cycle('bus', 'train', 'ferry'),
   duration() {
@@ -59,5 +73,7 @@ export default Factory.extend({
     return faker.random.number(150);
   },
   timetable: faker.list.random("7:00 AM, 8:00 PM", "5:00 PM", "12:00 PM", "12:02 AM"),
-  description: faker.lorem.paragraph
+  description() {
+    return faker.lorem.paragraph();
+  }
 });
