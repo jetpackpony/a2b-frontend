@@ -16,8 +16,8 @@ let randomCoords = function(center, radius) {
   return `${y + y0}, ${x + x0}`;
 };
 
-let randomInAsia = function() {
-  return randomCoords({lat: 5, lng: 110}, 1000000);
+let randomInThailand = function() {
+  return randomCoords({lat: 10, lng: 100}, 500000);
 };
 
 let randomInCity = function(coords) {
@@ -30,7 +30,7 @@ export default Factory.extend({
     return faker.fake("{{address.city}}, {{address.country}}");
   },
   fromCoords() {
-    return randomInAsia();
+    return randomInThailand();
   },
   fromComment: faker.lorem.paragraph,
 
@@ -39,13 +39,15 @@ export default Factory.extend({
     return faker.fake("{{address.city}}, {{address.country}}");
   },
   toCoords() {
-    return randomInAsia();
+    return randomInThailand();
   },
   toComment: faker.lorem.paragraph,
 
   organization: faker.list.cycle('Giant Express', 'AsiaLines', 'WaterCamb'),
   companyMail: faker.internet.email,
-  companyPhone: faker.phone.phoneNumber,
+  companyPhone() {
+    return faker.phone.phoneNumber("+66-(###)-###-####");
+  },
   companySite: faker.internet.url,
   companyDescription: faker.lorem.paragraph,
 
