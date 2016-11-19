@@ -1,6 +1,39 @@
-#!/bin/sh
-rm -rf dist
-ember build --environment=development
+#!/bin/bash
+# Show help
+show_help() {
+   cat <<EOF
+Usage: ./deploy [-e] [-d] [-h]
+   -e   ember environment to build
+   -d   domain to deploy to
+   -h   displays basic help
+EOF
+}
+
+# A POSIX variable
+OPTIND=1
+
+# Initialize our own variables:
+environment="development"
+domain="a2b.surge.sh"
+
+while getopts "h?e:d:" opt; do
+    case "$opt" in
+    h|\?)
+        show_help
+        exit 0
+        ;;
+    e)  environment=$OPTARG
+        ;;
+    d)  domain=$OPTARG
+        ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+[ "$1" = "--" ] && shift
+
+ember build --environment=$environment
 cd dist
 cp index.html 200.html
-surge ./ a2b.surge.sh
+surge ./ $domain
