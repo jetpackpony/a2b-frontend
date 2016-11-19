@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import Route from '../../models/route';
 
 export default Ember.Component.extend({
   classNames: ['row', 'bottom-split', 'add-route-form'],
@@ -64,7 +65,7 @@ export default Ember.Component.extend({
     },
     submit() {
       this.get('createRoute')(
-          this.get('newRoute'),
+          this._validateRoute(this.get('newRoute')),
           () => {
             this.send('next');
             this.set('complete', true);
@@ -89,5 +90,13 @@ export default Ember.Component.extend({
     registerChild(id, child) {
       this.get('children').pushObject({ id, ref: child });
     }
+  },
+  _validateRoute(route) {
+    Route.eachAttribute(function(name) {
+      if (route.get(name) === null || route.get(name) === undefined) {
+        route.set(name, "");
+      }
+    });
+    return route;
   }
 });
