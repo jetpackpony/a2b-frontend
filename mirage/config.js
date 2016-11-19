@@ -1,4 +1,5 @@
 import Mirage from 'ember-cli-mirage';
+import dump from '../mirage/api-dump';
 
 export default function() {
   this.namespace = '/api';
@@ -9,7 +10,8 @@ export default function() {
     let to = request.queryParams['filter[to]'];
     if (from !== undefined && to !== undefined) {
       //return schema.itineraries.where({ fromCoords: from, toCoords: to });
-      return schema.itineraries.all();
+      //return schema.itineraries.all();
+      return dump();
     } else {
       return { data: [] };
     }
