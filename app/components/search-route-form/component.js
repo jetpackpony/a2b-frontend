@@ -10,12 +10,12 @@ export default Ember.Component.extend({
     fromChanged(obj) {
       let loc = obj.geometry.location;
       this.set('query.fromCity', obj.formatted_address);
-      this.set('query.fromCoords', `${loc.lat()}, ${loc.lng()}`);
+      this.set('query.fromCoords', `${loc.lat()},${loc.lng()}`);
     },
     toChanged(obj) {
       let loc = obj.geometry.location;
       this.set('query.toCity', obj.formatted_address);
-      this.set('query.toCoords', `${loc.lat()}, ${loc.lng()}`);
+      this.set('query.toCoords', `${loc.lat()},${loc.lng()}`);
     }
   }
 });

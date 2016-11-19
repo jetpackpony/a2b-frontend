@@ -26,21 +26,18 @@ export default Ember.Component.extend({
     let locs = this.get('locations');
 
     // Add the info to the model
-    this.set('newRoute.fromCity', this._getFormattedAddr(locs[0], "city"));
-    this.set('newRoute.fromAddress', this._getFormattedAddr(locs[0], "address"));
-    this.set('newRoute.fromCoords', this._getCoords(locs[0].address).join(', '));
-    this.set('newRoute.fromComment', locs[0].comment);
-
-    this.set('newRoute.toCity', this._getFormattedAddr(locs[1], "city"));
-    this.set('newRoute.toAddress', this._getFormattedAddr(locs[1], "address"));
-    this.set('newRoute.toCoords', this._getCoords(locs[1].address).join(', '));
-    this.set('newRoute.toComment', locs[1].comment);
+    this._setParamsToModel(locs[0], 'from');
+    this._setParamsToModel(locs[1], 'to');
   }),
-  _getCoords(addr) {
-    if (addr && addr.geometry.location) {
-      return [addr.geometry.location.lat(), addr.geometry.location.lng()];
+  _setParamsToModel(info, prefix) {
+    this.set(`newRoute.${prefix}City`, this._getFormattedAddr(info, "city"));
+    this.set(`newRoute.${prefix}Address`, this._getFormattedAddr(info, "address"));
+    this.set(`newRoute.${prefix}Comment`, info.comment);
+
+    if (info.address && info.address.geometry.location) {
+      this.set(`newRoute.${prefix}Lat`, info.address.geometry.location.lat());
+      this.set(`newRoute.${prefix}Lng`, info.address.geometry.location.lng());
     }
-    return [];
   },
   _getFormattedAddr(addr, prop) {
     if (addr && addr[prop] && addr[prop].formatted_address) {

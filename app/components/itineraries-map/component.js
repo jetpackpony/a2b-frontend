@@ -9,8 +9,8 @@ export default Ember.Component.extend({
     let bounds = Ember.A([]);
     this.get('itineraries').forEach((iti) => {
       iti.get('routes').map((route) => {
-        bounds.pushObject(route.get('fromCoords').split(', ').map(parseFloat));
-        bounds.pushObject(route.get('toCoords').split(', ').map(parseFloat));
+        bounds.pushObject([route.get('fromLat'), route.get('fromLng')].map(parseFloat));
+        bounds.pushObject([route.get('toLat'), route.get('toLng')].map(parseFloat));
       });
     });
     return bounds;
@@ -21,8 +21,8 @@ export default Ember.Component.extend({
       iti.get('routes').forEach((route) => {
         let line = {
           id: route.get('id'),
-          from: route.get('fromCoords').split(', ').map(parseFloat),
-          to: route.get('toCoords').split(', ').map(parseFloat),
+          from: [route.get('fromLat'), route.get('fromLng')],
+          to: [route.get('toLat'), route.get('toLng')],
           markers: {
             titles: {
               from: route.get('fromAddress'),

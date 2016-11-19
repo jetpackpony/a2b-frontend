@@ -6,13 +6,15 @@ export default DS.Model.extend({
 
   fromAddress: DS.attr("string"),
   fromCity: DS.attr("string"),
-  fromCoords: DS.attr("string"),
   fromComment: DS.attr("string"),
+  fromLat: DS.attr("number"),
+  fromLng: DS.attr("number"),
 
   toAddress: DS.attr("string"),
   toCity: DS.attr("string"),
-  toCoords: DS.attr("string"),
   toComment: DS.attr("string"),
+  toLat: DS.attr("number"),
+  toLng: DS.attr("number"),
 
   organization: DS.attr("string"),
   companyMail: DS.attr("string"),

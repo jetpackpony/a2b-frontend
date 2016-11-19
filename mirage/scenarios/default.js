@@ -10,8 +10,8 @@ const maxRoutes = 3;
 
 export default function(server) {
 
-  let from = { city: "Bangkok, Thailand", coords: "13.7563, 100.5018" };
-  let to = { city: "Phuket, Thailand", coords: "7.8804, 98.3922" };
+  let from = { city: "Bangkok, Thailand", lat: 13.7563, lng: 100.5018 };
+  let to = { city: "Phuket, Thailand", lat: 7.8804, lng: 98.3922 };
 
   times(maxItineraries)(() => {
     let itinerary = server.create('itinerary');
@@ -23,15 +23,18 @@ export default function(server) {
       let coords = {};
       if (routes.length === routesNumber - 1) {
         coords.toCity = to.city;
-        coords.toCoords = to.coords;
+        coords.toLat = to.lat;
+        coords.toLng = to.lng;
       }
       if (routes.length > 0) {
         let prev = routes[routes.length - 1];
         coords.fromCity = prev.toCity;
-        coords.fromCoords = prev.toCoords;
+        coords.fromLat = prev.toLat;
+        coords.fromLng = prev.toLng;
       } else {
         coords.fromCity = from.city;
-        coords.fromCoords = from.coords;
+        coords.fromLat = from.lat;
+        coords.fromLng = from.lng;
       }
       route = server.create('route', coords);
       routes.push(route);
