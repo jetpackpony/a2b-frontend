@@ -39,6 +39,9 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
+    ENV.googleAnalytics = {
+      webPropertyId: 'UA-87696063-1'
+    };
   }
 
   ENV.contentSecurityPolicy = {
@@ -71,10 +74,6 @@ module.exports = function(environment) {
 
   ENV['ember-simple-auth'] = {
     authenticationRoute: 'about'
-  };
-
-  ENV.googleAnalytics = {
-    webPropertyId: 'UA-87696063-1'
   };
 
   return ENV;
