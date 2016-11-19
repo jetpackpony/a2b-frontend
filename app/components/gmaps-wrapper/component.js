@@ -149,6 +149,10 @@ export default Ember.Component.extend({
     }
   }),
 
+  cursorChanged: Ember.observer('draggableCursor', function() {
+    this._setCursor();
+  }),
+
   /*
    * Private options
    */
@@ -158,8 +162,7 @@ export default Ember.Component.extend({
   actions: {
     mapLoaded() {
       // Set the cursor for the map
-      this.get('_gMap').maps.select('map')
-        .map.setOptions({ draggableCursor: this.get('draggableCursor') });
+      this._setCursor();
 
       // Fit the map to the set bounds
       let bounds = this.get('bounds');
@@ -184,6 +187,10 @@ export default Ember.Component.extend({
         });
       }
     }
+  },
+  _setCursor() {
+    this.get('_gMap').maps.select('map')
+      .map.setOptions({ draggableCursor: this.get('draggableCursor') });
   },
   _zoomMapTo(gBounds) {
     if (!gBounds.isEmpty()) {

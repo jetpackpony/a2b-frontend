@@ -1,10 +1,12 @@
 import Ember from 'ember';
 
-let asia = {
+const asia = {
   lat: 15,
   lng: 100,
   zoom: 4
 };
+const dragCursor = 'hand';
+const pointCursor = 'cell';
 
 export default Ember.Component.extend({
   classNames: ['create-new-map'],
@@ -13,6 +15,7 @@ export default Ember.Component.extend({
   bounds: Ember.A([]),
   center: [asia.lat, asia.lng],
   zoom: asia.zoom,
+  cursor: dragCursor,
   init() {
     this._super(...arguments);
     this.get('registerChild')(this);
@@ -76,6 +79,7 @@ export default Ember.Component.extend({
           }
         })
       );
+      this.set('cursor', dragCursor);
     } else {
       // else focus on the current step-point
       let loc = locs[step - 1];
@@ -98,6 +102,13 @@ export default Ember.Component.extend({
       } else {
         this.set('center', [asia.lat, asia.lng]);
         this.set('zoom', asia.zoom);
+      }
+
+      // If city is set, change the cursor
+      if (loc.city) {
+        this.set('cursor', pointCursor);
+      } else {
+        this.set('cursor', dragCursor);
       }
     }
   },
