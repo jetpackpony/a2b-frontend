@@ -39,7 +39,6 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
   }
 
   ENV.contentSecurityPolicy = {
@@ -59,11 +58,6 @@ module.exports = function(environment) {
 
   ENV['place-autocomplete'] = {
     exclude: true
-      /*
-      ,
-    key: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk',
-    language: 'en'
-    */
   };
 
   ENV.torii = {
@@ -74,8 +68,13 @@ module.exports = function(environment) {
       }
     }
   };
+
   ENV['ember-simple-auth'] = {
     authenticationRoute: 'about'
+  };
+
+  ENV.googleAnalytics = {
+    webPropertyId: 'UA-87696063-1'
   };
 
   return ENV;
