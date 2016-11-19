@@ -6,6 +6,13 @@ module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     // Add options here
   });
+  if (app.env === 'production') {
+    app.options.inlineContent = {
+      'jivosite': {
+        file: './jivosite.js'
+      }
+    };
+  }
 
   // Use `app.import` to add additional libraries to the generated
   // output files.
