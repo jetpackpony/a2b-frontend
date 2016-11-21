@@ -44,6 +44,10 @@ module.exports = function(environment) {
     };
   }
 
+  ENV.a2b = {
+    apiEndPoint: "http://ec2-35-163-32-182.us-west-2.compute.amazonaws.com:8080/api"
+  };
+
   ENV.contentSecurityPolicy = {
     'default-src': "'none'",
     'script-src': "'self' 'unsafe-eval' *.googleapis.com maps.gstatic.com",

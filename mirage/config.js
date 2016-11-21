@@ -1,8 +1,9 @@
 import Mirage from 'ember-cli-mirage';
 import dump from '../mirage/api-dump';
+import ENV from '../config/environment';
 
 export default function() {
-  this.namespace = '/api';
+  this.namespace = ENV.a2b.apiEndPoint;
 
   this.get('/itineraries', function(schema, request) {
     console.log(request);

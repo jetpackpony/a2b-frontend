@@ -1,4 +1,5 @@
 import OAuth2PasswordGrant from 'ember-simple-auth/authenticators/oauth2-password-grant';
+import ENV from '../config/environment';
 const {
   RSVP,
   makeArray,
@@ -8,7 +9,7 @@ const {
 } = Ember;
 const assign = emberAssign || merge;
 export default OAuth2PasswordGrant.extend({
-  serverTokenEndpoint: '/api/session/create',
+  serverTokenEndpoint: `${ENV.a2b.apiEndPoint}/session/create`,
   authenticate(code, scope = [], headers = {}) {
     return new RSVP.Promise((resolve, reject) => {
       const data                = { 'grant_type': 'authorization_code', code };
