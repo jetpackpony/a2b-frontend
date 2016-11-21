@@ -45,4 +45,7 @@ export default function() {
     const attrs = JSON.parse(request.requestBody);
     return { data: [] };
   });
+
+  // Pass it to the actual API
+  //this.passthrough('/itineraries', ['get']);
 }
