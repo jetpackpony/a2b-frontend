@@ -43,9 +43,10 @@ export default function() {
   this.post('/users', function(schema, request) {
     console.log(request);
     const attrs = JSON.parse(request.requestBody);
-    return { data: [] };
+    return { data: null };
   });
 
   // Pass it to the actual API
-  //this.passthrough('/itineraries', ['get']);
+  this.passthrough('/itineraries', ['get']);
+  //this.passthrough('/routes', ['post']);
 }
