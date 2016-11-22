@@ -48,5 +48,5 @@ export default function() {
 
   // Pass it to the actual API
   this.passthrough('/itineraries', ['get']);
-  //this.passthrough('/routes', ['post']);
+  this.passthrough('/routes', ['post']);
 }
