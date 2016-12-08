@@ -4,7 +4,7 @@ export function durationString([duration, ...params]) {
   let mins = duration % 1;
   let hours = duration - mins;
   if (hours === 0) {
-    return `${(duration % 1) * 60}m`
+    return `${(duration % 1) * 60} minutes`;
   } else {
     if (mins === 0) {
       return `${hours} hour${hours > 1 ? "s" : ''}`;
