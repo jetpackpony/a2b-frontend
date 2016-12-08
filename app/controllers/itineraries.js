@@ -6,6 +6,8 @@ export default Ember.Controller.extend({
   toCoords: null,
   fromCity: null,
   toCity: null,
+  sortParams: ['price'],
+  sortedItineraries: Ember.computed.sort('model', 'sortParams'),
   formFilled: Ember.computed('fromCoords', 'toCoords', function() {
     return this.get('fromCoords') !== null && this.get('toCoords') !== null &&
       this.get('fromCoords') !== "" && this.get('toCoords') !== "";
