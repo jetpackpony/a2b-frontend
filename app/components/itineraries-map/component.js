@@ -17,6 +17,7 @@ export default Ember.Component.extend({
   }),
   lines: Ember.computed('itineraries.[]', 'selectedItinerary', 'routeHovered', function() {
     let lines = Ember.A([]);
+    this.set('markers', Ember.A([]));
     this.get('itineraries').forEach((iti) => {
       iti.get('routes').forEach((route) => {
         let line = {
