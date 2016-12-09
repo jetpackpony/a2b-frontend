@@ -5,17 +5,16 @@ export default Ember.Component.extend({
   selectedItinerary: null,
   itineraries: Ember.A([]),
   markers: Ember.A([]),
-  bounds: Ember.computed('itineraries.[]', function() {
+  bounds: Ember.computed('selectedItinerary', function() {
     let bounds = Ember.A([]);
-    this.get('itineraries').forEach((iti) => {
-      iti.get('routes').map((route) => {
-        bounds.pushObject([route.get('fromLat'), route.get('fromLng')].map(parseFloat));
-        bounds.pushObject([route.get('toLat'), route.get('toLng')].map(parseFloat));
-      });
+    let iti = this.get('selectedItinerary');
+    iti.get('routes').map((route) => {
+      bounds.pushObject([route.get('fromLat'), route.get('fromLng')].map(parseFloat));
+      bounds.pushObject([route.get('toLat'), route.get('toLng')].map(parseFloat));
     });
     return bounds;
   }),
-  lines: Ember.computed('itineraries.[]', 'selectedItinerary', 'routeHovered', function() {
+  lines: Ember.computed('selectedItinerary', 'routeHovered', function() {
     let lines = Ember.A([]);
     this.set('markers', Ember.A([]));
     this.get('itineraries').forEach((iti) => {
@@ -37,7 +36,8 @@ export default Ember.Component.extend({
         } else if (this._isItinerarySelected(iti.get('id'))) {
           line.style = 'normal';
         } else {
-          line.style = 'dimmed';
+          // if not selected iti, don't draw a line
+          return;
         }
         lines.pushObject(line);
       });
