@@ -8,6 +8,9 @@ export default Ember.Component.extend({
   bounds: Ember.computed('selectedItinerary', function() {
     let bounds = Ember.A([]);
     let iti = this.get('selectedItinerary');
+    if (!iti) {
+      return bounds;
+    }
     iti.get('routes').map((route) => {
       bounds.pushObject([route.get('fromLat'), route.get('fromLng')].map(parseFloat));
       bounds.pushObject([route.get('toLat'), route.get('toLng')].map(parseFloat));
