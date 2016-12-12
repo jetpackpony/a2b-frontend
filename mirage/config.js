@@ -9,12 +9,14 @@ export default function() {
     console.log(request);
     let from = request.queryParams['filter[from]'];
     let to = request.queryParams['filter[to]'];
-    if (from !== undefined && to !== undefined) {
-      //return schema.itineraries.where({ fromCoords: from, toCoords: to });
-      //return schema.itineraries.all();
+    if (from && to) {
       return dump();
     } else {
-      return { data: [] };
+      return new Mirage.Response(200, {}, {
+        "errors": [
+          { "detail":"java.lang.IllegalStateException" }
+        ]
+      });
     }
   });
 
@@ -32,13 +34,7 @@ export default function() {
       "token_type":"JWT",
       "expires_in":3600
     };
-    /*
-    return {
-      "error": "invalid_request",
-      "error_description": "This is an error and it makes us very sad"
-    };
-    */
-  }/*, 400*/);
+  });
 
   this.post('/users', function(schema, request) {
     console.log(request);
