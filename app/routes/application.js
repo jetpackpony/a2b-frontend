@@ -5,7 +5,8 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
   actions: {
     error(error, transition) {
       if (error) {
-        console.log('application is such error', error);
+        let controller = this.controllerFor('application');
+        controller.set('error', error);
       }
     }
   }
