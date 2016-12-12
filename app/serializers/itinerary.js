@@ -9,6 +9,7 @@ const putRoutesInOrder = function(order, items) {
 
 export default DS.JSONAPISerializer.extend({
   normalizeResponse(store, primaryModelClass, payload, id, requestType) {
+    // Sort routes inside itinerary in proper order
     if (Array.isArray(payload.data)) {
       payload.data = payload.data.map((item) => {
         item.relationships.routes.data = putRoutesInOrder(
