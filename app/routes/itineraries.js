@@ -10,8 +10,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     return this.get('store').
       query('itinerary', {
         filter: {
-          from: params.fromCoords,
-          to: params.toCoords
+          from: params.fromCoords || "0,0",
+          to: params.toCoords || "0,0"
         }
       });
   }
