@@ -15,10 +15,14 @@ export default Ember.Component.extend({
     this.set('routeHovered', null);
     this.set('routeOpened', null);
     this.set('selectedItinerary', this.get('itineraries').get('firstObject'));
+    let directCount = this.get('itineraries').filterBy('stops', 0).length;
+    this.set('showDirectOnly', directCount !== 0);
   },
 
-  visibleItineraries: Ember.computed.filter('itineraries', function(iti) {
-    return iti.get('stops') === 0 || !this.get('showDirectOnly');
+  visibleItineraries: Ember.computed('itineraries', 'showDirectOnly', function() {
+    return this.get('itineraries').filter((iti) => {
+      return iti.get('stops') === 0 || !this.get('showDirectOnly');
+    });
   }),
 
   openedItineraryChanged: Ember.observer('openedItinerary', function() {
