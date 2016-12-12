@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   openedItinerary: null,
   routeHovered: null,
   routeOpened: null,
+  showDirectOnly: true,
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -15,6 +16,10 @@ export default Ember.Component.extend({
     this.set('routeOpened', null);
     this.set('selectedItinerary', this.get('itineraries').get('firstObject'));
   },
+
+  visibleItineraries: Ember.computed.filter('itineraries', function(iti) {
+    return iti.get('stops') === 0 || !this.get('showDirectOnly');
+  }),
 
   openedItineraryChanged: Ember.observer('openedItinerary', function() {
     let iti = this.get('openedItinerary');

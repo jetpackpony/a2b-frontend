@@ -1,7 +1,8 @@
 <div class="left-side">
   {{#if formFilled }}
     {{itineraries-list
-    itineraries=itineraries
+    itineraries=visibleItineraries
+    showDirectOnly=showDirectOnly
     selectedItinerary=selectedItinerary
     openedItinerary=openedItinerary
     }}
@@ -13,7 +14,7 @@
 </div>
 <div class="right-side">
   {{itineraries-map
-  itineraries=itineraries
+  itineraries=visibleItineraries
   selectedItinerary=selectedItinerary
   routeHovered=routeHovered
   }}
