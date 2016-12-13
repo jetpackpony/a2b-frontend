@@ -6,6 +6,10 @@
   }}
 {{else}}
   <div class="error alert alert-info">
-    This route is not in our database yet
+    {{#if showDirectOnly}}
+      There are no direct routes for this search query
+    {{else}}
+      This route is not in our database yet
+    {{/if}}
   </div>
 {{/each}}

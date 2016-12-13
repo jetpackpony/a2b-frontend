@@ -60,6 +60,9 @@ export default Ember.Component.extend({
       }
       this.set('routeHovered', null);
       this.set('routeOpened', null);
+    },
+    toggleDirectOnly() {
+      this.toggleProperty('showDirectOnly');
     }
   }
 });

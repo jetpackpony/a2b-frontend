@@ -1,5 +1,14 @@
 <div class="left-side">
   {{#if formFilled }}
+    {{#if itineraries}}
+      <div class="direct-switch">
+        <label class="custom-control custom-checkbox">
+          <input type="checkbox" checked='{{if showDirectOnly 'checked' ''}}' class="custom-control-input" {{action 'toggleDirectOnly' on="change"}}>
+          <span class="custom-control-indicator"></span>
+          <span class="custom-control-description">Show direct options only</span>
+        </label>
+      </div>
+    {{/if}}
     {{itineraries-list
     itineraries=visibleItineraries
     showDirectOnly=showDirectOnly
