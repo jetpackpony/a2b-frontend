@@ -70,3 +70,9 @@ body {
 .modal-dialog {
   color: black;
 }
+
+$placeholder-color: rgba(0, 0, 0, 0.5);
+.form-control::-webkit-input-placeholder { color: $placeholder-color; }
+.form-control:-moz-placeholder { color: $placeholder-color; }
+.form-control::-moz-placeholder { color: $placeholder-color; }
+.form-control:-ms-input-placeholder { color: $placeholder-color; }
