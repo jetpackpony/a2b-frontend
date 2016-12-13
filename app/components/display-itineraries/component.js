@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   openedItinerary: null,
   routeHovered: null,
   routeOpened: null,
+  showDirectOnly: true,
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -14,7 +15,15 @@ export default Ember.Component.extend({
     this.set('routeHovered', null);
     this.set('routeOpened', null);
     this.set('selectedItinerary', this.get('itineraries').get('firstObject'));
+    let directCount = this.get('itineraries').filterBy('stops', 0).length;
+    this.set('showDirectOnly', directCount !== 0);
   },
+
+  visibleItineraries: Ember.computed('itineraries', 'showDirectOnly', function() {
+    return this.get('itineraries').filter((iti) => {
+      return iti.get('stops') === 0 || !this.get('showDirectOnly');
+    });
+  }),
 
   openedItineraryChanged: Ember.observer('openedItinerary', function() {
     let iti = this.get('openedItinerary');
@@ -51,6 +60,9 @@ export default Ember.Component.extend({
       }
       this.set('routeHovered', null);
       this.set('routeOpened', null);
+    },
+    toggleDirectOnly() {
+      this.toggleProperty('showDirectOnly');
     }
   }
 });

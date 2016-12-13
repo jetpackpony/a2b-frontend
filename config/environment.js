@@ -1,4 +1,5 @@
 /* jshint node: true */
+var dotEnv = require('../config.json');
 
 module.exports = function(environment) {
   var ENV = {
@@ -38,10 +39,17 @@ module.exports = function(environment) {
     ENV.APP.rootElement = '#ember-testing';
   }
 
+  ENV.googleMap = {
+    libraries: ['drawing','places'],
+    apiKey: dotEnv['google-api-development'],
+    language: 'en'
+  };
+
   if (environment === 'production') {
     ENV.googleAnalytics = {
       webPropertyId: 'UA-87696063-1'
     };
+    ENV.googleMap.apiKey = dotEnv['google-api-production'];
   }
 
   ENV.a2b = {
@@ -57,11 +65,6 @@ module.exports = function(environment) {
     'style-src': "'self' 'unsafe-inline' fonts.googleapis.com maps.gstatic.com"
   };
 
-  ENV.googleMap = {
-    libraries: ['drawing','places'],
-    apiKey: 'AIzaSyBaC0ZaYK63EgIT7EE5__wa1TxUWeP8PAk',
-    language: 'en'
-  };
 
   ENV['place-autocomplete'] = {
     exclude: true
