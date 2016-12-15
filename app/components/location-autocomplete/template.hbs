@@ -4,13 +4,11 @@ value=value
 autocomplete=off
 spellcheck=off
 key-up=(action 'handleInput')}}
-{{#if valueLongEnough}}
+{{#if hasSuggestions}}
   <div class="suggestions">
     <ul>
       {{#each suggestions as |sugg|}}
         <li><a href="#!">{{sugg.name}}</a></li>
-      {{else}}
-        <li class="disabled"><a>No locations found</a></li>
       {{/each}}
     </ul>
   </div>
