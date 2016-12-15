@@ -9,17 +9,17 @@ let mapColors = {
 let lineStyles = {
   dimmed: {
     strokeOpacity: 0.7,
-    strokeWeight: 3,
+    strokeWeight: 1,
     zIndex: 1
   },
   normal: {
     strokeOpacity: 1,
-    strokeWeight: 5,
+    strokeWeight: 3,
     zIndex: 3
   },
   selected: {
     strokeOpacity: 1,
-    strokeWeight: 5,
+    strokeWeight: 3,
     zIndex: 5
   }
 };
