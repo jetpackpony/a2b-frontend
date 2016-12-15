@@ -3,7 +3,10 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   classNames: ['autocomplete-field'],
   value: '',
-  hasSuggestions: Ember.computed.gt('suggestions.length', 0),
+  isFocused: false,
+  showSuggestions: Ember.computed('suggestions.length', 'isFocused', function(assert) {
+    return this.get('suggestions.length') > 0 && this.get('isFocused');
+  }),
   suggestions: Ember.A([]),
   _runFilter() {
     this.get('filter')(this.get('value'))
@@ -21,6 +24,15 @@ export default Ember.Component.extend({
       this.set('value', sugg.get('name'));
       this.set('suggestions', Ember.A([]));
       this.get('select')(sugg);
+    },
+    focusInput() {
+      this.set('isFocused', true);
+    },
+    blurInput(e) {
+      // Unfocus only if the new focus is another element
+      if ($(e.relatedTarget).parents('div.suggestions').length === 0) {
+        this.set('isFocused', false);
+      }
     }
   }
 });

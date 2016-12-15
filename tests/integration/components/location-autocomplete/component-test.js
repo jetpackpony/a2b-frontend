@@ -31,7 +31,8 @@ const filterFn = (val) => {
 test('it shows suggestions in the dropdown', function(assert) {
   this.on('filter', filterFn);
   this.render(hbs`{{location-autocomplete filter=(action "filter")}}`);
-  this.$('input').val('Cam').keyup();
+  this.$('input').focus();
+  this.$('input').val('Cam').trigger('input');
 
   return wait().then(() => {
     let suggs = this.$('.suggestions li');
@@ -46,7 +47,8 @@ test('it shows suggestions in the dropdown', function(assert) {
 test('it does not show suggestions when no results', function(assert) {
   this.on('filter', filterFn);
   this.render(hbs`{{location-autocomplete filter=(action "filter")}}`);
-  this.$('input').val('Olololo').keyup();
+  this.$('input').focus();
+  this.$('input').val('Olololo').trigger('input');
 
   return wait().then(() => {
     let suggs = this.$('.suggestions:visible');
@@ -57,7 +59,8 @@ test('it does not show suggestions when no results', function(assert) {
 test('it does not show suggestions if query is 2 chars or less', function(assert) {
   this.on('filter', filterFn);
   this.render(hbs`{{location-autocomplete filter=(action "filter")}}`);
-  this.$('input').val('Ol').keyup();
+  this.$('input').focus();
+  this.$('input').val('Ol').trigger('input');
 
   return wait().then(() => {
     let suggs = this.$('.suggestions:visible');
@@ -77,7 +80,8 @@ test('it calls a callback when item is selected', function(assert) {
         select=(action "select")
     }}`
   );
-  this.$('input').val('Cam').keyup();
+  this.$('input').focus();
+  this.$('input').val('Cam').trigger('input');
   $(this.$('.suggestions li')[1]).click();
 });
 
@@ -90,7 +94,8 @@ test('it sets new value and removes suggestions when item selected', function(as
         select=(action "select")
     }}`
   );
-  this.$('input').val('Cam').keyup();
+  this.$('input').focus();
+  this.$('input').val('Cam').trigger('input');
   $(this.$('.suggestions li')[1]).click();
 
   return wait().then(() => {
@@ -98,5 +103,18 @@ test('it sets new value and removes suggestions when item selected', function(as
     let value = this.$('input').val();
     assert.equal(suggs.length, 0, 'should not show suggestions');
     assert.equal(value, 'Ratanakiri, Cambodia');
+  });
+});
+
+test('it removes suggestions when blur', function(assert) {
+  this.on('filter', filterFn);
+  this.render(hbs`{{location-autocomplete filter=(action "filter")}}`);
+  this.$('input').focus();
+  this.$('input').val('Cam').trigger('input');
+  this.$('input').blur();
+
+  return wait().then(() => {
+    let suggs = this.$('.suggestions:visible');
+    assert.equal(suggs.length, 0, 'should not show suggestions');
   });
 });

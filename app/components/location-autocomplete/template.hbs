@@ -3,13 +3,15 @@ classNames="form-control"
 value=value
 autocomplete=off
 spellcheck=off
-key-up=(action 'handleInput')}}
-{{#if hasSuggestions}}
+input=(action 'handleInput')
+focusIn=(action 'focusInput')
+focusOut=(action 'blurInput')}}
+{{#if showSuggestions}}
   <div class="suggestions">
     <ul>
       {{#each suggestions as |sugg|}}
         <li {{action 'selectSuggestion' sugg on="click"}}>
-          <a href="#!">{{sugg.name}}</a>
+          <a tabindex='-1' href="#!">{{sugg.name}}</a>
         </li>
       {{/each}}
     </ul>
