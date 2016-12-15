@@ -1,0 +1,17 @@
+{{input
+classNames="form-control"
+value=value
+autocomplete=off
+spellcheck=off
+key-up=(action 'handleInput')}}
+{{#if value}}
+  <div class="suggestions">
+    <ul>
+      {{#each suggestions as |sugg|}}
+        <li>{{sugg.name}}</li>
+      {{else}}
+        <li>No locations found</li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
