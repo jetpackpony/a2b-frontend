@@ -43,3 +43,13 @@ test('it shows a "nothing found" message when no results', function(assert) {
   });
 });
 
+test('it does not show suggestions if query is 2 chars or less', function(assert) {
+  this.on('filter', filterFn);
+  this.render(hbs`{{location-autocomplete filter=(action "filter")}}`);
+  this.$('input').val('Ol').keyup();
+
+  return wait().then(() => {
+    let suggs = this.$('.suggestions:visible');
+    assert.equal(suggs.length, 0, 'should not show suggestions');
+  });
+});
