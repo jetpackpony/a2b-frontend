@@ -42,6 +42,21 @@ export default function() {
     return { data: null };
   });
 
+  this.get('/locations', function(schema, request) {
+    let name = request.queryParams['filter[name]'].toLowerCase();
+    if (name && name.length > 2) {
+      return schema.locations.all().filter((item) => {
+        return item.name.toLowerCase().indexOf(name) !== -1;
+      });
+    } else {
+      return new Mirage.Response(400, {}, {
+        "errors": [
+          { "detail":"java.lang.IllegalStateException" }
+        ]
+      });
+    }
+  });
+
   // Pass it to the actual API
   this.passthrough('/itineraries', ['get']);
   /*
