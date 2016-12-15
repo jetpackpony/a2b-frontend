@@ -3,11 +3,23 @@ import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 import RSVP from 'rsvp';
 
+let origDebounce = Ember.run.debounce;
 moduleForComponent('location-autocomplete', 'Integration | Component | location autocomplete', {
-  integration: true
+  integration: true,
+  beforeEach() {
+    Ember.run.debounce = function(ctx, func) {
+      func.call(ctx);
+    };
+  },
+  afterEach() {
+    Ember.run.debounce = origDebounce;
+  }
 });
 
-const locations = [{name: 'Phnom Penh, Cambodia'}, {name: 'Ratanakiri, Cambodia'}];
+const locations = [
+  Ember.Object.create({ id: 1, name: 'Phnom Penh, Cambodia'}),
+  Ember.Object.create({ id: 2, name: 'Ratanakiri, Cambodia'})
+];
 const filterFn = (val) => {
   if (val === "Cam") {
     return RSVP.resolve(locations);
@@ -31,15 +43,14 @@ test('it shows suggestions in the dropdown', function(assert) {
   });
 });
 
-test('it shows a "nothing found" message when no results', function(assert) {
+test('it does not show suggestions when no results', function(assert) {
   this.on('filter', filterFn);
   this.render(hbs`{{location-autocomplete filter=(action "filter")}}`);
   this.$('input').val('Olololo').keyup();
 
   return wait().then(() => {
-    let suggs = this.$('.suggestions li');
-    assert.equal(suggs.length, 1, 'should show 1 suggestions');
-    assert.equal(suggs.text().trim(), 'No locations found', 'should display empty message');
+    let suggs = this.$('.suggestions:visible');
+    assert.equal(suggs.length, 0, 'should not show suggestions');
   });
 });
 
@@ -51,5 +62,41 @@ test('it does not show suggestions if query is 2 chars or less', function(assert
   return wait().then(() => {
     let suggs = this.$('.suggestions:visible');
     assert.equal(suggs.length, 0, 'should not show suggestions');
+  });
+});
+
+test('it calls a callback when item is selected', function(assert) {
+  assert.expect(1);
+  this.on('filter', filterFn);
+  this.on('select', (item) => {
+    assert.equal(item.get('name'), 'Ratanakiri, Cambodia', 'should select the item');
+  });
+  this.render(
+    hbs`{{location-autocomplete
+        filter=(action "filter")
+        select=(action "select")
+    }}`
+  );
+  this.$('input').val('Cam').keyup();
+  $(this.$('.suggestions li')[1]).click();
+});
+
+test('it sets new value and removes suggestions when item selected', function(assert) {
+  this.on('filter', filterFn);
+  this.on('select', () => {});
+  this.render(
+    hbs`{{location-autocomplete
+        filter=(action "filter")
+        select=(action "select")
+    }}`
+  );
+  this.$('input').val('Cam').keyup();
+  $(this.$('.suggestions li')[1]).click();
+
+  return wait().then(() => {
+    let suggs = this.$('.suggestions:visible');
+    let value = this.$('input').val();
+    assert.equal(suggs.length, 0, 'should not show suggestions');
+    assert.equal(value, 'Ratanakiri, Cambodia');
   });
 });

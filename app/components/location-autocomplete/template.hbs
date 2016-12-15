@@ -8,7 +8,9 @@ key-up=(action 'handleInput')}}
   <div class="suggestions">
     <ul>
       {{#each suggestions as |sugg|}}
-        <li><a href="#!">{{sugg.name}}</a></li>
+        <li {{action 'selectSuggestion' sugg on="click"}}>
+          <a href="#!">{{sugg.name}}</a>
+        </li>
       {{/each}}
     </ul>
   </div>
