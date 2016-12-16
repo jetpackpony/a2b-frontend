@@ -10,24 +10,6 @@
       padding: 0;
       margin: 0;
       list-style: none;
-      li {
-        text-align: left;
-        cursor: pointer;
-        &:hover {
-          background-color: rgba(#000, 0.1);
-        }
-      }
-    }
-
-    li.disabled {
-      cursor: default;
-      &:hover {
-        background-color: #fff;
-      }
-      a {
-        color: rgba(#000, .36);
-        cursor: default;
-      }
     }
 
     a {
@@ -42,6 +24,19 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      text-align: left;
+      &:hover, &:focus {
+        outline: none;
+        background-color: rgba(#000, 0.1);
+      }
     }
+    li.disabled a {
+      color: rgba(#000, .36);
+      cursor: default;
+      &:hover {
+        background-color: #fff;
+      }
+    }
+
   }
 }

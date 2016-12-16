@@ -5,13 +5,14 @@ autocomplete=off
 spellcheck=off
 input=(action 'handleInput')
 focusIn=(action 'focusInput')
-focusOut=(action 'blurInput')}}
+focusOut=(action 'blurInput')
+}}
 {{#if showSuggestions}}
   <div class="suggestions">
     <ul>
-      {{#each suggestions as |sugg|}}
+      {{#each suggestions as |sugg index|}}
         <li {{action 'selectSuggestion' sugg on="click"}}>
-          <a tabindex='-1' href="#!">{{sugg.name}}</a>
+          <a tabindex='-1' href="#!" data-index={{index}}>{{sugg.name}}</a>
         </li>
       {{/each}}
     </ul>

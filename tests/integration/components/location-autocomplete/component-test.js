@@ -28,6 +28,17 @@ const filterFn = (val) => {
   }
 };
 
+
+const enterEvent = $.Event('keyup');
+enterEvent.which = 13;
+enterEvent.keyCode = 13;
+const arrowUpEvent = $.Event('keyup');
+arrowUpEvent.which = 38;
+arrowUpEvent.keyCode = 38;
+const arrowDownEvent = $.Event('keyup');
+arrowDownEvent.which = 40;
+arrowDownEvent.keyCode = 40;
+
 test('it shows suggestions in the dropdown', function(assert) {
   this.on('filter', filterFn);
   this.render(hbs`{{location-autocomplete filter=(action "filter")}}`);
@@ -117,4 +128,29 @@ test('it removes suggestions when blur', function(assert) {
     let suggs = this.$('.suggestions:visible');
     assert.equal(suggs.length, 0, 'should not show suggestions');
   });
+});
+
+test('it scrolls through the suggestions with keyboard', function(assert) {
+  assert.expect(1);
+  this.on('filter', filterFn);
+  this.on('select', (item) => {
+    assert.equal(item.get('name'), 'Ratanakiri, Cambodia', 'should select the item');
+  });
+  this.render(
+    hbs`{{location-autocomplete
+        filter=(action "filter")
+        select=(action "select")
+    }}`
+  );
+  this.$('input').focus();
+  this.$('input').val('Cam').trigger('input');
+  // Press down arrow 3 times and up arrow 1 time and then enter
+  this.$('input').trigger(arrowDownEvent);
+  this.$('input').trigger(arrowDownEvent);
+  this.$('input').trigger(arrowDownEvent);
+
+  this.$('input').trigger(arrowUpEvent);
+
+  let focused = this.$('.suggestions a:focus').attr('data-index');
+  assert.equal(focused, '1', 'second link should be focused');
 });

@@ -12,6 +12,23 @@ export default Ember.Component.extend({
     this.get('filter')(this.get('value'))
       .then((res) => this.set('suggestions', res));
   },
+  _scrollSuggestions(direction) {
+    let focused = this.$('a:focus');
+    if (focused.length === 0) {
+      this.$('.suggestions a:first').focus();
+    } else {
+      let length = this.get('suggestions.length');
+      let nextIndex = parseInt(focused.attr('data-index'));
+      nextIndex = direction === 'up' ? nextIndex - 1 : nextIndex + 1;
+      if (nextIndex >= length) {
+        nextIndex = 0;
+      }
+      if (nextIndex < 0) {
+        nextIndex = length - 1;
+      }
+      this.$(`.suggestions a[data-index="${nextIndex}"]`).focus();
+    }
+  },
   actions: {
     handleInput() {
       if (this.get('value').length > 2)  {
@@ -32,6 +49,18 @@ export default Ember.Component.extend({
       // Unfocus only if the new focus is another element
       if ($(e.relatedTarget).parents('div.suggestions').length === 0) {
         this.set('isFocused', false);
+      }
+    }
+  },
+  keyUp(e) {
+    if (this.get('showSuggestions')) {
+      switch(e.keyCode) {
+        case 38:
+          this._scrollSuggestions('up');
+        break;
+        case 40:
+          this._scrollSuggestions('down');
+        break;
       }
     }
   }
