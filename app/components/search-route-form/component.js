@@ -1,21 +1,25 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  locations: Ember.inject.service(),
   classNames: ['form-wrapper'],
-  query: { fromCity: null, toCity: null, fromCoords: null, toCoords: null },
+  fromLocation: null,
+  toLocation: null,
   actions: {
     search() {
-      this.get('submitSearch')(this.get('query'));
+      this.get('submitSearch')({
+        fromLocation: this.get('fromLocation'),
+        toLocation: this.get('toLocation')
+      });
     },
-    fromChanged(obj) {
-      let loc = obj.geometry.location;
-      this.set('query.fromCity', obj.formatted_address);
-      this.set('query.fromCoords', `${loc.lat()},${loc.lng()}`);
+    filterLocations(value) {
+      return this.get('locations').filter(value);
     },
-    toChanged(obj) {
-      let loc = obj.geometry.location;
-      this.set('query.toCity', obj.formatted_address);
-      this.set('query.toCoords', `${loc.lat()},${loc.lng()}`);
+    selectFrom(item) {
+      this.set('fromLocation', item);
+    },
+    selectTo(item) {
+      this.set('toLocation', item);
     }
   }
 });
