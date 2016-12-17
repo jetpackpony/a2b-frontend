@@ -1,16 +1,4 @@
 import Ember from 'ember';
+import ControllerWithItinerarySearchMixin from 'a2b/mixins/controller-with-itinerary-search';
 
-export default Ember.Controller.extend({
-  actions: {
-    search(params) {
-      this.transitionToRoute('itineraries', {
-        queryParams: {
-          fromId: params.fromLocation.get('id'),
-          fromCity: params.fromLocation.get('name'),
-          toId: params.toLocation.get('id'),
-          toCity: params.toLocation.get('name')
-        }
-      });
-    }
-  }
-});
+export default Ember.Controller.extend(ControllerWithItinerarySearchMixin);

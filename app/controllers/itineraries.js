@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import ControllerWithItinerarySearchMixin from 'a2b/mixins/controller-with-itinerary-search';
 
-export default Ember.Controller.extend({
+export default Ember.Controller.extend(ControllerWithItinerarySearchMixin, {
   queryParams: ['fromId', 'toId', 'fromCity', 'toCity'],
   fromId: null,
   toId: null,
@@ -13,18 +14,5 @@ export default Ember.Controller.extend({
   formFilled: Ember.computed('fromId', 'toId', function() {
     return this.get('fromId') !== null && this.get('toId') !== null &&
       this.get('fromId') !== "" && this.get('toId') !== "";
-  }),
-
-  actions: {
-    search(params) {
-      this.transitionToRoute({
-        queryParams: {
-          fromId: params.fromLocation.get('id'),
-          fromCity: params.fromLocation.get('name'),
-          toId: params.toLocation.get('id'),
-          toCity: params.toLocation.get('name')
-        }
-      });
-    }
-  }
+  })
 });
