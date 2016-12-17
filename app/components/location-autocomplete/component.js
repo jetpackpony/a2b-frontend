@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  locations: Ember.inject.service(),
   classNames: ['autocomplete-field'],
   value: '',
   isFocused: false,
@@ -9,7 +10,7 @@ export default Ember.Component.extend({
   }),
   suggestions: Ember.A([]),
   _runFilter() {
-    this.get('filter')(this.get('value'))
+    this.get('locations').filter(this.get('value'))
       .then((res) => this.set('suggestions', res));
   },
   _scrollSuggestions(direction) {

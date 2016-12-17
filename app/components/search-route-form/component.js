@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  locations: Ember.inject.service(),
   classNames: ['form-wrapper'],
   fromLocation: null,
   toLocation: null,
@@ -11,9 +10,6 @@ export default Ember.Component.extend({
         fromLocation: this.get('fromLocation'),
         toLocation: this.get('toLocation')
       });
-    },
-    filterLocations(value) {
-      return this.get('locations').filter(value);
     },
     selectFrom(item) {
       this.set('fromLocation', item);
