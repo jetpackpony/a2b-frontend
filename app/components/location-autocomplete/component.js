@@ -51,6 +51,9 @@ export default Ember.Component.extend({
       if ($(e.relatedTarget).parents('div.suggestions').length === 0) {
         this.set('isFocused', false);
       }
+    },
+    clear() {
+      this.set('value', '');
     }
   },
   keyUp(e) {

@@ -142,3 +142,11 @@ test('it scrolls through the suggestions with keyboard', function(assert) {
   let focused = this.$('.suggestions a:focus').attr('data-index');
   assert.equal(focused, '1', 'second link should be focused');
 });
+
+test('it clears the form when the X is clicked', function(assert) {
+  this.render(hbs`{{location-autocomplete value="testme"}}`);
+  assert.equal(this.$('input').val(), 'testme', 'value should match');
+
+  this.$('.input-button').click();
+  assert.equal(this.$('input').val(), '', 'value should be empty');
+});

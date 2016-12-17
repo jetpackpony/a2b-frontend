@@ -1,13 +1,16 @@
-{{input
-classNames="form-control"
-value=value
-autocomplete="off"
-spellcheck=false
-input=(action 'handleInput')
-focusIn=(action 'focusInput')
-focusOut=(action 'blurInput')
-placeholder=placeholder
-}}
+<div class="input-wrapper">
+  {{input
+  classNames="form-control"
+  value=value
+  autocomplete="off"
+  spellcheck=false
+  input=(action 'handleInput')
+  focusIn=(action 'focusInput')
+  focusOut=(action 'blurInput')
+  placeholder=placeholder
+  }}
+  <div class="input-button" {{action 'clear' on='click'}}>&times;</div>
+</div>
 {{#if showSuggestions}}
   <div class="suggestions">
     <ul>
