@@ -3,6 +3,7 @@
     <label class="sr-only" for="from-wrapper">From City</label>
     {{location-autocomplete
     id="from-wrapper"
+    placeholder="From City"
     value=from
     filter=(action "filterLocations")
     select=(action "selectFrom")
@@ -12,6 +13,7 @@
     <label class="sr-only" for="to">To City</label>
     {{location-autocomplete
     id="to-wrapper"
+    placeholder="To City"
     value=to
     filter=(action "filterLocations")
     select=(action "selectTo")
