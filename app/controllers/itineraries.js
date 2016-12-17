@@ -1,20 +1,30 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  queryParams: ['fromCoords', 'toCoords', 'fromCity', 'toCity'],
-  fromCoords: null,
-  toCoords: null,
+  queryParams: ['fromId', 'toId', 'fromCity', 'toCity'],
+  fromId: null,
+  toId: null,
   fromCity: null,
   toCity: null,
+
   sortParams: ['stops', 'duration'],
   sortedItineraries: Ember.computed.sort('model', 'sortParams'),
-  formFilled: Ember.computed('fromCoords', 'toCoords', function() {
-    return this.get('fromCoords') !== null && this.get('toCoords') !== null &&
-      this.get('fromCoords') !== "" && this.get('toCoords') !== "";
+
+  formFilled: Ember.computed('fromId', 'toId', function() {
+    return this.get('fromId') !== null && this.get('toId') !== null &&
+      this.get('fromId') !== "" && this.get('toId') !== "";
   }),
+
   actions: {
-    search(queryParams) {
-      this.transitionToRoute({ queryParams });
+    search(params) {
+      this.transitionToRoute({
+        queryParams: {
+          fromId: params.fromLocation.get('id'),
+          fromCity: params.fromLocation.get('name'),
+          toId: params.toLocation.get('id'),
+          toCity: params.toLocation.get('name')
+        }
+      });
     }
   }
 });
