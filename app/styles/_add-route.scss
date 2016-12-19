@@ -44,4 +44,8 @@
   #otherTransport {
     margin-top: 1rem;
   }
+
+  .buttons-row {
+    @include clearfix;
+  }
 }
