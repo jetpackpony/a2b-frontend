@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  queryParams: ['shortForm'],
+  shortForm: null,
   errorMessage: null,
   newRoute: null,
   actions: {

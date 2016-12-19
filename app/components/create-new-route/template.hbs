@@ -1,12 +1,16 @@
 <div class="left-side">
-  {{create-new-route-carousel-form
-  newRoute=newRoute
-  locations=locations
-  currentStep=currentStep
-  registerChild=(action 'registerChild' 'carousel-form')
-  submit=(action 'submit')
-  resetForm=(action "resetForm")
-  }}
+  {{#if shortForm}}
+    {{create-new-route-short-form}}
+  {{else}}
+    {{create-new-route-carousel-form
+    newRoute=newRoute
+    locations=locations
+    currentStep=currentStep
+    registerChild=(action 'registerChild' 'carousel-form')
+    submit=(action 'submit')
+    resetForm=(action "resetForm")
+    }}
+  {{/if}}
 </div>
 <div class="right-side">
   {{create-new-route-map
