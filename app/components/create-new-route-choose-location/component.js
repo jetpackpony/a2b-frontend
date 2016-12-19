@@ -48,6 +48,35 @@ export default Ember.Component.extend({
     return false;
   }),
 
+  mapClicked(point) {
+    this.get('gMap')
+      .geocode({
+        lat: point[0],
+        lng: point[1],
+        language: 'en'
+      })
+      .then((geocodes) => {
+        this._setLocation(geocodes, point);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
+  _setLocation(geocodes, point) {
+    let loc = this.get('location');
+    if (loc.country && loc.city) {
+      let addr = geocodes.find((item) => item.types.includes('route'))
+        || geocodes.find((item) => item.types.includes('street_address'));
+      if (addr) {
+        addr.geometry.location.lat = function() { return point[0]; }
+        addr.geometry.location.lng = function() { return point[1]; }
+        Ember.set(loc, 'address', addr);
+      } else {
+        console.log("Couldn't find geocode", geocodes);
+      }
+    }
+  },
+
   countries: Ember.A([
     { text: "Vietnam", value: "vn" },
     { text: "Cambodia", value: "kh" },
