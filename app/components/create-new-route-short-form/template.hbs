@@ -1,1 +1,9 @@
-Yes, this is short form component
+<div class="add-route">
+  <div class="short-form">
+    {{create-new-route-details
+    newRoute=newRoute
+    submit=(action "submit")
+    registerChild=(action 'registerChild' 'stepThree')
+    }}
+  </div>
+</div>

@@ -22,7 +22,7 @@ export default Ember.Component.extend({
     this.set('complete', false);
   },
   actions: {
-    submit(resolve, reject) {
+    submit() {
       this.get('submit')(
         () => {
           this.send('next');
