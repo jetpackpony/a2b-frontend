@@ -64,10 +64,12 @@
   {{textarea class="form-control" id="company-description" rows="3" placeholder="Phone, website, email, office address" value=newRoute.companyDescription}}
 </div>
 
-{{#if back}}
+<div class="buttons-row">
+  {{#if back}}
   <button class="btn btn-primary float-xs-left" {{action "back"}}>&lt; Back</button>
-{{/if}}
+  {{/if}}
 
-{{#if showSubmitButton}}
+  {{#if showSubmitButton}}
   <button {{action "submit"}} class="btn btn-primary highlighted float-xs-right">Submit</button>
-{{/if}}
+  {{/if}}
+</div>
