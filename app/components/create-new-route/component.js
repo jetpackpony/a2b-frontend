@@ -3,7 +3,6 @@ import Route from '../../models/route';
 
 export default Ember.Component.extend({
   classNames: ['row', 'bottom-split', 'add-route-form'],
-  complete: false,
   errorMessage: null,
   locationsNumber: 2,
   currentStep: 1,
@@ -47,34 +46,10 @@ export default Ember.Component.extend({
     return null;
   },
 
-  didInsertElement() {
-    this.$('.carousel').carousel({
-      interval: false,
-      wrap: false,
-      keyboard: false
-    });
-  },
   actions: {
-    next() {
-      this.incrementProperty('currentStep');
-      this.$('.carousel').carousel('next');
-    },
-    back() {
-      this.decrementProperty('currentStep');
-      this.$('.carousel').carousel('prev');
-    },
-    submit() {
-      this.get('createRoute')(
-          this._validateRoute(this.get('newRoute')),
-          () => {
-            this.send('next');
-            this.set('complete', true);
-          },
-          (error) => {
-            this.send('next');
-            this.set('complete', true);
-          }
-      );
+    submit(resolve, reject) {
+      let route = this._validateRoute(this.get('newRoute'));
+      this.get('createRoute')(route, resolve, reject);
     },
     resetForm() {
       this.set('locations', this.resetLocations());
@@ -82,9 +57,7 @@ export default Ember.Component.extend({
         return view.ref.reset();
       });
       this.get('resetModel')();
-      this.set('complete', false);
       this.set('currentStep', 1);
-      this.$('.carousel').carousel(0);
       this.set('errorMessage', null);
     },
     registerChild(id, child) {
