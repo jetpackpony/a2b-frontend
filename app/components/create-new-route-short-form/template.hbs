@@ -1,5 +1,11 @@
 <div class="add-route">
   <div class="short-form">
+    {{#if showResults}}
+      {{create-new-route-thanks
+      errorMessage=errorMessage
+      resetForm=resetForm
+      }}
+    {{/if}}
     {{create-new-route-choose-location-short
     addressLabel="Point the departure address on the map"
     location=locations.[0]
