@@ -68,7 +68,9 @@ export default Ember.Component.extend({
           .find((item) => item.id === 'form').ref
           .get('children')
           .find((item) => item.id === `step-${this.get('currentStep')}`).ref;
-      locComponent.get('mapClicked').call(locComponent, point);
+      if (locComponent.get('mapClicked')) {
+        locComponent.get('mapClicked').call(locComponent, point);
+      }
     }
   },
   _validateRoute(route) {

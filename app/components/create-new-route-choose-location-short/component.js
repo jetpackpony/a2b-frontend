@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import MapClickHandlerMixin from 'a2b/mixins/map-click-handler';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(MapClickHandlerMixin, {
   gMap: Ember.inject.service(),
   location: null,
   init() {
@@ -22,39 +23,20 @@ export default Ember.Component.extend({
     return false;
   }),
 
-  mapClicked(point) {
-    this.get('gMap')
-      .geocode({
-        lat: point[0],
-        lng: point[1],
-        language: 'en'
-      })
-      .then((geocodes) => {
-        this._setLocation(geocodes, point);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  },
-  _setLocation(geocodes, point) {
-    let country = geocodes.find((item) => item.types.includes('country'));
-    let city = geocodes.find((item) => item.types.includes('locality'));
-    let addr = geocodes.find((item) => item.types.includes('route'))
-      || geocodes.find((item) => item.types.includes('street_address'));
-    if (addr && addr.geometry) {
-      addr.geometry.location.lat = function() { return point[0]; }
-      addr.geometry.location.lng = function() { return point[1]; }
-    }
+  onMapClicked(geocodes, point) {
+    let country = this._getGeocodeItem(geocodes, 'country');
+    let city = this._getGeocodeItem(geocodes, 'locality');
     this.set('location.country', country || null);
     this.set('location.city', city || null);
-    this.set('location.address', addr);
+    this.set('location.address', this._getAddressFromGeocodes(geocodes, point));
   },
 
   actions: {
     addressChanged(obj) {
       // When the address is searched, get the coords and
       // make it look like a click on a map
-      this.mapClicked([obj.geometry.location.lat(), obj.geometry.location.lng()])
+      let point = [obj.geometry.location.lat(), obj.geometry.location.lng()]
+      this.mapClicked(point)
     }
   }
 });
