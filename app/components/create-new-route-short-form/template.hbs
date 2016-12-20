@@ -1,0 +1,28 @@
+<div class="add-route">
+  <div class="short-form">
+    {{#if showResults}}
+      {{create-new-route-thanks
+      errorMessage=errorMessage
+      resetForm=resetForm
+      }}
+    {{/if}}
+    {{create-new-route-choose-location-short
+    addressLabel="Point the departure address on the map"
+    location=locations.[0]
+    registerChild=(action 'registerChild' 'step-1')
+    focusIn=(action 'focusStep' 1)
+    }}
+    {{create-new-route-choose-location-short
+    addressLabel="Point the arrival address on the map"
+    location=locations.[1]
+    registerChild=(action 'registerChild' 'step-2')
+    focusIn=(action 'focusStep' 2)
+    }}
+    {{create-new-route-details
+    newRoute=newRoute
+    submit=(action "submit")
+    registerChild=(action 'registerChild' 'step-3')
+    focusIn=(action 'focusStep' 3)
+    }}
+  </div>
+</div>

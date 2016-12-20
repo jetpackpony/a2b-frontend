@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import MapClickHandlerMixin from 'a2b/mixins/map-click-handler';
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(MapClickHandlerMixin, {
   gMap: Ember.inject.service(),
   countryRestriction: null,
   showAddress: true,
@@ -47,6 +48,13 @@ export default Ember.Component.extend({
     }
     return false;
   }),
+
+  onMapClicked(geocodes, point) {
+    let loc = this.get('location');
+    if (loc.country && loc.city) {
+      this.set('location.address', this._getAddressFromGeocodes(geocodes, point));
+    }
+  },
 
   countries: Ember.A([
     { text: "Vietnam", value: "vn" },

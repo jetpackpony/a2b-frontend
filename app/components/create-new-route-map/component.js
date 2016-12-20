@@ -112,26 +112,9 @@ export default Ember.Component.extend({
       }
     }
   },
-  _handleClick(addr) {
-    let step = this.get('currentStep');
-    let locs = this.get('locations');
-    let loc = locs[step - 1];
-    if (loc.country && loc.city) {
-      Ember.set(loc, 'address', addr);
-    }
-  },
   actions: {
-    mapClicked(geocodes, point) {
-      let addr = geocodes.find((item) => item.types.includes('route'))
-        || geocodes.find((item) => item.types.includes('street_address'));
-      if (addr) {
-        addr.geometry.location.lat = function() { return point[0]; }
-        addr.geometry.location.lng = function() { return point[1]; }
-        this._handleClick(addr);
-      } else {
-        console.log("Couldn't find geocode", geocodes);
-      }
-      //geocodes.find((item) => item.types.includes('locality'))
+    mapClicked(point) {
+      this.get('mapClicked')(point);
     }
   }
 });
