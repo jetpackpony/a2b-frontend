@@ -12,8 +12,10 @@ export default Ember.Controller.extend({
           resolve();
         })
         .catch((error) => {
+          let obj = JSON.stringify(route.toJSON({ includeId: true }));
           console.log('error:', error);
-          this.set('errorMessage', error.message);
+          console.log('error object:', obj);
+          this.set('errorMessage', error.message + ":\n " + obj);
           reject();
         });
     },
