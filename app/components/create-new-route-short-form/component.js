@@ -13,7 +13,6 @@ export default Ember.Component.extend({
       return view.ref.reset();
     });
     $(this.get('scrollContainer')).scrollTop(0);
-    this.set('showResults', false);
   },
   actions: {
     submit() {
@@ -21,6 +20,7 @@ export default Ember.Component.extend({
         () => {
           this.set('showResults', true);
           $(this.get('scrollContainer')).scrollTop(0);
+          this.get('resetForm')();
         },
         (error) => {
           this.set('showResults', true);
