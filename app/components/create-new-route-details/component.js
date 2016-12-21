@@ -4,15 +4,25 @@ export default Ember.Component.extend({
   transportTypes: Ember.A(["Bus", "Ferry", "Train", "Other"]),
   newRoute: null,
   showOtherTransportField: false,
-  showSubmitButton: Ember.computed('newRoute.{transportType,organization,duration,price,description}', function() {
+  showSubmitButton: Ember.computed('newRoute.{transportType,organization,duration,price,description,fromLat,fromLng,fromComment,toLat,toLng,toComment}', function() {
     let route = this.get('newRoute');
     if (route.get('transportType') && route.get('organization')
         && route.get('duration') && route.get('price')
-        && route.get('description')) {
+        && route.get('description') && this._locationsSet(route)) {
       return true;
     }
     return false;
   }),
+  _locationsSet(route) {
+    if ((route.get('fromLat') && route.get('fromLat')) ||
+        route.get('fromComment')) {
+      if ((route.get('toLat') && route.get('toLat'))
+        || route.get('toComment')) {
+          return true;
+        }
+    }
+    return false;
+  },
   init() {
     this._super(...arguments);
     this.get('registerChild')(this);

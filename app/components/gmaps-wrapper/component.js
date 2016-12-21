@@ -173,18 +173,7 @@ export default Ember.Component.extend({
     mapClicked(e) {
       let mapClicked = this.get('mapClicked');
       if (mapClicked && typeof mapClicked === 'function') {
-        this.get('_gMap')
-          .geocode({
-            lat: e.latLng.lat(),
-            lng: e.latLng.lng(),
-            language: 'en'
-          })
-          .then((geocodes) => {
-            mapClicked(geocodes, [e.latLng.lat(), e.latLng.lng()]);
-          })
-        .catch((err) => {
-          console.error(err);
-        });
+        mapClicked([e.latLng.lat(), e.latLng.lng()]);
       }
     }
   },
