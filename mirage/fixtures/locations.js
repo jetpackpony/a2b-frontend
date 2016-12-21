@@ -1,5 +1,5 @@
 export default [
-  { id: 1, name: "Phnom Penh, Cambodia" },
-  { id: 2, name: "Ratanakiri, Cambodia" },
-  { id: 3, name: "Siem Reap, Cambodia" }
+  { id: "ChIJDTYr8bY5BTERZOM1bitTUsI", name: "Battambang Province, Cambodia" },
+  { id: "ChIJwQKmSvcdbTERfKKMbd45NGA", name: "Banlung, Cambodia" },
+  { id: "ChIJ82ENKDJgHTERIEjiXbIAAQE", name: "Bangkok, Thailand" }
 ];
