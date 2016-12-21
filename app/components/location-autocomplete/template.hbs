@@ -1,0 +1,24 @@
+<div class="input-wrapper">
+  {{input
+  classNames="form-control"
+  value=value
+  autocomplete="off"
+  spellcheck=false
+  input=(action 'handleInput')
+  focusIn=(action 'focusInput')
+  focusOut=(action 'blurInput')
+  placeholder=placeholder
+  }}
+  <div class="input-button" {{action 'clear' on='click'}}>&times;</div>
+</div>
+{{#if showSuggestions}}
+  <div class="suggestions">
+    <ul>
+      {{#each suggestions as |sugg index|}}
+        <li {{action 'selectSuggestion' sugg on="click"}}>
+          <a tabindex='-1' href="#!" data-index={{index}}>{{sugg.name}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}

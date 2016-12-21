@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import Route from '../../models/route';
+import RSVP from 'rsvp';
 
 export default Ember.Component.extend({
+  _gMap: Ember.inject.service('gMap'),
   classNames: ['row', 'bottom-split', 'add-route-form'],
   errorMessage: null,
   locationsNumber: 2,
@@ -17,6 +19,7 @@ export default Ember.Component.extend({
         country: null,
         city: null,
         address: null,
+        geocodes: Ember.A([]),
         comment: null
       });
     }

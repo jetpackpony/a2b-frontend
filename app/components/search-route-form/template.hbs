@@ -1,24 +1,20 @@
 <div class="form-inline">
   <div class="form-group first">
     <label class="sr-only" for="from-wrapper">From City</label>
-    {{place-autocomplete-field
-    value=fromCity
-    handlerController=this
-    inputClass="form-control"
+    {{location-autocomplete
     id="from-wrapper"
-    placeChangedCallback='fromChanged'
     placeholder="From City"
+    value=from
+    select=(action "selectFrom")
     }}
   </div>
   <div class="form-group">
     <label class="sr-only" for="to">To City</label>
-    {{place-autocomplete-field
-    value=toCity
-    handlerController=this
-    inputClass="form-control"
+    {{location-autocomplete
     id="to-wrapper"
-    placeChangedCallback='toChanged'
     placeholder="To City"
+    value=to
+    select=(action "selectTo")
     }}
   </div>
   {{{if inline "" "<br>"}}}

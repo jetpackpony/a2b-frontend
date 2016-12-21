@@ -9,6 +9,7 @@ const maxItineraries = 10;
 const maxRoutes = 3;
 
 export default function(server) {
+  server.loadFixtures('locations');
 
   let from = { city: "Bangkok, Thailand", lat: 13.7563, lng: 100.5018 };
   let to = { city: "Phuket, Thailand", lat: 7.8804, lng: 98.3922 };

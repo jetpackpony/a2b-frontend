@@ -3,15 +3,15 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   queryParams: {
-    fromCoords: { refreshModel: true },
-    toCoords: { refreshModel: true }
+    fromId: { refreshModel: true },
+    toId: { refreshModel: true }
   },
   model(params) {
     return this.get('store').
       query('itinerary', {
         filter: {
-          from: params.fromCoords || "0,0",
-          to: params.toCoords || "0,0"
+          from: params.fromId || "0",
+          to: params.toId || "0"
         }
       });
   }
