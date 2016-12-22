@@ -11,16 +11,10 @@
         <br>We promise not to bother you more than once a month.
         </p>
         <div class="social">
-          <img src="{{assets}}/images/login-with-facebook.png" alt="Login with facebook">
+          {{auth-facebook authComplete=(action "authComplete")}}
         </div>
         <p>or just leave us your email</p>
-        <form class="form-inline">
-          <div class="form-group">
-            <label class='sr-only' for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-          </div>
-          <button class="btn btn-primary">Send</button>
-        </form>
+        {{auth-form-short authComplete=(action "authComplete")}}
       </div>
     </div>
   </div>
