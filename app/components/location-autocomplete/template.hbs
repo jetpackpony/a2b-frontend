@@ -18,6 +18,10 @@
         <li {{action 'selectSuggestion' sugg on="click"}}>
           <a tabindex='-1' href="#!" data-index={{index}}>{{sugg.name}}</a>
         </li>
+      {{else}}
+        <li class="disabled">
+          <a tabindex='-1'>Nothing found</a>
+        </li>
       {{/each}}
     </ul>
   </div>

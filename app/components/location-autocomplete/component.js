@@ -6,10 +6,13 @@ const minQueryLength = 1;
 export default Ember.Component.extend({
   locations: Ember.inject.service(),
   classNames: ['autocomplete-field'],
-  value: '',
   isFocused: false,
+  value: '',
+  valueSelected: false,
   showSuggestions: Ember.computed('suggestions.length', 'isFocused', function(assert) {
-    return this.get('suggestions.length') > 0 && this.get('isFocused');
+    return this.get('value.length') >= minQueryLength
+            && this.get('isFocused')
+            && !this.get('valueSelected');
   }),
   suggestions: Ember.A([]),
   _runFilter() {
@@ -36,6 +39,7 @@ export default Ember.Component.extend({
   actions: {
     handleInput() {
       if (this.get('value').length >= minQueryLength)  {
+        this.set('valueSelected', false);
         Ember.run.debounce(this, this._runFilter, 300);
       } else {
         this.set('suggestions', Ember.A([]));
@@ -43,6 +47,7 @@ export default Ember.Component.extend({
     },
     selectSuggestion(sugg) {
       this.set('value', sugg.get('name'));
+      this.set('valueSelected', true);
       this.set('suggestions', Ember.A([]));
       this.get('select')(sugg);
     },

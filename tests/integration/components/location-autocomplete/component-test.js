@@ -72,14 +72,14 @@ test('it shows suggestions in the dropdown', function(assert) {
   });
 });
 
-test('it does not show suggestions when no results', function(assert) {
+test('it shows "no results" message in suggestions box', function(assert) {
   this.render(hbs`{{location-autocomplete }}`);
   this.$('input').focus();
   this.$('input').val('Olololo').trigger('input');
 
   return wait().then(() => {
-    let suggs = this.$('.suggestions:visible');
-    assert.equal(suggs.length, 0, 'should not show suggestions');
+    let noRes = this.$('.suggestions li.disabled');
+    assert.equal(noRes.text().trim(), 'Nothing found', 'should show no results message');
   });
 });
 
