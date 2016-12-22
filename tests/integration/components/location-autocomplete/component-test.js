@@ -7,6 +7,15 @@ const locations = [
   Ember.Object.create({ id: 1, name: 'Phnom Penh, Cambodia'}),
   Ember.Object.create({ id: 2, name: 'Ratanakiri, Cambodia'})
 ];
+const manyLocations = [
+  Ember.Object.create({ id: 1, name: 'Phnom Penh, Cambodia'}),
+  Ember.Object.create({ id: 2, name: 'Ratanakiri, Cambodia'}),
+  Ember.Object.create({ id: 3, name: 'Phnom Penh, Cambodia'}),
+  Ember.Object.create({ id: 4, name: 'Phnom Penh, Cambodia'}),
+  Ember.Object.create({ id: 5, name: 'Phnom Penh, Cambodia'}),
+  Ember.Object.create({ id: 6, name: 'Ratanakiri, Cambodia'}),
+  Ember.Object.create({ id: 7, name: 'Ratanakiri, Cambodia'})
+];
 
 const enterEvent = $.Event('keyup');
 enterEvent.which = 13;
@@ -20,7 +29,7 @@ arrowDownEvent.keyCode = 40;
 
 const locationsService = Ember.Service.extend({
   filter(value) {
-    if (value === "Cam") {
+    if (value.substr(0, 1) === "C") {
       return RSVP.resolve(locations);
     } else {
       return RSVP.resolve([]);
@@ -43,6 +52,11 @@ moduleForComponent('location-autocomplete', 'Integration | Component | location 
   }
 });
 
+
+/*
+ * Tests are here
+ */
+
 test('it shows suggestions in the dropdown', function(assert) {
   this.render(hbs`{{location-autocomplete }}`);
   this.$('input').focus();
@@ -58,25 +72,25 @@ test('it shows suggestions in the dropdown', function(assert) {
   });
 });
 
-test('it does not show suggestions when no results', function(assert) {
+test('it shows "no results" message in suggestions box', function(assert) {
   this.render(hbs`{{location-autocomplete }}`);
   this.$('input').focus();
   this.$('input').val('Olololo').trigger('input');
 
   return wait().then(() => {
-    let suggs = this.$('.suggestions:visible');
-    assert.equal(suggs.length, 0, 'should not show suggestions');
+    let noRes = this.$('.suggestions li.disabled');
+    assert.equal(noRes.text().trim(), 'Nothing found', 'should show no results message');
   });
 });
 
-test('it does not show suggestions if query is 2 chars or less', function(assert) {
+test('it shows suggestions if query is 1 char', function(assert) {
   this.render(hbs`{{location-autocomplete }}`);
   this.$('input').focus();
-  this.$('input').val('Ol').trigger('input');
+  this.$('input').val("C").trigger('input');
 
   return wait().then(() => {
-    let suggs = this.$('.suggestions:visible');
-    assert.equal(suggs.length, 0, 'should not show suggestions');
+    let suggs = this.$('.suggestions li:visible');
+    assert.equal(suggs.length, 2, 'should show 2 suggestions');
   });
 });
 
@@ -103,7 +117,7 @@ test('it sets new value and removes suggestions when item selected', function(as
   $(this.$('.suggestions li')[1]).click();
 
   return wait().then(() => {
-    let suggs = this.$('.suggestions:visible');
+    let suggs = this.$('.suggestions li:visible');
     let value = this.$('input').val();
     assert.equal(suggs.length, 0, 'should not show suggestions');
     assert.equal(value, 'Ratanakiri, Cambodia');
@@ -117,7 +131,7 @@ test('it removes suggestions when blur', function(assert) {
   this.$('input').blur();
 
   return wait().then(() => {
-    let suggs = this.$('.suggestions:visible');
+    let suggs = this.$('.suggestions li:visible');
     assert.equal(suggs.length, 0, 'should not show suggestions');
   });
 });
@@ -149,4 +163,17 @@ test('it clears the form when the X is clicked', function(assert) {
 
   this.$('.input-button').click();
   assert.equal(this.$('input').val(), '', 'value should be empty');
+});
+
+test('it shows maximum 5 suggestions', function(assert) {
+  this.set('locations.filter', () => RSVP.resolve(manyLocations));
+
+  this.render(hbs`{{location-autocomplete }}`);
+  this.$('input').focus();
+  this.$('input').val('Cam').trigger('input');
+
+  return wait().then(() => {
+    let suggs = this.$('.suggestions li');
+    assert.equal(suggs.length, 5, 'should show only 5 suggestions');
+  });
 });

@@ -1,17 +1,32 @@
 import Ember from 'ember';
 
+const maxSuggestions = 5;
+const minQueryLength = 1;
+
 export default Ember.Component.extend({
   locations: Ember.inject.service(),
   classNames: ['autocomplete-field'],
-  value: '',
   isFocused: false,
+  value: '',
+  valueSelected: false,
+  isLoading: Ember.computed('suggestions.[]', {
+    get() {
+      return false;
+    },
+    set(k, v) {
+      return v;
+    }
+  }),
   showSuggestions: Ember.computed('suggestions.length', 'isFocused', function(assert) {
-    return this.get('suggestions.length') > 0 && this.get('isFocused');
+    return this.get('value.length') >= minQueryLength
+            && this.get('isFocused')
+            && !this.get('valueSelected')
+            && !this.get('isLoading');
   }),
   suggestions: Ember.A([]),
   _runFilter() {
     this.get('locations').filter(this.get('value'))
-      .then((res) => this.set('suggestions', res));
+      .then((res) => this.set('suggestions', res.slice(0, maxSuggestions)));
   },
   _scrollSuggestions(direction) {
     let focused = this.$('a:focus');
@@ -32,14 +47,16 @@ export default Ember.Component.extend({
   },
   actions: {
     handleInput() {
-      if (this.get('value').length > 2)  {
-        Ember.run.debounce(this, this._runFilter, 300);
-      } else {
+      if (this.get('value').length >= minQueryLength)  {
         this.set('suggestions', Ember.A([]));
+        this.set('valueSelected', false);
+        this.set('isLoading', true);
+        Ember.run.debounce(this, this._runFilter, 300);
       }
     },
     selectSuggestion(sugg) {
       this.set('value', sugg.get('name'));
+      this.set('valueSelected', true);
       this.set('suggestions', Ember.A([]));
       this.get('select')(sugg);
     },
