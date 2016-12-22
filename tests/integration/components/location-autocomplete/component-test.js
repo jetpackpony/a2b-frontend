@@ -29,7 +29,7 @@ arrowDownEvent.keyCode = 40;
 
 const locationsService = Ember.Service.extend({
   filter(value) {
-    if (value === "Cam") {
+    if (value.substr(0, 1) === "C") {
       return RSVP.resolve(locations);
     } else {
       return RSVP.resolve([]);
@@ -51,6 +51,11 @@ moduleForComponent('location-autocomplete', 'Integration | Component | location 
     Ember.run.debounce = origDebounce;
   }
 });
+
+
+/*
+ * Tests are here
+ */
 
 test('it shows suggestions in the dropdown', function(assert) {
   this.render(hbs`{{location-autocomplete }}`);
@@ -78,14 +83,14 @@ test('it does not show suggestions when no results', function(assert) {
   });
 });
 
-test('it does not show suggestions if query is 2 chars or less', function(assert) {
+test('it shows suggestions if query is 1 char', function(assert) {
   this.render(hbs`{{location-autocomplete }}`);
   this.$('input').focus();
-  this.$('input').val('Ol').trigger('input');
+  this.$('input').val("C").trigger('input');
 
   return wait().then(() => {
-    let suggs = this.$('.suggestions:visible');
-    assert.equal(suggs.length, 0, 'should not show suggestions');
+    let suggs = this.$('.suggestions li:visible');
+    assert.equal(suggs.length, 2, 'should show 2 suggestions');
   });
 });
 

@@ -44,7 +44,7 @@ export default function() {
 
   this.get('/locations', function(schema, request) {
     let name = request.queryParams['filter[name]'].toLowerCase();
-    if (name && name.length > 2) {
+    if (name) {
       return schema.locations.all().filter((item) => {
         return item.name.toLowerCase().indexOf(name) !== -1;
       });

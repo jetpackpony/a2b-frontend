@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 const maxSuggestions = 5;
+const minQueryLength = 1;
 
 export default Ember.Component.extend({
   locations: Ember.inject.service(),
@@ -34,7 +35,7 @@ export default Ember.Component.extend({
   },
   actions: {
     handleInput() {
-      if (this.get('value').length > 2)  {
+      if (this.get('value').length >= minQueryLength)  {
         Ember.run.debounce(this, this._runFilter, 300);
       } else {
         this.set('suggestions', Ember.A([]));
