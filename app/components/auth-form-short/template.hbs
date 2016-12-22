@@ -1,0 +1,13 @@
+<form class="form-inline" {{action "submitForm" on="submit"}}>
+  <div class="form-group {{if errors.email 'has-danger'}}">
+    <label class='sr-only' for="exampleInputEmail1">Email address</label>
+    {{input
+    type="email"
+    class=(if errors.email 'form-control form-control-danger' 'form-control')
+    id="email" placeholder="Enter email" value=email}}
+    {{#if errors.email}}
+      <div class="form-control-feedback">Please enter a valid email.</div>
+    {{/if}}
+  </div>
+  <button type="submit" class="btn btn-primary">Send</button>
+</form>

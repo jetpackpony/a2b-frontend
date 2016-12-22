@@ -11,6 +11,12 @@ export default Ember.Component.extend({
           return this.get('session')
             .authenticate('authenticator:oauth2-credentials', auth.accessToken);
         })
+        .then(() => {
+          let authComplete = this.get('authComplete');
+          if (authComplete && typeof(authComplete) === 'function') {
+            authComplete();
+          }
+        })
         .catch((reason) => {
           console.log('server request failed', reason);
           let error = "Server error occured";

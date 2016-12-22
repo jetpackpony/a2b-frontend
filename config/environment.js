@@ -73,11 +73,15 @@ module.exports = function(environment) {
   ENV.torii = {
     providers: {
       'facebook-connect': {
-        appId: '1808779036077577',
+        appId: dotEnv['facebook-id-development'],
         scope: 'public_profile,email'
       }
     }
   };
+
+  if (environment === 'production') {
+    ENV.torii.providers['facebook-connect'].appId = dotEnv['facebook-id-production'];
+  }
 
   ENV['ember-simple-auth'] = {
     authenticationRoute: 'about'

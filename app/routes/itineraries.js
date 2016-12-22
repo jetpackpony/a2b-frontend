@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Ember.Route.extend(AuthenticatedRouteMixin, {
+export default Ember.Route.extend({
+  session: Ember.inject.service(),
   queryParams: {
     fromId: { refreshModel: true },
     toId: { refreshModel: true }
@@ -14,5 +14,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
           to: params.toId || "0"
         }
       });
+  },
+  afterModel() {
+    this.incrementProperty('session.searchNumber');
   }
 });

@@ -1,0 +1,21 @@
+.contacts-modal {
+  .modal-header {
+    border: none;
+  }
+  .modal-body {
+    padding: 0 3rem 4rem 3rem;
+    text-align: center;
+    .social {
+      margin-bottom: 1rem;
+    }
+    button.btn.btn-primary {
+      background-color: #fff;
+      color: rgba(#000, .87);
+      border-color: rgba(#000, .15);
+      &:focus, &:active {
+        outline: none;
+        background-color: rgba(#000, .15);
+      }
+    }
+  }
+}

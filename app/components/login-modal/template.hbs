@@ -1,0 +1,21 @@
+<div class="contacts-modal modal fade">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Looks like you enjoy our beautiful website! Please leave us your contacts so we can keep you up-to-date with new features.
+        <br>We promise not to bother you more than once a month.
+        </p>
+        <div class="social">
+          {{auth-facebook authComplete=(action "authComplete")}}
+        </div>
+        <p>or just leave us your email</p>
+        {{auth-form-short authComplete=(action "authComplete")}}
+      </div>
+    </div>
+  </div>
+</div>
