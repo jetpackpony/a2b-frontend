@@ -7,6 +7,15 @@ const locations = [
   Ember.Object.create({ id: 1, name: 'Phnom Penh, Cambodia'}),
   Ember.Object.create({ id: 2, name: 'Ratanakiri, Cambodia'})
 ];
+const manyLocations = [
+  Ember.Object.create({ id: 1, name: 'Phnom Penh, Cambodia'}),
+  Ember.Object.create({ id: 2, name: 'Ratanakiri, Cambodia'}),
+  Ember.Object.create({ id: 3, name: 'Phnom Penh, Cambodia'}),
+  Ember.Object.create({ id: 4, name: 'Phnom Penh, Cambodia'}),
+  Ember.Object.create({ id: 5, name: 'Phnom Penh, Cambodia'}),
+  Ember.Object.create({ id: 6, name: 'Ratanakiri, Cambodia'}),
+  Ember.Object.create({ id: 7, name: 'Ratanakiri, Cambodia'})
+];
 
 const enterEvent = $.Event('keyup');
 enterEvent.which = 13;
@@ -149,4 +158,17 @@ test('it clears the form when the X is clicked', function(assert) {
 
   this.$('.input-button').click();
   assert.equal(this.$('input').val(), '', 'value should be empty');
+});
+
+test('it shows maximum 5 suggestions', function(assert) {
+  this.set('locations.filter', () => RSVP.resolve(manyLocations));
+
+  this.render(hbs`{{location-autocomplete }}`);
+  this.$('input').focus();
+  this.$('input').val('Cam').trigger('input');
+
+  return wait().then(() => {
+    let suggs = this.$('.suggestions li');
+    assert.equal(suggs.length, 5, 'should show only 5 suggestions');
+  });
 });
