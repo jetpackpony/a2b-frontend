@@ -1,5 +1,7 @@
 import Ember from 'ember';
 
+const maxSuggestions = 5;
+
 export default Ember.Component.extend({
   locations: Ember.inject.service(),
   classNames: ['autocomplete-field'],
@@ -11,7 +13,7 @@ export default Ember.Component.extend({
   suggestions: Ember.A([]),
   _runFilter() {
     this.get('locations').filter(this.get('value'))
-      .then((res) => this.set('suggestions', res));
+      .then((res) => this.set('suggestions', res.slice(0, maxSuggestions)));
   },
   _scrollSuggestions(direction) {
     let focused = this.$('a:focus');
