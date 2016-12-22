@@ -11,18 +11,24 @@
   }}
   <div class="input-button" {{action 'clear' on='click'}}>&times;</div>
 </div>
-{{#if showSuggestions}}
   <div class="suggestions">
     <ul>
-      {{#each suggestions as |sugg index|}}
-        <li {{action 'selectSuggestion' sugg on="click"}}>
-          <a tabindex='-1' href="#!" data-index={{index}}>{{sugg.name}}</a>
+      {{#if isLoading}}
+        <li class="loader">
+          loadin...
         </li>
       {{else}}
-        <li class="disabled">
-          <a tabindex='-1'>Nothing found</a>
-        </li>
-      {{/each}}
+        {{#if showSuggestions}}
+          {{#each suggestions as |sugg index|}}
+            <li {{action 'selectSuggestion' sugg on="click"}}>
+              <a tabindex='-1' href="#!" data-index={{index}}>{{sugg.name}}</a>
+            </li>
+          {{else}}
+            <li class="disabled">
+              <a tabindex='-1'>Nothing found</a>
+            </li>
+          {{/each}}
+        {{/if}}
+      {{/if}}
     </ul>
   </div>
-{{/if}}

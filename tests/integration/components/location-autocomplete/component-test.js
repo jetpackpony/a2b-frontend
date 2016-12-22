@@ -117,7 +117,7 @@ test('it sets new value and removes suggestions when item selected', function(as
   $(this.$('.suggestions li')[1]).click();
 
   return wait().then(() => {
-    let suggs = this.$('.suggestions:visible');
+    let suggs = this.$('.suggestions li:visible');
     let value = this.$('input').val();
     assert.equal(suggs.length, 0, 'should not show suggestions');
     assert.equal(value, 'Ratanakiri, Cambodia');
@@ -131,7 +131,7 @@ test('it removes suggestions when blur', function(assert) {
   this.$('input').blur();
 
   return wait().then(() => {
-    let suggs = this.$('.suggestions:visible');
+    let suggs = this.$('.suggestions li:visible');
     assert.equal(suggs.length, 0, 'should not show suggestions');
   });
 });

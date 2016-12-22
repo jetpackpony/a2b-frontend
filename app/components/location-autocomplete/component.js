@@ -9,10 +9,19 @@ export default Ember.Component.extend({
   isFocused: false,
   value: '',
   valueSelected: false,
+  isLoading: Ember.computed('suggestions.[]', {
+    get() {
+      return false;
+    },
+    set(k, v) {
+      return v;
+    }
+  }),
   showSuggestions: Ember.computed('suggestions.length', 'isFocused', function(assert) {
     return this.get('value.length') >= minQueryLength
             && this.get('isFocused')
-            && !this.get('valueSelected');
+            && !this.get('valueSelected')
+            && !this.get('isLoading');
   }),
   suggestions: Ember.A([]),
   _runFilter() {
@@ -39,10 +48,10 @@ export default Ember.Component.extend({
   actions: {
     handleInput() {
       if (this.get('value').length >= minQueryLength)  {
-        this.set('valueSelected', false);
-        Ember.run.debounce(this, this._runFilter, 300);
-      } else {
         this.set('suggestions', Ember.A([]));
+        this.set('valueSelected', false);
+        this.set('isLoading', true);
+        Ember.run.debounce(this, this._runFilter, 300);
       }
     },
     selectSuggestion(sugg) {
