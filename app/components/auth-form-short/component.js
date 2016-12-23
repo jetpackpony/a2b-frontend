@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import RSVP from  'rsvp';
 
 export default Ember.Component.extend({
   store: Ember.inject.service(),
@@ -6,8 +7,10 @@ export default Ember.Component.extend({
   errors: { email: false },
   errorMessage: "",
   email: "",
+  showSpinner: false,
   actions: {
     submitForm() {
+      this.set('showSpinner', true);
       this._register();
     },
   },
@@ -16,6 +19,7 @@ export default Ember.Component.extend({
     user.set('email', this.get('email'));
     user.set('password', '');
     if (!this._validate(user)) {
+      this.set('showSpinner', false);
       return false;
     }
     user.save().catch((error) => {
@@ -27,6 +31,9 @@ export default Ember.Component.extend({
           user.get('email'),
           user.get('password')
         );
+    }).then(() => {
+      this.set('showSpinner', false);
+      return RSVP.resolve(...arguments);
     }).then(this.get('authComplete'));
   },
   _validate(user) {

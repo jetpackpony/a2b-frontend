@@ -5,8 +5,10 @@ export default Ember.Component.extend({
   isRegisterForm: true,
   errors: { email: false, password: false, passwordConfirm: false },
   errorMessage: "",
+  showSpinner: false,
   actions: {
     submitForm() {
+      this.set('showSpinner', true);
       if (this.get('isRegisterForm')) {
         this._register();
       } else {
@@ -34,22 +36,26 @@ export default Ember.Component.extend({
   _register() {
     let user = this.get('user');
     if (!this._validate(user)) {
+      this.set('showSpinner', false);
       return false;
     }
     user.save().catch((error) => {
       this.set('errorMessage', error);
     }).then(() => {
-      this.get('session')
+      return this.get('session')
         .authenticate('authenticator:oauth2', user.get('email'), user.get('password'))
         .catch((reason) => {
           console.log('server request failed', reason);
           this.set('errorMessage', reason.error_description || "Server error occured");
         });
+    }).finally(() => {
+      this.set('showSpinner', false);
     });
   },
   _login() {
     let user = this.get('user');
     if (!this._validate(user)) {
+      this.set('showSpinner', false);
       return false;
     }
     this.get('session')
@@ -57,6 +63,8 @@ export default Ember.Component.extend({
       .catch((reason) => {
         console.log('server request failed', reason);
         this.set('errorMessage', reason.error_description || "Server error occured");
+      }).finally(() => {
+        this.set('showSpinner', false);
       });
   }
 });
