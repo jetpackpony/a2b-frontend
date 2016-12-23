@@ -9,5 +9,15 @@
       <div class="form-control-feedback">Please enter a valid email.</div>
     {{/if}}
   </div>
-  <button type="submit" class="btn btn-primary">Send</button>
+  <button type="submit" class="btn btn-primary">
+    {{#if showSpinner}}
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    {{else}}
+      Send
+    {{/if}}
+  </button>
 </form>
