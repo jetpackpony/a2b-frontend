@@ -7,7 +7,8 @@ export default Ember.Component.extend({
   locations: Ember.inject.service(),
   classNames: ['autocomplete-field'],
   isFocused: false,
-  value: '',
+  location: null,
+  value: Ember.computed.oneWay('location.name'),
   valueSelected: false,
   isLoading: Ember.computed('suggestions.[]', {
     get() {
