@@ -57,13 +57,25 @@ export default function() {
     }
   });
   this.get('/locations/:id', function({ locations }, request) {
-    return locations.find(request.params.id);
+    let loc = locations.find(request.params.id);
+    if (!loc) {
+      return new Mirage.Response(400, {}, {
+        "errors":[
+          {
+            "detail":"com.github.jasminb.jsonapi.exceptions.DocumentSerializationException: java.lang.NullPointerException"
+          }
+        ]
+      });
+    } else {
+      return loc;
+    }
   });
 
   // Pass it to the actual API
+  /*
   this.passthrough('/itineraries', ['get']);
   this.passthrough('/locations', ['get']);
-  /*
+  this.passthrough('/locations/:id', ['get']);
   this.passthrough('/routes', ['post']);
   this.passthrough('/users', ['post']);
   this.passthrough('/session/create', ['post']);
