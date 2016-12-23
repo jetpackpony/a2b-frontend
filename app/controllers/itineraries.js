@@ -10,12 +10,9 @@ export default Ember.Controller.extend(ControllerWithItinerarySearchMixin, {
   toCity: null,
 
   sortParams: ['stops', 'duration'],
-  sortedItineraries: Ember.computed.sort('model', 'sortParams'),
+  sortedItineraries: Ember.computed.sort('model.itineraries', 'sortParams'),
 
-  formFilled: Ember.computed('fromId', 'toId', function() {
-    return this.get('fromId') !== null && this.get('toId') !== null &&
-      this.get('fromId') !== "" && this.get('toId') !== "";
-  }),
+  formFilled: Ember.computed.and('fromId', 'toId'),
   showModal: Ember.computed('session.searchNumber', function() {
     if (this.get('session.isAuthenticated')) {
       return false;

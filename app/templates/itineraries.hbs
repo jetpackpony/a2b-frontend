@@ -1,8 +1,8 @@
 <div class="row mini-search">
   <div class="col-xs-12">
     {{search-route-form
-    from=fromCity
-    to=toCity
+    from=model.from
+    to=model.to
     submitSearch=(action 'search')
     inline=true
     }}

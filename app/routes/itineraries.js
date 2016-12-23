@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
   session: Ember.inject.service(),
@@ -7,13 +8,21 @@ export default Ember.Route.extend({
     toId: { refreshModel: true }
   },
   model(params) {
-    return this.get('store').
-      query('itinerary', {
-        filter: {
-          from: params.fromId || "0",
-          to: params.toId || "0"
-        }
+    let from = params.fromId;
+    let to = params.toId;
+    if (from && to) {
+      return RSVP.hash({
+        itineraries: this.get('store').query('itinerary', { filter: { from, to } }),
+        from: this.get('store').findRecord('location', from),
+        to: this.get('store').findRecord('location', to)
       });
+    } else {
+      return RSVP.hash({
+        itineraries: RSVP.resolve(Ember.A([])),
+        from: RSVP.resolve(Ember.Object.create({ id: null, name: null })),
+        to: RSVP.resolve(Ember.Object.create({ id: null, name: null })),
+      });
+    }
   },
   afterModel() {
     this.incrementProperty('session.searchNumber');
