@@ -56,6 +56,9 @@ export default function() {
       });
     }
   });
+  this.get('/locations/:id', function({ locations }, request) {
+    return locations.find(request.params.id);
+  });
 
   // Pass it to the actual API
   this.passthrough('/itineraries', ['get']);
