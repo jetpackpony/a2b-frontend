@@ -3,12 +3,14 @@ import Route from '../../models/route';
 import RSVP from 'rsvp';
 
 export default Ember.Component.extend({
+  session: Ember.inject.service(),
   _gMap: Ember.inject.service('gMap'),
   classNames: ['row', 'bottom-split', 'add-route-form'],
   errorMessage: null,
   locationsNumber: 2,
   currentStep: 1,
   children: Ember.A([]),
+  showLoginModal: false,
   locations: Ember.computed('locationsNumber', function() {
     return this.resetLocations();
   }),
@@ -49,10 +51,24 @@ export default Ember.Component.extend({
     return null;
   },
 
+  _authenticateUser() {
+    return new RSVP.Promise((resolve, reject) => {
+      if (this.get('session.isAuthenticated')) {
+        resolve();
+      } else {
+        this.set('showLoginModal', true);
+        let loginForm = this.get('children')
+              .find((item) => item.id === 'login-form').ref;
+        loginForm.set('onSuccess', resolve);
+      }
+    });
+  },
   actions: {
     submit(resolve, reject) {
       let route = this._validateRoute(this.get('newRoute'));
-      this.get('createRoute')(route, resolve, reject);
+      this._authenticateUser().then(() => {
+        this.get('createRoute')(route, resolve, reject);
+      });
     },
     resetForm() {
       this.set('locations', this.resetLocations());
