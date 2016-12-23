@@ -18,5 +18,15 @@
     }}
   </div>
   {{{if inline "" "<br>"}}}
-  <button type="submit" class="btn btn-secondary" {{ action "search" }}>Search</button>
+  <button type="submit" class="btn btn-secondary" {{ action "search" }}>
+    {{#if showSpinner}}
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    {{else}}
+      Search
+    {{/if}}
+  </button>
 </div>
