@@ -7,7 +7,10 @@
         <br>
         <small>(only available in Cambodia at the moment)</small>
       </p>
-      {{search-route-form submitSearch=(action 'search')}}
+      {{search-route-form
+      submitSearch=(action 'search')
+      showSpinner=showSpinner
+      }}
       <p class="lead">or share what you know about the different ways to travel around Southeast Asia:</p>
       {{#link-to 'routes.new' tagName='button' classNames="btn btn-lg btn-secondary"}}
         Add a Route
