@@ -26,5 +26,7 @@ export default Ember.Route.extend({
   },
   afterModel() {
     this.incrementProperty('session.searchNumber');
+    let controller = this.controllerFor('index');
+    controller.set('showSpinner', false);
   }
 });
