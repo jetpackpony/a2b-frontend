@@ -80,4 +80,5 @@ export default function() {
   this.passthrough('/users', ['post']);
   this.passthrough('/session/create', ['post']);
   */
+  this.passthrough('https://mc.yandex.ru/**');
 }

@@ -1,8 +1,9 @@
 import Ember from 'ember';
 import config from './config/environment';
 import googlePageview from './mixins/google-pageview';
+import yandexMetrica from './mixins/yandex-metrica';
 
-const Router = Ember.Router.extend(googlePageview, {
+const Router = Ember.Router.extend(googlePageview, yandexMetrica, {
   location: config.locationType,
   rootURL: config.rootURL
 });
