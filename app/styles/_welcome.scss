@@ -1,13 +1,9 @@
 .welcome {
+  @extend .text-xs-center;
+  @extend .text-shadow;
   @extend .centered;
   max-width: 1200px;
   padding-top: 5%;
-
-  // Message alignment
-  .message {
-    border-right: .25rem white solid;
-    padding-right: 2.25rem;
-  }
 
   // Register form alignment
   .register-container {
@@ -15,7 +11,7 @@
     padding-top: .4rem;
   }
 }
-
+/*
 .welcome, .login {
   @extend .text-xs-center;
   @extend .text-shadow;
@@ -45,6 +41,7 @@
     }
   }
 }
+*/
 
 .social {
   margin-bottom: 2rem;
