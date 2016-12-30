@@ -83,6 +83,11 @@ $toggler-url: "data:image/svg+xml;charset=utf8,<svg viewBox='0 0 32 32' xmlns='h
     &:hover, &:active {
       background-color: rgba(#000, 0.1);
     }
+
+    &.active {
+      font-weight: 600;
+      background-color: rgba(#000, 0.1);
+    }
   }
 }
 .ovelay-menu-shadow {
