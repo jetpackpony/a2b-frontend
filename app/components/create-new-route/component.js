@@ -5,7 +5,8 @@ import RSVP from 'rsvp';
 export default Ember.Component.extend({
   session: Ember.inject.service(),
   _gMap: Ember.inject.service('gMap'),
-  classNames: ['row', 'bottom-split', 'add-route-form'],
+  classNames: ['row'],
+  classNameBindings: ['media.isMobile::bottom-split','media.isMobile::add-route-form'],
   errorMessage: null,
   locationsNumber: 2,
   currentStep: 1,

@@ -1,39 +1,47 @@
-<div class="left-side">
-  {{#if shortForm}}
-    {{create-new-route-short-form
-    newRoute=newRoute
+{{#if media.isMobile}}
+  <div class="add-route-mobile">
+    <div class="alert alert-warning">
+      Sorry, adding routes is not optimised for smartphones yet. Please try from a larger screen.
+    </div>
+  </div>
+{{else}}
+  <div class="left-side">
+    {{#if shortForm}}
+      {{create-new-route-short-form
+      newRoute=newRoute
+      locations=locations
+      currentStep=currentStep
+      registerChild=(action 'registerChild' 'form')
+      submit=(action 'submit')
+      resetForm=(action "resetForm")
+      errorMessage=errorMessage
+      showSpinner=showSpinner
+      }}
+    {{else}}
+      {{create-new-route-carousel-form
+      newRoute=newRoute
+      locations=locations
+      currentStep=currentStep
+      registerChild=(action 'registerChild' 'form')
+      submit=(action 'submit')
+      resetForm=(action "resetForm")
+      errorMessage=errorMessage
+      showSpinner=showSpinner
+      }}
+    {{/if}}
+  </div>
+  <div class="right-side">
+    {{create-new-route-map
     locations=locations
     currentStep=currentStep
-    registerChild=(action 'registerChild' 'form')
-    submit=(action 'submit')
-    resetForm=(action "resetForm")
-    errorMessage=errorMessage
-    showSpinner=showSpinner
+    registerChild=(action 'registerChild' 'map')
+    mapClicked=(action 'mapClicked')
     }}
-  {{else}}
-    {{create-new-route-carousel-form
-    newRoute=newRoute
-    locations=locations
-    currentStep=currentStep
-    registerChild=(action 'registerChild' 'form')
-    submit=(action 'submit')
-    resetForm=(action "resetForm")
-    errorMessage=errorMessage
-    showSpinner=showSpinner
-    }}
-  {{/if}}
-</div>
-<div class="right-side">
-  {{create-new-route-map
-  locations=locations
-  currentStep=currentStep
-  registerChild=(action 'registerChild' 'map')
-  mapClicked=(action 'mapClicked')
-  }}
-</div>
+  </div>
 
-{{login-modal
-showModal=showLoginModal
-text="Please leave us your contact info so we can save your route"
-registerChild=(action 'registerChild' 'login-form')
-}}
+  {{login-modal
+  showModal=showLoginModal
+  text="Please leave us your contact info so we can save your route"
+  registerChild=(action 'registerChild' 'login-form')
+  }}
+{{/if}}
