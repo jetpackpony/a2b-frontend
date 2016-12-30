@@ -15,6 +15,7 @@ $left-side-size: 4;
   transition: left .5s;
   z-index: 333;
   box-shadow: $shadow;
+  overflow: hidden;
 
   .close-button {
     @extend .close;
