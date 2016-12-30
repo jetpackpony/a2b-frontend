@@ -12,6 +12,9 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
         let controller = this.controllerFor('application');
         controller.set('error', error);
       }
+    },
+    willTransition() {
+      this.controllerFor('application').set('menuOpen', false);
     }
   }
 });
