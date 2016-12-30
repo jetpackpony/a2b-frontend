@@ -12,6 +12,9 @@ module.exports = function(defaults) {
     app.options.inlineContent = {
       'jivosite': {
         file: './jivosite.js'
+      },
+      'yandex-metrica': {
+        file: './yandex-metrica.html'
       }
     };
   }
