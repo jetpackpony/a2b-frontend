@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['row','bottom-split'],
+  classNames: ['row'],
+  classNameBindings: ['media.isMobile:bottom-single:bottom-split'],
   itineraries: Ember.A([]),
   selectedItinerary: null,
   openedItinerary: null,
@@ -28,6 +29,11 @@ export default Ember.Component.extend({
   openedItineraryChanged: Ember.observer('openedItinerary', function() {
     let iti = this.get('openedItinerary');
     if (iti !== null) {
+      if (this.get('media.isMobile')) {
+        $('body').addClass('noscroll');
+        $('.body-shadow').removeClass('hidden');
+        $('.bottom-single-overlay').removeClass('hidden');
+      }
       this.$('#itinerary-details').removeClass('hidden');
 
       // If there is only one route, open it directly
@@ -36,6 +42,11 @@ export default Ember.Component.extend({
         this.set('routeOpened', iti.get('routes').get('firstObject'));
       }
     } else {
+      if (this.get('media.isMobile')) {
+        $('body').removeClass('noscroll');
+        $('.body-shadow').addClass('hidden');
+        $('.bottom-single-overlay').addClass('hidden');
+      }
       this.$('#itinerary-details').addClass('hidden');
     }
   }),

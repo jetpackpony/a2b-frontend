@@ -1,11 +1,23 @@
 $nav-link-inactive: rgba(255,255,255,.5);
 $nav-link-active: #fff;
 
+nav.navbar.navbar-full {
+  z-index: 3;
+}
+
 /*
  * Link colors
  */
+$toggler-url: "data:image/svg+xml;charset=utf8,<svg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'><path stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/></svg>";
 .nav {
-
+  .navbar-toggler {
+    background-image: url($toggler-url);
+    color: white;
+    cursor: pointer;
+    &:hover, &:active, &:focus {
+      outline: none;
+    }
+  }
   .nav-link {
     padding: .25rem 0;
     font-weight: bold;
@@ -43,5 +55,49 @@ $nav-link-active: #fff;
   &::before {
     border-bottom-color: #fff !important;
     background-color: black;
+  }
+}
+
+/*
+ * Overlay menu
+ */
+.overlay-menu {
+  background-color: white;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50%;
+  max-width: 10rem;
+  box-shadow: 0.1rem 0.1rem 0.3rem rgba(0, 0, 0, .2), -0.1rem -0.1rem 0.3rem rgba(0, 0, 0, .2);
+  z-index: 555;
+  &.hidden {
+    display: none;
+  }
+
+  a {
+    display: block;
+    color: rgba(#000, 0.87);
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+
+    &:hover, &:active {
+      background-color: rgba(#000, 0.1);
+    }
+
+    &.active {
+      font-weight: 600;
+      background-color: rgba(#000, 0.1);
+    }
+  }
+}
+.ovelay-menu-shadow {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 444;
+  &.hidden {
+    display: none;
   }
 }

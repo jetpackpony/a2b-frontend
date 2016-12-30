@@ -49,3 +49,8 @@
     @include clearfix;
   }
 }
+
+.add-route-mobile {
+  @extend .col-xs-12, .col-sm-8, .offset-sm-2, .col-md-6, .offset-md-3;
+  margin-top: 1rem;
+}

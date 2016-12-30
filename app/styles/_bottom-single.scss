@@ -1,0 +1,39 @@
+.bottom-single {
+  margin: 0 -15px;
+  position: relative;
+}
+.bottom-single-overlay {
+  position: fixed;
+  top: 4rem;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 222;
+  visibility: visible;
+  background-color: transparent;
+
+  &.hidden {
+    visibility: hidden;
+    transition: visibility 0s linear .5s;
+  }
+}
+.body-shadow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 111;
+  background-color: rgba(0, 0, 0, 0.7);
+  transition-delay: 0s;
+  transition: opacity 0.5s;
+  opacity: 1;
+  visibility: visible;
+  &.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s, visibility 0s linear 0.5s;
+  }
+}

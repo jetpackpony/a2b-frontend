@@ -1,5 +1,6 @@
 .search {
   @extend .text-shadow;
+  padding-bottom: 2rem;
 
   .form-container {
     @extend .centered;
@@ -11,7 +12,9 @@
       margin-bottom: .7rem;
     }
     .form-group.first {
-      margin-right: .4rem;
+      @include media-breakpoint-up(sm) {
+        margin-right: .4rem;
+      }
     }
     .form-wrapper {
       margin-bottom: 2rem;
