@@ -80,3 +80,13 @@ $placeholder-color: rgba(0, 0, 0, 0.5);
 .form-control:-moz-placeholder { color: $placeholder-color; }
 .form-control::-moz-placeholder { color: $placeholder-color; }
 .form-control:-ms-input-placeholder { color: $placeholder-color; }
+
+// Different colors for some pages
+body.no-picture {
+  background: none;
+  background-color: $light-bg;
+
+  nav, .container-fluid {
+    background-color: $dark-bg;
+  }
+}

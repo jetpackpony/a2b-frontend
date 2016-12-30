@@ -3,6 +3,14 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
   session: Ember.inject.service(),
+  activate() {
+    this._super(arguments);
+    Ember.$('body').addClass('no-picture');
+  },
+  deactivate() {
+    this._super(arguments);
+    Ember.$('body').removeClass('no-picture');
+  },
   queryParams: {
     fromId: { refreshModel: true },
     toId: { refreshModel: true }
