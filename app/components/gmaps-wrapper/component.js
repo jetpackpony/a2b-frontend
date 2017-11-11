@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import R from 'npm:ramda';
 
 export default Ember.Component.extend({
   /*
