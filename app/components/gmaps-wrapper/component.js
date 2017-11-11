@@ -1,74 +1,30 @@
 import Ember from 'ember';
 
-let mapColors = {
-  dimmed: 'grey',
-  normal: '#2c9bba',
-  selected: '#f94572'
-};
-
-let lineStyles = {
-  dimmed: {
-    strokeOpacity: 0.7,
-    strokeWeight: 1,
-    zIndex: 1
-  },
-  normal: {
-    strokeOpacity: 1,
-    strokeWeight: 3,
-    zIndex: 3
-  },
-  selected: {
-    strokeOpacity: 1,
-    strokeWeight: 3,
-    zIndex: 5
-  }
-};
-
-let markerStyles = {
-  dimmed: {
-    strokeOpacity: 0.7,
-    scale: 5,
-  },
-  normal: {
-    strokeOpacity: 1,
-    scale: 7,
-  },
-  selected: {
-    strokeOpacity: 1,
-    scale: 7,
-  }
-};
-
 export default Ember.Component.extend({
-  // Public options
   /*
-   * {
+   * Array of lines
+   * [{
    *   id: 'for-reference',
    *   from: [123, 1231],
    *   to: [213, 123],
    *   style: 'dimmed|normal|selected', // dimmed is default
-   *   markers: {                       // optional
-   *     titles: {
-   *       from: "From message",
-   *       to: "to message"
-   *     }
-   *   }
-   * }
+   * }]
    *
    */
   lines: Ember.A([]),
 
-  /*
-   * {
+  /* Array of markers
+   * [{
    *   id: 'for-reference',
    *   coords: [123, 3123],
    *   style: 'dimmed|normal|selected', // dimmed is default
    *   title: "this is a title"
-   * }
+   * }]
    */
   markers: Ember.A([]),
 
   /*
+   * Array of coordinates:
    * Ember.A([
    *   [123, 123],
    *   [123, 123],
@@ -94,13 +50,11 @@ export default Ember.Component.extend({
   draggableCursor: 'hand',
 
 
-
   /*
    * Observers and computed
    */
-  _polylines: Ember.computed('lines.@each.{from,to,style,markers}', function() {
+  gMapsLines: Ember.computed('lines.@each.{from,to,style}', function() {
     let lines = Ember.A([]);
-    let markers = Ember.A([]);
     this.get('lines').forEach((line) => {
       lines.pushObject(this._makeLine({
         id: line.id,
@@ -109,32 +63,11 @@ export default Ember.Component.extend({
         style: line.style
       }));
 
-      if (line.markers && line.markers.titles) {
-        markers.pushObject({
-          id: `${line.id}-from`,
-          coords: line.from,
-          style: line.style,
-          title: line.markers.titles.from
-        });
-        markers.pushObject({
-          id: `${line.id}-to`,
-          coords: line.to,
-          style: line.style,
-          title: line.markers.titles.to
-        });
-      }
     });
-    let oldMarkers = this.get('markers');
-    oldMarkers.forEach((mark) => {
-      if (!markers.find((item) => item.id === mark.id)) {
-        markers.pushObject(mark);
-      }
-    });
-    this.set('markers', markers);
     return lines;
   }),
 
-  _markers: Ember.computed('markers.[]', function() {
+  gMapsMarkers: Ember.computed('markers.[]', function() {
     let markers = Ember.A([]);
     this.get('markers').forEach((mark) => {
       markers.pushObject(this._makeMarker(mark));
@@ -238,3 +171,43 @@ export default Ember.Component.extend({
   }
 
 });
+
+const mapColors = {
+  dimmed: 'grey',
+  normal: '#2c9bba',
+  selected: '#f94572'
+};
+
+const lineStyles = {
+  dimmed: {
+    strokeOpacity: 0.7,
+    strokeWeight: 1,
+    zIndex: 1
+  },
+  normal: {
+    strokeOpacity: 1,
+    strokeWeight: 3,
+    zIndex: 3
+  },
+  selected: {
+    strokeOpacity: 1,
+    strokeWeight: 3,
+    zIndex: 5
+  }
+};
+
+const markerStyles = {
+  dimmed: {
+    strokeOpacity: 0.7,
+    scale: 5,
+  },
+  normal: {
+    strokeOpacity: 1,
+    scale: 7,
+  },
+  selected: {
+    strokeOpacity: 1,
+    scale: 7,
+  }
+};
+
