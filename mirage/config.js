@@ -72,9 +72,9 @@ export default function() {
   });
 
   // Pass it to the actual API
-  this.passthrough('/itineraries', ['get']);
-  this.passthrough('/locations', ['get']);
-  this.passthrough('/locations/:id', ['get']);
+  //this.passthrough('/itineraries', ['get']);
+  //this.passthrough('/locations', ['get']);
+  //this.passthrough('/locations/:id', ['get']);
   /*
   this.passthrough('/routes', ['post']);
   this.passthrough('/users', ['post']);
