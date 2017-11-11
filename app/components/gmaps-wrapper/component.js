@@ -35,7 +35,7 @@ export default Ember.Component.extend({
   bounds: null,
 
   /*
-   * [123, 123]
+   * Coordinates to center the map on
    */
   center: [15, 100],
   zoom: 4,
@@ -43,135 +43,99 @@ export default Ember.Component.extend({
   /*
    * mapClicked - action called with coordinates of the click
    */
-  mapClicked: null,
+  mapClicked: () => {},
 
   /*
    * "cell|pointer|hand|...."
    */
-  draggableCursor: 'hand',
+  cursorShape: 'hand',
 
 
   /*
-   * Observers and computed
+   * Converts lines array into line objects google map can understand
    */
   gMapsLines: Ember.computed('lines.@each.{from,to,style}', function() {
-    let lines = Ember.A([]);
-    this.get('lines').forEach((line) => {
-      lines.pushObject(this._makeLine({
-        id: line.id,
-        from: line.from,
-        to: line.to,
-        style: line.style
-      }));
-
-    });
-    return lines;
+    return Ember.A(
+      this.get('lines').map(line =>
+        R.merge(
+          {
+            id: line.id,
+            path: [ line.from, line.to ],
+            clickable: true,
+            editable: false,
+            geodesic: true,
+            visible: true,
+            strokeColor: mapColors[line.style],
+            zIndex: 1
+          },
+          lineStyles[line.style]
+        )
+      )
+    );
   }),
 
+  /*
+   * Converts markers array into marker objects google map can understand
+   */
   gMapsMarkers: Ember.computed('markers.[]', function() {
-    let markers = Ember.A([]);
-    this.get('markers').forEach((mark) => {
-      markers.pushObject(this._makeMarker(mark));
-    });
-    return markers;
+    return Ember.A(
+      this.get('markers').map(marker => ({
+        id: marker.id,
+        lat: marker.coords[0],
+        lng: marker.coords[1],
+        infoWindow: { content: marker.title },
+        zIndex: lineStyles[marker.style].zIndex + 1,
+        icon: R.merge(
+          {
+            path: google.maps.SymbolPath.CIRCLE,
+            strokeColor: mapColors[marker.style],
+            strokeWeight: 2,
+            fillColor: "white",
+            fillOpacity: 1
+          },
+          markerStyles[marker.style]
+        )
+      }))
+    );
   }),
 
   boundsChanged: Ember.observer('bounds', function() {
-    let bounds = this.get('bounds');
-    if (bounds) {
-      this._zoomMapTo(this._getGoogleBounds(bounds))
-    }
+    this._zoomToBounds();
   }),
 
-  cursorChanged: Ember.observer('draggableCursor', function() {
+  cursorChanged: Ember.observer('cursorShape', function() {
     this._setCursor();
   }),
 
-  /*
-   * Private options
-   */
   classNames: ['gmaps-wrapper'],
-  _gMap: Ember.inject.service('gMap'),
-
   actions: {
     mapLoaded() {
-      // Set the cursor for the map
       this._setCursor();
-
-      // Fit the map to the set bounds
-      let bounds = this.get('bounds');
-      if (bounds) {
-        this._zoomMapTo(this._getGoogleBounds(bounds));
-      }
+      this._zoomToBounds();
     },
     mapClicked(e) {
-      let mapClicked = this.get('mapClicked');
-      if (mapClicked && typeof mapClicked === 'function') {
-        mapClicked([e.latLng.lat(), e.latLng.lng()]);
-      }
+      this.get('mapClicked')([e.latLng.lat(), e.latLng.lng()]);
     }
   },
+
+  _gMap: Ember.inject.service('gMap'),
   _setCursor() {
     this.get('_gMap').maps.select('map')
-      .map.setOptions({ draggableCursor: this.get('draggableCursor') });
+      .map.setOptions({ draggableCursor: this.get('cursorShape') });
   },
-  _zoomMapTo(gBounds) {
+  _zoomToBounds() {
+    let gBounds = converToGoogleBounds(this.get('bounds'));
     if (!gBounds.isEmpty()) {
       this.get('_gMap').maps.select('map').map.fitBounds(gBounds);
     }
-  },
-  _getGoogleBounds(bounds) {
-    let b = new google.maps.LatLngBounds();
-    bounds.forEach((point) => {
-      b.extend(new google.maps.LatLng(point[0], point[1]));
-    });
-    return b;
-  },
-  _makeLine(opts) {
-    let line = {
-      id: opts.id,
-      path: [ opts.from, opts.to ],
-      clickable: true,
-      editable: false,
-      geodesic: true,
-      visible: true,
-      strokeColor: mapColors[opts.style],
-      zIndex: 1
-    };
-
-    let style = lineStyles[opts.style];
-    for (let key in style) {
-      line[key] = style[key]
-    }
-    return line;
-  },
-
-  _makeMarker(opts) {
-    let marker = {
-      id: opts.id,
-      lat: opts.coords[0],
-      lng: opts.coords[1],
-      infoWindow: { content: opts.title },
-      zIndex: lineStyles[opts.style].zIndex + 1
-    };
-
-    let icon = {
-      path: google.maps.SymbolPath.CIRCLE,
-      strokeColor: mapColors[opts.style],
-      strokeWeight: 2,
-      fillColor: "white",
-      fillOpacity: 1
-    };
-
-    let style = markerStyles[opts.style];
-    for (let key in style) {
-      icon[key] = style[key]
-    }
-    marker.icon = icon;
-    return marker;
   }
-
 });
+
+const converToGoogleBounds = (bounds) =>
+  bounds.reduce((b, point) =>
+    b.extend({lat: point[0], lng: point[1]}),
+    new google.maps.LatLngBounds()
+  );
 
 const mapColors = {
   dimmed: 'grey',
