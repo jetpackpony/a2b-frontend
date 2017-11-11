@@ -10,9 +10,6 @@ module.exports = function(defaults) {
   });
   if (app.env === 'production') {
     app.options.inlineContent = {
-      'jivosite': {
-        file: './jivosite.js'
-      },
       'yandex-metrica': {
         file: './yandex-metrica.html'
       }
