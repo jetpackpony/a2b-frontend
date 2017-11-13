@@ -28,7 +28,7 @@ export default Ember.Component.extend({
     }
     return locations;
   },
-  locationChanged: Ember.observer('locations.@each.{country,city,address,comment}', 'stepTwoLocation', function() {
+  locationChanged: Ember.observer('locations.@each.{country,city,address,comment}', function() {
     let locs = this.get('locations');
 
     // Add the info to the model
