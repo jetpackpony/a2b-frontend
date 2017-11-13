@@ -15,7 +15,7 @@
     <div class="carousel-inner" role="listbox">
       <div class="carousel-item active">
         <div class="alert alert-warning">
-          At the moment you can only add routes in 11 countries in South-East Asia: Vietnam, Cambodia, Laos, Myanmar, Thailand, Malaysia, Brunei, East Timor, Indonesia, Singapore, Philippines
+          At the moment you can only add routes in 11 countries in South-East Asia: {{countriesList}}
         </div>
         {{create-new-route-choose-location
         locationId=0
@@ -24,6 +24,7 @@
         addressLabel="Point the departure address on the map"
         subAddressLabel="I don't know the exact departure address"
         commentLabel="Describe the departure location please"
+        countries=countries
         location=locations.[0]
         next=(action "next")
         registerChild=(action 'registerChild' 'step-1')
@@ -37,6 +38,7 @@
         addressLabel="Point the arrival address on the map"
         subAddressLabel="I don't know the exact arrival address"
         commentLabel="Describe the arrival location please"
+        countries=countries
         location=locations.[1]
         next=(action "next")
         back=(action "back")

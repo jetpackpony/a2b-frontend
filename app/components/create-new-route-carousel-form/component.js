@@ -3,6 +3,22 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   children: Ember.A([]),
   complete: false,
+  countries: Ember.A([
+    { text: "Vietnam", value: "vn" },
+    { text: "Cambodia", value: "kh" },
+    { text: "Laos", value: "la" },
+    { text: "Myanmar", value: "mm" },
+    { text: "Thailand", value: "th" },
+    { text: "Malaysia", value: "my" },
+    { text: "Brunei", value: "bn" },
+    { text: "East Timor", value: "tl" },
+    { text: "Indonesia", value: "id" },
+    { text: "Singapore", value: "sg" },
+    { text: "Philippines", value: "ph" }
+  ]),
+  countriesList: Ember.computed('countries', function() {
+    return this.get('countries').mapBy('text').join(', ');
+  }),
   didInsertElement() {
     this.$('.carousel').carousel({
       interval: false,

@@ -56,19 +56,6 @@ export default Ember.Component.extend(MapClickHandlerMixin, {
     }
   },
 
-  countries: Ember.A([
-    { text: "Vietnam", value: "vn" },
-    { text: "Cambodia", value: "kh" },
-    { text: "Laos", value: "la" },
-    { text: "Myanmar", value: "mm" },
-    { text: "Thailand", value: "th" },
-    { text: "Malaysia", value: "my" },
-    { text: "Brunei", value: "bn" },
-    { text: "East Timor", value: "tl" },
-    { text: "Indonesia", value: "id" },
-    { text: "Singapore", value: "sg" },
-    { text: "Philippines", value: "ph" }
-  ]),
   actions: {
     countryChanged() {
       let code = event.target.value;
