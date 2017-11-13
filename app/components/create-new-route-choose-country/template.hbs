@@ -1,7 +1,9 @@
-<h2>Choose a country</h2>
-<select {{action 'setCountry' on='change'}}>
-  <option disabled selected>---</option>
-  {{#each countries as |country|}}
-    <option value={{country}}>{{country}}</option>
-  {{/each}}
-</select>
+<div class="form-group">
+  <label for="country">{{countryLabel}}</label>
+  <select class="form-control" id="country" {{action "countryChanged" on='change'}}>
+    <option disabled selected></option>
+    {{#each countries as |country|}}
+      <option value={{country.value}}>{{country.text}}</option>
+    {{/each}}
+  </select>
+</div>

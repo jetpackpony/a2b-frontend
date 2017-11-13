@@ -57,8 +57,7 @@ export default Ember.Component.extend(MapClickHandlerMixin, {
   },
 
   actions: {
-    countryChanged() {
-      let code = event.target.value;
+    countryChanged(code) {
       let name = this.get('countries').find((item) => item.value === code).text;
 
       this.resetCity();
