@@ -4,11 +4,11 @@ countries=countries
 countryChanged=(action "countryChanged")
 }}
 
-{{#if countrySet}}
+{{#if isCountrySet}}
   <div class="form-group">
     <label for="city">{{cityLabel}}</label>
     {{place-autocomplete-field
-    value=_cityValue
+    value=cityText
     handlerController=this
     inputClass="form-control"
     placeChangedCallback='cityChanged'
@@ -17,7 +17,7 @@ countryChanged=(action "countryChanged")
     }}
   </div>
 
-  {{#if citySet}}
+  {{#if isCitySet}}
     {{#if showAddress}}
       <div class="form-group">
         <label for="address">{{addressLabel}}
@@ -27,7 +27,7 @@ countryChanged=(action "countryChanged")
         </label>
 
         {{place-autocomplete-field
-        value=_addressValue
+        value=addressText
         handlerController= this
         inputClass="form-control"
         placeChangedCallback='addressChanged'
@@ -49,8 +49,10 @@ countryChanged=(action "countryChanged")
         </div>
       </div>
     {{/if}}
-    {{#if addressSet}}
-      <button class="btn btn-primary float-xs-right" {{action "next"}}>Next &gt;</button>
+    {{#if isAddressSet}}
+      <button class="btn btn-primary float-xs-right" {{action "next"}}>
+        Next &gt;
+      </button>
     {{/if}}
   {{/if}}
 {{/if}}

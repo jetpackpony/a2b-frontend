@@ -15,39 +15,53 @@ export default Ember.Component.extend(MapClickHandlerMixin, {
     this.resetCity();
   },
   resetCity() {
-    this.set('countryRestriction', null);
+    this.set('location.country', null);
     this.set('location.city', null);
-    this.set('_cityValue', '');
     this.resetAddress();
   },
   resetAddress() {
     this.set('location.address', null);
-    this.set('_addressValue', '');
     this.set('location.comment', null);
     this.set('showAddress', true);
   },
 
-  countrySet: Ember.computed.bool('countryRestriction'),
-  citySet: Ember.computed('location.city', function() {
-    let city = this.get('location.city');
-    if (city && city.formatted_address) {
-      this.set('_cityValue', city.formatted_address);
-      return true;
-    }
-    return false;
+  isCountrySet: Ember.computed('location.country', function() {
+    let country = this.get('location.country');
+    return (country && country.formatted_address);
   }),
-  addressSet: Ember.computed('location.{address,comment}', function() {
+  isCitySet: Ember.computed('location.city', function() {
+    let city = this.get('location.city');
+    return (city && city.formatted_address);
+  }),
+  isAddressSet: Ember.computed('location.{address,comment}', function() {
     let addr = this.get('location.address');
     let comment = this.get('location.comment');
-    if (addr && addr.formatted_address) {
-      this.set('_addressValue', addr.formatted_address);
-      return true;
-    }
-    if (comment) {
-      return true;
-    }
-    return false;
+    return (addr && addr.formatted_address) || comment;
   }),
+
+  cityText: Ember.computed('location.city', {
+    get(key) {
+      let city = this.get('location.city');
+      return (city && city.formatted_address)
+        ? city.formatted_address
+        : '';
+    },
+    set(key, value) {
+      return value;
+    }
+  }),
+  addressText: Ember.computed('location.address', {
+    get(key) {
+      let address = this.get('location.address');
+      return (address && address.formatted_address)
+        ? address.formatted_address
+        : '';
+    },
+    set(key, value) {
+      return value;
+    }
+  }),
+
 
   onMapClicked(geocodes, point) {
     let loc = this.get('location');
@@ -60,7 +74,6 @@ export default Ember.Component.extend(MapClickHandlerMixin, {
     countryChanged(code) {
       let name = this.get('countries').find((item) => item.value === code).text;
 
-      this.resetCity();
       this.get('gMap')
         .geocode({ address: name })
         .then((geocodes) => {
