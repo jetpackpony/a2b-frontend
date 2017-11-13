@@ -37,15 +37,25 @@ countryChanged=(action "countryChanged")
         aria-describedby="addressHelp"
         }}
         <div class="form-text">
-          <a href="#" {{action "toggleAddress" on='click'}}>{{subAddressLabel}}</a>
+          <a href="#" {{action "toggleAddress" on='click'}}>
+            {{subAddressLabel}}
+          </a>
         </div>
       </div>
     {{else}}
       <div class="form-group">
         <label for="comment">{{commentLabel}}</label>
-        {{textarea class="form-control" id=locationId rows="3" placeholder="In front of a Night Market; Near the police station; By the Buddha statue" value=location.comment}}
+        {{textarea
+        class="form-control"
+        id=locationId
+        rows="3"
+        placeholder="In front of a Night Market; Near the police station; By the Buddha statue"
+        value=location.comment
+        }}
         <div class="form-text">
-          <a href="#" {{action "toggleAddress" on='click'}}>Let me try to search for an address again</a>
+          <a href="#" {{action "toggleAddress" on='click'}}>
+            Let me try to search for an address again
+          </a>
         </div>
       </div>
     {{/if}}
@@ -57,5 +67,7 @@ countryChanged=(action "countryChanged")
   {{/if}}
 {{/if}}
 {{#if back}}
-  <button class="btn btn-primary float-xs-left" {{action "back"}}>&lt; Back</button>
+  <button class="btn btn-primary float-xs-left" {{action "back"}}>
+    &lt; Back
+  </button>
 {{/if}}
