@@ -1,3 +1,4 @@
+import R from 'npm:ramda';
 import Ember from 'ember';
 import Route from '../../models/route';
 import RSVP from 'rsvp';
@@ -12,9 +13,7 @@ export default Ember.Component.extend({
   currentStep: 1,
   children: Ember.A([]),
   showLoginModal: false,
-  locations: Ember.computed('locationsNumber', function() {
-    return this.resetLocations();
-  }),
+  locations: Ember.A([]),
   countries: Ember.A([
     { text: "Vietnam", value: "vn" },
     { text: "Cambodia", value: "kh" },
@@ -28,18 +27,20 @@ export default Ember.Component.extend({
     { text: "Singapore", value: "sg" },
     { text: "Philippines", value: "ph" }
   ]),
+  init() {
+    this._super(...arguments);
+    this.resetLocations();
+  },
   resetLocations() {
-    let locations = Ember.A([]);
-    for (let i = 0; i < this.get('locationsNumber'); i++) {
-      locations.pushObject({
+    this.set('locations', Ember.A(
+      R.times((i) => ({
         country: null,
         city: null,
         address: null,
         geocodes: Ember.A([]),
         comment: null
-      });
-    }
-    return locations;
+      }), this.get('locationsNumber'))
+    ));
   },
   locationChanged: Ember.observer('locations.@each.{country,city,address,comment}', function() {
     let locs = this.get('locations');
@@ -85,7 +86,7 @@ export default Ember.Component.extend({
       });
     },
     resetForm() {
-      this.set('locations', this.resetLocations());
+      this.resetLocations();
       this.get('children').forEach((view) => {
         return view.ref.reset();
       });
