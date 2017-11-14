@@ -1,29 +1,10 @@
 import Ember from 'ember';
 import MapClickHandlerMixin from 'a2b/mixins/map-click-handler';
 
-export default Ember.Component.extend(MapClickHandlerMixin, {
-  gMap: Ember.inject.service(),
+export default Ember.Component.extend({
   countryRestriction: null,
   showAddress: true,
   location: null,
-  init() {
-    this._super(...arguments);
-    this.get('registerChild')(this);
-  },
-  reset() {
-    this.$('#country').val("");
-    this.resetCity();
-  },
-  resetCity() {
-    this.set('location.country', null);
-    this.set('location.city', null);
-    this.resetAddress();
-  },
-  resetAddress() {
-    this.set('location.address', null);
-    this.set('location.comment', null);
-    this.set('showAddress', true);
-  },
 
   isCountrySet: Ember.computed('location.country', function() {
     let country = this.get('location.country');
@@ -61,33 +42,23 @@ export default Ember.Component.extend(MapClickHandlerMixin, {
       return value;
     }
   }),
+  countryRestriction: Ember.computed('location.country', function() {
+    console.log(this.get('location.country').address_components[0].short_name);
+    return {
+      country: this.get('location.country').address_components[0].short_name
+    };
+  }),
 
-
-  onMapClicked(geocodes, point) {
-    let loc = this.get('location');
-    if (loc.country && loc.city) {
-      this.set('location.address', this._getAddressFromGeocodes(geocodes, point));
-    }
-  },
+  onCityChanged: Ember.observer('location.city', function() {
+    this.set('location.address', null);
+    this.set('location.comment', null);
+    this.set('showAddress', true);
+  }),
 
   actions: {
-    countryChanged(code) {
-      this.get('gMap')
-        .geocode({
-          address: this.get('countries').find(
-            (item) => item.value === code
-          ).text
-        })
-        .then((geocodes) => {
-          this.set('location.country', geocodes[0]);
-          this.set('countryRestriction', { country: code });
-        })
-        .catch((err) => console.error(err));
-    },
     cityChanged(obj) {
       if (obj.address_components) {
         this.set('location.city', obj);
-        this.resetAddress();
       }
     },
     addressChanged(obj) {

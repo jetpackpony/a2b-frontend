@@ -4,7 +4,7 @@ import RSVP from 'rsvp';
 
 export default Ember.Component.extend({
   session: Ember.inject.service(),
-  _gMap: Ember.inject.service('gMap'),
+  gMap: Ember.inject.service(),
   classNames: ['row'],
   classNameBindings: ['media.isMobile::bottom-split','media.isMobile::add-route-form'],
   errorMessage: null,
@@ -97,13 +97,42 @@ export default Ember.Component.extend({
       this.get('children').pushObject({ id, ref: child });
     },
     mapClicked(point) {
-      let locComponent = this.get('children')
-          .find((item) => item.id === 'form').ref
-          .get('children')
-          .find((item) => item.id === `step-${this.get('currentStep')}`).ref;
-      if (locComponent.get('mapClicked')) {
-        locComponent.get('mapClicked').call(locComponent, point);
-      }
+      // skip if the current thing doesn't have city or country yet
+      this.get('gMap')
+        .geocode({
+          lat: point[0],
+          lng: point[1],
+          language: 'en'
+        })
+        .then((geocodes) => {
+          //this.onMapClicked(geocodes, point);
+          let loc = this.get(`locations.${this.get('currentStep') -1 }`);
+          if (loc.country && loc.city) {
+            this.set(
+              `locations.${this.get('currentStep') -1 }.address`,
+              this._getAddressFromGeocodes(geocodes, point)
+            );
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+
+
+    },
+    onCountryChanged(code) {
+      this.get('gMap')
+        .geocode({
+          address: this.get('countries').find(
+            (item) => item.value === code
+          ).text
+        })
+        .then((geocodes) => {
+          let loc = `locations.${this.get('currentStep') -1 }`;
+          this.set(`${loc}.country`, geocodes[0]);
+          this.set(`${loc}.city`, null);
+        })
+        .catch((err) => console.error(err));
     }
   },
   _validateRoute(route) {
@@ -113,5 +142,17 @@ export default Ember.Component.extend({
       }
     });
     return route;
+  },
+  _getGeocodeItem(geocodes, itemName) {
+    return geocodes.find((item) => item.types.includes(itemName));
+  },
+  _getAddressFromGeocodes(geocodes, point) {
+    let addr = this._getGeocodeItem(geocodes, 'route')
+      || this._getGeocodeItem(geocodes, 'street_address');
+    if (addr && addr.geometry) {
+      addr.geometry.location.lat = function() { return point[0]; }
+      addr.geometry.location.lng = function() { return point[1]; }
+    }
+    return addr;
   }
 });
