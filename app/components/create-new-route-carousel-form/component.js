@@ -26,12 +26,15 @@ export default Ember.Component.extend({
   },
   actions: {
     submit() {
+      // Pass the callbacks to submit - they will be called when
+      // request is finished
       this.get('submit')(
         () => {
           this.send('next');
           this.set('complete', true);
         },
         (error) => {
+          console.log(error);
           this.send('next');
           this.set('complete', true);
         }
