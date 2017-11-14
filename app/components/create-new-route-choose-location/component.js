@@ -2,9 +2,8 @@ import Ember from 'ember';
 import MapClickHandlerMixin from 'a2b/mixins/map-click-handler';
 
 export default Ember.Component.extend({
-  countryRestriction: null,
-  showAddress: true,
   location: null,
+  showAddress: true,
 
   isCountrySet: Ember.computed('location.country', function() {
     let country = this.get('location.country');
@@ -43,7 +42,6 @@ export default Ember.Component.extend({
     }
   }),
   countryRestriction: Ember.computed('location.country', function() {
-    console.log(this.get('location.country').address_components[0].short_name);
     return {
       country: this.get('location.country').address_components[0].short_name
     };
