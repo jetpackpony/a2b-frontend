@@ -15,6 +15,19 @@ export default Ember.Component.extend({
   locations: Ember.computed('locationsNumber', function() {
     return this.resetLocations();
   }),
+  countries: Ember.A([
+    { text: "Vietnam", value: "vn" },
+    { text: "Cambodia", value: "kh" },
+    { text: "Laos", value: "la" },
+    { text: "Myanmar", value: "mm" },
+    { text: "Thailand", value: "th" },
+    { text: "Malaysia", value: "my" },
+    { text: "Brunei", value: "bn" },
+    { text: "East Timor", value: "tl" },
+    { text: "Indonesia", value: "id" },
+    { text: "Singapore", value: "sg" },
+    { text: "Philippines", value: "ph" }
+  ]),
   resetLocations() {
     let locations = Ember.A([]);
     for (let i = 0; i < this.get('locationsNumber'); i++) {
