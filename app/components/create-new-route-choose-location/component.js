@@ -72,10 +72,12 @@ export default Ember.Component.extend(MapClickHandlerMixin, {
 
   actions: {
     countryChanged(code) {
-      let name = this.get('countries').find((item) => item.value === code).text;
-
       this.get('gMap')
-        .geocode({ address: name })
+        .geocode({
+          address: this.get('countries').find(
+            (item) => item.value === code
+          ).text
+        })
         .then((geocodes) => {
           this.set('location.country', geocodes[0]);
           this.set('countryRestriction', { country: code });
