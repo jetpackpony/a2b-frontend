@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  onSuccess: () => {},
   init() {
     this._super(...arguments);
     let register = this.get('registerChild');
@@ -15,12 +16,8 @@ export default Ember.Component.extend({
       this.$('.contacts-modal').modal('show');
     }
     // Fire onSuccess when modal is closed
-    this.$('.contacts-modal').on('hidden.bs.modal', (e) => {
-      let success = this.get('onSuccess');
-      if (success && typeof(success) === 'function') {
-        success();
-      }
-    });
+    this.$('.contacts-modal')
+      .on('hidden.bs.modal', (e) => this.get('onSuccess')());
   },
   onShowModalChange: Ember.observer('showModal', function() {
     if (this.get('showModal')) {
