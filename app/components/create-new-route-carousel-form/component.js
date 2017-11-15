@@ -21,9 +21,16 @@ export default Ember.Component.extend({
     this.get('children').forEach((view) => {
       return view.ref.reset();
     });
-    this.$('.carousel').carousel(0);
-    this.set('complete', false);
   },
+
+  onChangeStep: Ember.observer('currentStep', function() {
+    // If we go back to the first step, reset the form
+    if (this.get('currentStep') == 1) {
+      this.$('.carousel').carousel(0);
+      this.set('complete', false);
+    }
+  }),
+
   actions: {
     submit() {
       // Pass the callbacks to submit - they will be called when
