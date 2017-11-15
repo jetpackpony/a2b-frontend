@@ -2,14 +2,6 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   onSuccess: () => {},
-  init() {
-    this._super(...arguments);
-    let register = this.get('registerChild');
-    if (register && typeof(register) === 'function') {
-      this.get('registerChild')(this);
-    }
-  },
-  reset() {},
   didInsertElement() {
     this._super(...arguments);
     if (this.get('showModal')) {
