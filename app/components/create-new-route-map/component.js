@@ -19,54 +19,54 @@ export default Ember.Component.extend({
   cursor: dragCursor,
   init() {
     this._super(...arguments);
-    this._focusOnLocations = R.compose(
-      this._focusOnBounds.bind(this),
+    this.focusOnLocations = R.compose(
+      this.focusOnBounds.bind(this),
       locationsToBounds
     );
   },
 
-  locationChanged: Ember.observer('locations.@each.{country,city,address,comment}', function() {
-    this.set('lines', createLines(this._getAddresses()));
-    this.set('markers', createMarkers(this._getAddresses()));
-    this._updateMap();
+  onLocationChange: Ember.observer('locations.@each.{country,city,address,comment}', function() {
+    this.set('lines', createLines(this.getAddresses()));
+    this.set('markers', createMarkers(this.getAddresses()));
+    this.updateMap();
   }),
-  currentStepChanged: Ember.observer('currentStep', function() {
-    this._updateMap();
+  onCurrentStepChange: Ember.observer('currentStep', function() {
+    this.updateMap();
   }),
 
-  _updateMap() {
+  updateMap() {
     // Move the center to a point or bounds
-    this._focusOnLocations(this._getVisibleLocations());
+    this.focusOnLocations(this.getVisibleLocations());
 
     // Change zoom level
-    this.set('zoom', calculateZoom(this._getCurrentLocation(), this.get('zoom')));
+    this.set('zoom', calculateZoom(this.getCurrentLocation(), this.get('zoom')));
 
     // Change cursor shape
     this.set('cursor',
-      (this._isAtFinalStep() || !this._getCurrentLocation().city)
+      (this.isAtFinalStep() || !this.getCurrentLocation().city)
       ? dragCursor
       : pointCursor
     );
   },
-  _focusOnBounds(bounds) {
+  focusOnBounds(bounds) {
     return (bounds.length > 1)
       ? this.set('bounds', bounds)
       : this.set('center', bounds[0]);
   },
-  _isAtFinalStep() {
+  isAtFinalStep() {
     return this.get('currentStep') > this.get('locations').length;
   },
-  _getVisibleLocations() {
+  getVisibleLocations() {
     // If this is the last step, return all the locations,
     // otherwise return the current one
-    return (this._isAtFinalStep())
+    return (this.isAtFinalStep())
       ? this.get('locations')
-      : [this._getCurrentLocation()];
+      : [this.getCurrentLocation()];
   },
-  _getCurrentLocation() {
+  getCurrentLocation() {
     return this.get('locations')[this.get('currentStep') - 1];
   },
-  _getAddresses() {
+  getAddresses() {
     return this.get('locations').mapBy('address').compact();
   },
   actions: {
