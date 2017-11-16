@@ -74,7 +74,7 @@ module.exports = function(environment) {
     providers: {
       'facebook-connect': {
         appId: dotEnv['facebook-id-development'],
-        scope: 'public_profile,email'
+        scope: 'public_profile'
       }
     }
   };
