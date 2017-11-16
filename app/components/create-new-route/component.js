@@ -39,7 +39,7 @@ export default Ember.Component.extend(gMapGeocodes, {
 
   actions: {
     submit(success, failure) {
-      this._authenticateUser().then(
+      this.authenticateUser().then(
         () => this.get('createRoute')(
           this.get('newRoute'),
           success,
@@ -48,45 +48,45 @@ export default Ember.Component.extend(gMapGeocodes, {
       );
     },
     mapClicked(point) {
-      if (this._getCurrentLocation().country && this._getCurrentLocation().city) {
+      if (this.getCurrentLocation().country && this.getCurrentLocation().city) {
         this.getAddressByPoint(point)
           .then((address) =>
-            this._getCurrentLocation().setProperties({ address })
+            this.getCurrentLocation().setProperties({ address })
           );
       }
     },
     onCountryChanged(code) {
-      this.getCountryByName(this._getCountryByCode(code))
+      this.getCountryByName(this.getCountryByCode(code))
         .then((country) => ({
           country,
           city: null
         }))
         .then((props) =>
-          this._getCurrentLocation().setProperties(props)
+          this.getCurrentLocation().setProperties(props)
         );
     },
     onLoginSuccess() {
       this.get('onLoginSuccess')();
     },
     resetForm() {
-      this._resetLocations();
+      this.resetLocations();
       this.get('resetModel')();
       this.set('currentStep', 1);
       this.set('errorMessage', null);
     }
   },
-  _getCountryByCode(code) {
+  getCountryByCode(code) {
     return this.get('countries').find(
       (item) => item.value === code
     ).text;
   },
-  _getCurrentLocation() {
+  getCurrentLocation() {
     return this.get('locations.' + (this.get('currentStep') - 1));
   },
-  _resetLocations() {
+  resetLocations() {
     this.set('locations', getBlankLocations(locationsNumber));
   },
-  _authenticateUser() {
+  authenticateUser() {
     return new RSVP.Promise((resolve, reject) => {
       if (this.get('session.isAuthenticated')) {
         resolve();
