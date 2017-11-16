@@ -12,23 +12,18 @@ export default Ember.Component.extend({
       wrap: false,
       keyboard: false
     });
+    this._rewindToCurrentStep();
   },
-  init() {
-    this._super(...arguments);
-    this.get('registerChild')(this);
-  },
-  reset() {
-    this.get('children').forEach((view) => {
-      return view.ref.reset();
-    });
+  _rewindToCurrentStep() {
+    this.$('.carousel').carousel(this.get('currentStep') - 1);
   },
 
   onChangeStep: Ember.observer('currentStep', function() {
     // If we go back to the first step, reset the form
     if (this.get('currentStep') == 1) {
-      this.$('.carousel').carousel(0);
       this.set('complete', false);
     }
+    this._rewindToCurrentStep();
   }),
 
   actions: {
@@ -49,14 +44,9 @@ export default Ember.Component.extend({
     },
     next() {
       this.incrementProperty('currentStep');
-      this.$('.carousel').carousel('next');
     },
     back() {
       this.decrementProperty('currentStep');
-      this.$('.carousel').carousel('prev');
-    },
-    registerChild(id, child) {
-      this.get('children').pushObject({ id, ref: child });
     }
   }
 });
