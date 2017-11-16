@@ -12,19 +12,18 @@ export default Ember.Component.extend({
       wrap: false,
       keyboard: false
     });
-    this._rewindToCurrentStep();
+    this.rewindToCurrentStep();
   },
-  _rewindToCurrentStep() {
-    this.$('.carousel').carousel(this.get('currentStep') - 1);
-  },
-
   onChangeStep: Ember.observer('currentStep', function() {
     // If we go back to the first step, reset the form
     if (this.get('currentStep') == 1) {
       this.set('complete', false);
     }
-    this._rewindToCurrentStep();
+    this.rewindToCurrentStep();
   }),
+  rewindToCurrentStep() {
+    this.$('.carousel').carousel(this.get('currentStep') - 1);
+  },
 
   actions: {
     submit() {
