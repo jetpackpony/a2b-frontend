@@ -26,7 +26,6 @@ export default Ember.Component.extend({
 
   errorMessage: null,
   currentStep: 1,
-  children: Ember.A([]),
   showLoginModal: false,
   locations: Ember.A([]),
   countries: Ember.A(countries),
@@ -92,15 +91,9 @@ export default Ember.Component.extend({
     },
     resetForm() {
       this._resetLocations();
-      this.get('children').forEach((view) => {
-        return view.ref.reset();
-      });
       this.get('resetModel')();
       this.set('currentStep', 1);
       this.set('errorMessage', null);
-    },
-    registerChild(id, child) {
-      this.get('children').pushObject({ id, ref: child });
     }
   },
   _getCurrentLocation() {

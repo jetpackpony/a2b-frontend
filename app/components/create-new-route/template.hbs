@@ -6,32 +6,17 @@
   </div>
 {{else}}
   <div class="left-side">
-    {{#if shortForm}}
-      {{create-new-route-short-form
-      newRoute=newRoute
-      locations=locations
-      currentStep=currentStep
-      registerChild=(action 'registerChild' 'form')
-      submit=(action 'submit')
-      resetForm=(action "resetForm")
-      onCountryChanged=(action "onCountryChanged")
-      errorMessage=errorMessage
-      showSpinner=showSpinner
-      countries=countries
-      }}
-    {{else}}
-      {{create-new-route-carousel-form
-      newRoute=newRoute
-      locations=locations
-      currentStep=currentStep
-      submit=(action 'submit')
-      resetForm=(action "resetForm")
-      onCountryChanged=(action "onCountryChanged")
-      errorMessage=errorMessage
-      showSpinner=showSpinner
-      countries=countries
-      }}
-    {{/if}}
+    {{create-new-route-carousel-form
+    newRoute=newRoute
+    locations=locations
+    currentStep=currentStep
+    submit=(action 'submit')
+    resetForm=(action "resetForm")
+    onCountryChanged=(action "onCountryChanged")
+    errorMessage=errorMessage
+    showSpinner=showSpinner
+    countries=countries
+    }}
   </div>
   <div class="right-side">
     {{create-new-route-map
