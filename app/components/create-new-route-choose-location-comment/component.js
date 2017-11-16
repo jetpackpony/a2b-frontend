@@ -1,9 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  comment: null,
   actions: {
-    countryChanged() {
-      this.get('onCountryChanged')(event.target.value);
+    toggleAddress() {
+      this.get('toggleAddress')();
     }
   }
 });

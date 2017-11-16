@@ -1,15 +1,14 @@
 import Ember from 'ember';
+import Route from '../../models/route';
 
 export default Ember.Controller.extend({
-  queryParams: ['shortForm'],
-  shortForm: null,
   errorMessage: null,
   newRoute: null,
   showSpinner: false,
   actions: {
     createRoute(route, resolve, reject) {
       this.set('showSpinner', true);
-      route.save()
+      this.validateRoute(route).save()
         .then(() => {
           this.set('showSpinner', false);
           resolve();
@@ -26,5 +25,13 @@ export default Ember.Controller.extend({
     resetModel() {
       this.set('model', this.get('store').createRecord('route'));
     }
+  },
+  validateRoute(route) {
+    Route.eachAttribute(function(name) {
+      if (route.get(name) === null || route.get(name) === undefined) {
+        route.set(name, "");
+      }
+    });
+    return route;
   }
 });

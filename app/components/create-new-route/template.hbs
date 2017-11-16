@@ -6,35 +6,22 @@
   </div>
 {{else}}
   <div class="left-side">
-    {{#if shortForm}}
-      {{create-new-route-short-form
-      newRoute=newRoute
-      locations=locations
-      currentStep=currentStep
-      registerChild=(action 'registerChild' 'form')
-      submit=(action 'submit')
-      resetForm=(action "resetForm")
-      errorMessage=errorMessage
-      showSpinner=showSpinner
-      }}
-    {{else}}
-      {{create-new-route-carousel-form
-      newRoute=newRoute
-      locations=locations
-      currentStep=currentStep
-      registerChild=(action 'registerChild' 'form')
-      submit=(action 'submit')
-      resetForm=(action "resetForm")
-      errorMessage=errorMessage
-      showSpinner=showSpinner
-      }}
-    {{/if}}
+    {{create-new-route-carousel-form
+    newRoute=newRoute
+    locations=locations
+    currentStep=currentStep
+    submit=(action 'submit')
+    resetForm=(action "resetForm")
+    onCountryChanged=(action "onCountryChanged")
+    errorMessage=errorMessage
+    showSpinner=showSpinner
+    countries=countries
+    }}
   </div>
   <div class="right-side">
     {{create-new-route-map
     locations=locations
     currentStep=currentStep
-    registerChild=(action 'registerChild' 'map')
     mapClicked=(action 'mapClicked')
     }}
   </div>
@@ -42,6 +29,6 @@
   {{login-modal
   showModal=showLoginModal
   text="Please leave us your contact info so we can save your route"
-  registerChild=(action 'registerChild' 'login-form')
+  onSuccess=(action 'onLoginSuccess')
   }}
 {{/if}}

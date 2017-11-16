@@ -1,100 +1,36 @@
 import Ember from 'ember';
-import MapClickHandlerMixin from 'a2b/mixins/map-click-handler';
+import R from 'npm:ramda';
 
-export default Ember.Component.extend(MapClickHandlerMixin, {
-  gMap: Ember.inject.service(),
-  countryRestriction: null,
-  showAddress: true,
+export default Ember.Component.extend({
   location: null,
-  init() {
-    this._super(...arguments);
-    this.get('registerChild')(this);
-  },
-  reset() {
-    this.$('#country').val("");
-    this.resetCity();
-  },
-  resetCity() {
-    this.set('countryRestriction', null);
-    this.set('location.city', null);
-    this.set('_cityValue', '');
-    this.resetAddress();
-  },
-  resetAddress() {
+  showAddress: true,
+
+  isCountrySet: Ember.computed('location.country', function() {
+    return !!R.prop('formatted_address', this.get('location.country'));
+  }),
+  isCitySet: Ember.computed('location.city', function() {
+    return !!R.prop('formatted_address', this.get('location.city'));
+  }),
+  isAddressSet: Ember.computed('location.{address,comment}', function() {
+    return (this.get('location.comment')
+      || !!R.prop('formatted_address', this.get('location.address')));
+  }),
+
+  countryRestriction: Ember.computed('location.country', function() {
+    return {
+      country: this.get('location.country').address_components[0].short_name
+    };
+  }),
+
+  onCityChanged: Ember.observer('location.city', function() {
     this.set('location.address', null);
-    this.set('_addressValue', '');
     this.set('location.comment', null);
     this.set('showAddress', true);
-  },
-
-  countrySet: Ember.computed.bool('countryRestriction'),
-  citySet: Ember.computed('location.city', function() {
-    let city = this.get('location.city');
-    if (city && city.formatted_address) {
-      this.set('_cityValue', city.formatted_address);
-      return true;
-    }
-    return false;
-  }),
-  addressSet: Ember.computed('location.{address,comment}', function() {
-    let addr = this.get('location.address');
-    let comment = this.get('location.comment');
-    if (addr && addr.formatted_address) {
-      this.set('_addressValue', addr.formatted_address);
-      return true;
-    }
-    if (comment) {
-      return true;
-    }
-    return false;
   }),
 
-  onMapClicked(geocodes, point) {
-    let loc = this.get('location');
-    if (loc.country && loc.city) {
-      this.set('location.address', this._getAddressFromGeocodes(geocodes, point));
-    }
-  },
-
-  countries: Ember.A([
-    { text: "Vietnam", value: "vn" },
-    { text: "Cambodia", value: "kh" },
-    { text: "Laos", value: "la" },
-    { text: "Myanmar", value: "mm" },
-    { text: "Thailand", value: "th" },
-    { text: "Malaysia", value: "my" },
-    { text: "Brunei", value: "bn" },
-    { text: "East Timor", value: "tl" },
-    { text: "Indonesia", value: "id" },
-    { text: "Singapore", value: "sg" },
-    { text: "Philippines", value: "ph" }
-  ]),
   actions: {
-    countryChanged() {
-      let code = event.target.value;
-      let name = this.get('countries').find((item) => item.value === code).text;
-
-      this.resetCity();
-      this.get('gMap')
-        .geocode({ address: name })
-        .then((geocodes) => {
-          this.set('location.country', geocodes[0]);
-          this.set('countryRestriction', { country: code });
-        })
-        .catch((err) => console.error(err));
-    },
-    cityChanged(obj) {
-      if (obj.address_components) {
-        this.set('location.city', obj);
-        this.resetAddress();
-      }
-    },
-    addressChanged(obj) {
-      this.set('location.address', obj);
-    },
-
     toggleAddress() {
-      this.set('showAddress', !this.get('showAddress'));
+      this.toggleProperty('showAddress');
     },
     next() {
       this.get('next')();

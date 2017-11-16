@@ -1,63 +1,42 @@
-<div class="form-group">
-  <label for="country">{{countryLabel}}</label>
-  <select class="form-control" id="country" {{action "countryChanged" on='change'}}>
-    <option disabled selected></option>
-    {{#each countries as |country|}}
-      <option value={{country.value}}>{{country.text}}</option>
-    {{/each}}
-  </select>
-</div>
+{{create-new-route-choose-country
+countryLabel=countryLabel
+countries=countries
+onCountryChanged=onCountryChanged
+countrySelected=location.country
+}}
 
-{{#if countrySet}}
-  <div class="form-group">
-    <label for="city">{{cityLabel}}</label>
-    {{place-autocomplete-field
-    value=_cityValue
-    handlerController=this
-    inputClass="form-control"
-    placeChangedCallback='cityChanged'
-    restrictions=countryRestriction
-    placeholder="Bangkok, Thailand"
-    }}
-  </div>
+{{#if isCountrySet}}
+  {{create-new-route-choose-location-city
+  city=location.city
+  cityLabel=cityLabel
+  countryRestriction=countryRestriction
+  }}
 
-  {{#if citySet}}
+  {{#if isCitySet}}
     {{#if showAddress}}
-      <div class="form-group">
-        <label for="address">{{addressLabel}}
-          <small id="addressHelp" class="form-text text-muted">
-            or enter it in the field below
-          </small>
-        </label>
-
-        {{place-autocomplete-field
-        value=_addressValue
-        handlerController= this
-        inputClass="form-control"
-        placeChangedCallback='addressChanged'
-        types='address'
-        restrictions=countryRestriction
-        placeholder="23 Sukhumvit Road, Bangkok, Thailand"
-        aria-describedby="addressHelp"
-        }}
-        <div class="form-text">
-          <a href="#" {{action "toggleAddress" on='click'}}>{{subAddressLabel}}</a>
-        </div>
-      </div>
+      {{create-new-route-choose-location-address
+      address=location.address
+      countryRestriction=countryRestriction
+      addressLabel=addressLabel
+      subAddressLabel=subAddressLabel
+      toggleAddress=(action 'toggleAddress')
+      }}
     {{else}}
-      <div class="form-group">
-        <label for="comment">{{commentLabel}}</label>
-        {{textarea class="form-control" id="comment" rows="3" placeholder="In front of a Night Market; Near the police station; By the Buddha statue" value=location.comment}}
-        <div class="form-text">
-          <a href="#" {{action "toggleAddress" on='click'}}>Let me try to search for an address again</a>
-        </div>
-      </div>
+      {{create-new-route-choose-location-comment
+      comment=location.comment
+      commentLabel=commentLabel
+      toggleAddress=(action 'toggleAddress')
+      }}
     {{/if}}
-    {{#if addressSet}}
-      <button class="btn btn-primary float-xs-right" {{action "next"}}>Next &gt;</button>
+    {{#if isAddressSet}}
+      <button class="btn btn-primary float-xs-right" {{action "next"}}>
+        Next &gt;
+      </button>
     {{/if}}
   {{/if}}
 {{/if}}
 {{#if back}}
-  <button class="btn btn-primary float-xs-left" {{action "back"}}>&lt; Back</button>
+  <button class="btn btn-primary float-xs-left" {{action "back"}}>
+    &lt; Back
+  </button>
 {{/if}}

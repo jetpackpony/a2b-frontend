@@ -1,14 +1,19 @@
 {{#if errorMessage}}
   <div class="alert alert-danger text-xs-center">
     <h1>Oops!</h1>
-    An error occured while saving your route. Please contact our support to find out the details.<br>
+    An error occured while saving your route.
+    Please contact our support to find out the details.<br>
     Error: "{{errorMessage}}"
   </div>
 {{else}}
   <div class="alert alert-success text-xs-center">
     <h1>Thanks!</h1>
-    The route has been sent to moderation. We will let you know when we add it to our database.
+    The route has been sent to moderation.
+    We will let you know when we add it to our database.
   </div>
 {{/if}}
-<p class="text-xs-center"><a href="#" {{action 'resetForm' on='click'}}>Add another one</a></p>
-
+<p class="text-xs-center">
+  <a href="#" {{action 'resetForm' on='click'}}>
+    Add another one
+  </a>
+</p>

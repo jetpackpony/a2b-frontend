@@ -1,3 +1,4 @@
+import R from 'npm:ramda';
 import Ember from 'ember';
 
 const asia = {
@@ -18,99 +19,55 @@ export default Ember.Component.extend({
   cursor: dragCursor,
   init() {
     this._super(...arguments);
-    this.get('registerChild')(this);
+    this.focusOnLocations = R.compose(
+      this.focusOnBounds.bind(this),
+      locationsToBounds
+    );
   },
-  reset() {
-    this.set('markers', Ember.A([]));
-    this.set('lines', Ember.A([]));
-    this.set('bounds', Ember.A([]));
-    this.set('center', [asia.lat, asia.lng]);
-    this.set('zoom', asia.zoom);
+
+  onLocationChange: Ember.observer('locations.@each.{country,city,address,comment}', function() {
+    this.set('lines', createLines(this.getAddresses()));
+    this.set('markers', createMarkers(this.getAddresses()));
+    this.updateMap();
+  }),
+  onCurrentStepChange: Ember.observer('currentStep', function() {
+    this.updateMap();
+  }),
+
+  updateMap() {
+    // Move the center to a point or bounds
+    this.focusOnLocations(this.getVisibleLocations());
+
+    // Change zoom level
+    this.set('zoom', calculateZoom(this.getCurrentLocation(), this.get('zoom')));
+
+    // Change cursor shape
+    this.set('cursor',
+      (this.isAtFinalStep() || !this.getCurrentLocation().city)
+      ? dragCursor
+      : pointCursor
+    );
   },
-  locationChanged: Ember.observer('locations.@each.{country,city,address,comment}', 'stepTwoLocation', function() {
-    let locs = this.get('locations');
-    let addrs = locs.mapBy('address').compact();
-
-    // if more than one address, draw lines between them
-    this.set('lines', Ember.A([]));
-    if (addrs.length > 1) {
-      let prev = null;
-      addrs.forEach((addr) => {
-        if (prev) {
-          this.get('lines').pushObject({
-            id: `${prev.formatted_address}-${addr.formatted_address}`,
-            from: [prev.geometry.location.lat(), prev.geometry.location.lng()],
-            to: [addr.geometry.location.lat(), addr.geometry.location.lng()],
-            style: 'selected'
-          });
-        }
-        prev = addr;
-      });
-    }
-
-    // draw markers for every set address
-    this.set('markers', Ember.A([]));
-    addrs.forEach((addr) => {
-      this.get('markers').pushObject({
-        id: `${addr.formatted_address}`,
-        coords: [addr.geometry.location.lat(), addr.geometry.location.lng()],
-        style: 'selected',
-        title: addr.formatted_address
-      });
-    });
-
-    // Focus the map
-    this._focusMap();
-  }),
-  currentStepChanged: Ember.observer('currentStep', function() {
-    this._focusMap();
-  }),
-  _focusMap() {
-    let step = this.get('currentStep');
-    let locs = this.get('locations');
-    // if step is more than number of addresses, zoom out to whole picture
-    if (step > this.get('locations').length) {
-      this.set('bounds', locs.map((loc) => {
-          let place = (loc.address || loc.city || loc.country);
-          if (place) {
-            return [place.geometry.location.lat(), place.geometry.location.lng()];
-          } else {
-            return [asia.lat, asia.lng];
-          }
-        })
-      );
-      this.set('cursor', dragCursor);
-    } else {
-      // else focus on the current step-point
-      let loc = locs[step - 1];
-      let place;
-
-      // If address is there, focus on it's point
-      if (loc.address) {
-        let point = loc.address.geometry.location;
-        this.set('center', [point.lat(), point.lng()]);
-        // If the zoom is too far, come closer
-        if (this.get('zoom') < 12) {
-          this.set('zoom', 12);
-        }
-      } else if (place = loc.city || loc.country) {
-        let bounds = place.geometry.viewport;
-        this.set('bounds', Ember.A([
-          [bounds.getNorthEast().lat(), bounds.getNorthEast().lng()],
-          [bounds.getSouthWest().lat(), bounds.getSouthWest().lng()]
-        ]));
-      } else {
-        this.set('center', [asia.lat, asia.lng]);
-        this.set('zoom', asia.zoom);
-      }
-
-      // If city is set, change the cursor
-      if (loc.city) {
-        this.set('cursor', pointCursor);
-      } else {
-        this.set('cursor', dragCursor);
-      }
-    }
+  focusOnBounds(bounds) {
+    return (bounds.length > 1)
+      ? this.set('bounds', bounds)
+      : this.set('center', bounds[0]);
+  },
+  isAtFinalStep() {
+    return this.get('currentStep') > this.get('locations').length;
+  },
+  getVisibleLocations() {
+    // If this is the last step, return all the locations,
+    // otherwise return the current one
+    return (this.isAtFinalStep())
+      ? this.get('locations')
+      : [this.getCurrentLocation()];
+  },
+  getCurrentLocation() {
+    return this.get('locations')[this.get('currentStep') - 1];
+  },
+  getAddresses() {
+    return this.get('locations').mapBy('address').compact();
   },
   actions: {
     mapClicked(point) {
@@ -118,3 +75,72 @@ export default Ember.Component.extend({
     }
   }
 });
+
+const getViewportBounds = (viewport) => ([
+  [viewport.getNorthEast().lat(), viewport.getNorthEast().lng()],
+  [viewport.getSouthWest().lat(), viewport.getSouthWest().lng()]
+]);
+
+const getAddressBounds = (address) => ([[
+  address.geometry.location.lat(),
+  address.geometry.location.lng()
+]]);
+
+const locationsToBounds = R.reduce((bounds, loc) => (
+  (loc.address)
+  ? bounds.concat(getAddressBounds(loc.address))
+  : ((loc.city || loc.country)
+    ? bounds.concat(getViewportBounds((loc.city || loc.country).geometry.viewport))
+    : R.append([asia.lat, asia.lng], bounds))
+), []);
+
+const calculateZoom = (location, currentZoom) => (
+  (!location)
+  ? currentZoom
+  : ((location.address && currentZoom < 12)
+    ? 12
+    : ((!location.address && !location.city && !location.country)
+      ? asia.zoom
+      : currentZoom))
+);
+
+const createSelectedLine = (prevAddress, currentAddress) => ({
+  id: `${prevAddress.formatted_address}-${currentAddress.formatted_address}`,
+  from: [
+    prevAddress.geometry.location.lat(),
+    prevAddress.geometry.location.lng()
+  ],
+  to: [
+    currentAddress.geometry.location.lat(),
+    currentAddress.geometry.location.lng()
+  ],
+  style: 'selected'
+});
+
+const createLines = (addresses) => (
+  Ember.A(
+    addresses.reduce((lines, addr, index, array) => (
+      // If this is at least second address in the array,
+      // add a line between it and previous one,
+      // otherwise do thing
+      (array[index - 1])
+      ? R.append(
+        createSelectedLine(array[index - 1], addr),
+        lines
+      )
+      : lines
+    ), [])
+  )
+);
+
+const createMarkers = (addresses) => (
+  Ember.A(
+    addresses.map((addr) => ({
+      id: `${addr.formatted_address}`,
+      coords: [addr.geometry.location.lat(), addr.geometry.location.lng()],
+      style: 'selected',
+      title: addr.formatted_address
+    }))
+  )
+);
+

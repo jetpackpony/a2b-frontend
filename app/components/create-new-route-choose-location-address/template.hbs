@@ -1,17 +1,23 @@
 <div class="form-group">
   <label for="address">{{addressLabel}}
-    <span class="required">*</span>
     <small id="addressHelp" class="form-text text-muted">
       or enter it in the field below
     </small>
   </label>
 
   {{place-autocomplete-field
-  value=_addressValue
-  handlerController= this
+  value=addressText
+  handlerController=this
   inputClass="form-control"
   placeChangedCallback='addressChanged'
+  types='address'
+  restrictions=countryRestriction
   placeholder="23 Sukhumvit Road, Bangkok, Thailand"
   aria-describedby="addressHelp"
   }}
+  <div class="form-text">
+    <a href="#" {{action "toggleAddress" on='click'}}>
+      {{subAddressLabel}}
+    </a>
+  </div>
 </div>

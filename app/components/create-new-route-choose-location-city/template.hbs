@@ -1,0 +1,11 @@
+<div class="form-group">
+  <label for="city">{{cityLabel}}</label>
+  {{place-autocomplete-field
+  value=cityText
+  handlerController=this
+  inputClass="form-control"
+  placeChangedCallback='cityChanged'
+  restrictions=countryRestriction
+  placeholder="Bangkok, Thailand"
+  }}
+</div>
