@@ -16,22 +16,6 @@ export default Ember.Component.extend({
       || !!R.prop('formatted_address', this.get('location.address')));
   }),
 
-  cityText: Ember.computed('location.city', {
-    get(key) {
-      return R.propOr('', 'formatted_address', this.get('location.city'));
-    },
-    set(key, value) {
-      return value;
-    }
-  }),
-  addressText: Ember.computed('location.address', {
-    get(key) {
-      return R.propOr('', 'formatted_address', this.get('location.address'));
-    },
-    set(key, value) {
-      return value;
-    }
-  }),
   countryRestriction: Ember.computed('location.country', function() {
     return {
       country: this.get('location.country').address_components[0].short_name
@@ -45,14 +29,6 @@ export default Ember.Component.extend({
   }),
 
   actions: {
-    cityChanged(obj) {
-      if (obj.address_components) {
-        this.set('location.city', obj);
-      }
-    },
-    addressChanged(obj) {
-      this.set('location.address', obj);
-    },
     toggleAddress() {
       this.toggleProperty('showAddress');
     },

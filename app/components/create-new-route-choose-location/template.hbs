@@ -6,58 +6,27 @@ countrySelected=location.country
 }}
 
 {{#if isCountrySet}}
-  <div class="form-group">
-    <label for="city">{{cityLabel}}</label>
-    {{place-autocomplete-field
-    value=cityText
-    handlerController=this
-    inputClass="form-control"
-    placeChangedCallback='cityChanged'
-    restrictions=countryRestriction
-    placeholder="Bangkok, Thailand"
-    }}
-  </div>
+  {{create-new-route-choose-location-city
+  city=location.city
+  cityLabel=cityLabel
+  countryRestriction=countryRestriction
+  }}
 
   {{#if isCitySet}}
     {{#if showAddress}}
-      <div class="form-group">
-        <label for="address">{{addressLabel}}
-          <small id="addressHelp" class="form-text text-muted">
-            or enter it in the field below
-          </small>
-        </label>
-
-        {{place-autocomplete-field
-        value=addressText
-        handlerController= this
-        inputClass="form-control"
-        placeChangedCallback='addressChanged'
-        types='address'
-        restrictions=countryRestriction
-        placeholder="23 Sukhumvit Road, Bangkok, Thailand"
-        aria-describedby="addressHelp"
-        }}
-        <div class="form-text">
-          <a href="#" {{action "toggleAddress" on='click'}}>
-            {{subAddressLabel}}
-          </a>
-        </div>
-      </div>
+      {{create-new-route-choose-location-address
+      address=location.address
+      countryRestriction=countryRestriction
+      addressLabel=addressLabel
+      subAddressLabel=subAddressLabel
+      toggleAddress=(action 'toggleAddress')
+      }}
     {{else}}
-      <div class="form-group">
-        <label for="comment">{{commentLabel}}</label>
-        {{textarea
-        class="form-control"
-        rows="3"
-        placeholder="In front of a Night Market; Near the police station; By the Buddha statue"
-        value=location.comment
-        }}
-        <div class="form-text">
-          <a href="#" {{action "toggleAddress" on='click'}}>
-            Let me try to search for an address again
-          </a>
-        </div>
-      </div>
+      {{create-new-route-choose-location-comment
+      comment=location.comment
+      commentLabel=commentLabel
+      toggleAddress=(action 'toggleAddress')
+      }}
     {{/if}}
     {{#if isAddressSet}}
       <button class="btn btn-primary float-xs-right" {{action "next"}}>
