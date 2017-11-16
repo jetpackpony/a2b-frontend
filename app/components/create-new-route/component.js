@@ -1,6 +1,7 @@
 import R from 'npm:ramda';
 import Ember from 'ember';
 import RSVP from 'rsvp';
+import gMapGeocodes from 'a2b/mixins/g-map-geocodes';
 
 const locationsNumber = 2;
 const countries = [
@@ -17,12 +18,11 @@ const countries = [
   { text: "Philippines", value: "ph" }
 ];
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(gMapGeocodes, {
   classNames: ['row'],
   classNameBindings: ['media.isMobile::bottom-split','media.isMobile::add-route-form'],
 
   session: Ember.inject.service(),
-  gMap: Ember.inject.service(),
 
   errorMessage: null,
   currentStep: 1,
@@ -55,36 +55,21 @@ export default Ember.Component.extend({
     },
     mapClicked(point) {
       if (this._getCurrentLocation().country && this._getCurrentLocation().city) {
-        this._getGeocode(
-          {
-            lat: point[0],
-            lng: point[1],
-            language: 'en'
-          },
-          (geocodes) => (
-            this._getCurrentLocation().setProperties({
-              address: getAddressFromGeocodes(geocodes, point)
-            })
-          ),
-          (err) => console.error(err)
-        );
+        this.getAddressByPoint(point)
+          .then((address) =>
+            this._getCurrentLocation().setProperties({ address })
+          );
       }
     },
     onCountryChanged(code) {
-      this._getGeocode(
-        {
-          address: this.get('countries').find(
-            (item) => item.value === code
-          ).text
-        },
-        (geocodes) => (
-          this._getCurrentLocation().setProperties({
-            country: geocodes[0],
-            city: null
-          })
-        ),
-        (err) => console.error(err)
-      );
+      this.getCountryByName(this._getCountryByCode(code))
+        .then((country) => ({
+          country,
+          city: null
+        }))
+        .then((props) =>
+          this._getCurrentLocation().setProperties(props)
+        );
     },
     onLoginSuccess() {
       this.get('onLoginSuccess')();
@@ -95,6 +80,11 @@ export default Ember.Component.extend({
       this.set('currentStep', 1);
       this.set('errorMessage', null);
     }
+  },
+  _getCountryByCode(code) {
+    return this.get('countries').find(
+      (item) => item.value === code
+    ).text;
   },
   _getCurrentLocation() {
     return this.get('locations.' + (this.get('currentStep') - 1));
@@ -111,11 +101,6 @@ export default Ember.Component.extend({
         this.set('showLoginModal', true);
       }
     });
-  },
-  _getGeocode(params, success, failure) {
-    this.get('gMap')
-      .geocode(params)
-      .then(success, failure);
   }
 });
 
@@ -153,22 +138,3 @@ const locationToModelProps = (loc, prefix) => (
   )
 );
 
-const getGeocodeItem = (geocodes, itemName) => (
-  geocodes.find((item) => item.types.includes(itemName))
-);
-
-const getAddressFromGeocodes = (geocodes, point) => (
-  R.merge(
-    (getGeocodeItem(geocodes, 'route')
-      || getGeocodeItem(geocodes, 'street_address')),
-    // Replace the coordinates by the ones user clicked on
-    {
-      geometry: {
-        location: {
-          lat: () => point[0],
-          lng: () => point[1]
-        }
-      }
-    }
-  )
-);
