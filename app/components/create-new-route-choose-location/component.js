@@ -1,29 +1,24 @@
 import Ember from 'ember';
+import R from 'npm:ramda';
 
 export default Ember.Component.extend({
   location: null,
   showAddress: true,
 
   isCountrySet: Ember.computed('location.country', function() {
-    let country = this.get('location.country');
-    return (country && country.formatted_address);
+    return !!R.prop('formatted_address', this.get('location.country'));
   }),
   isCitySet: Ember.computed('location.city', function() {
-    let city = this.get('location.city');
-    return (city && city.formatted_address);
+    return !!R.prop('formatted_address', this.get('location.city'));
   }),
   isAddressSet: Ember.computed('location.{address,comment}', function() {
-    let addr = this.get('location.address');
-    let comment = this.get('location.comment');
-    return (addr && addr.formatted_address) || comment;
+    return (this.get('location.comment')
+      || !!R.prop('formatted_address', this.get('location.address')));
   }),
 
   cityText: Ember.computed('location.city', {
     get(key) {
-      let city = this.get('location.city');
-      return (city && city.formatted_address)
-        ? city.formatted_address
-        : '';
+      return R.propOr('', 'formatted_address', this.get('location.city'));
     },
     set(key, value) {
       return value;
@@ -31,10 +26,7 @@ export default Ember.Component.extend({
   }),
   addressText: Ember.computed('location.address', {
     get(key) {
-      let address = this.get('location.address');
-      return (address && address.formatted_address)
-        ? address.formatted_address
-        : '';
+      return R.propOr('', 'formatted_address', this.get('location.address'));
     },
     set(key, value) {
       return value;
@@ -61,9 +53,8 @@ export default Ember.Component.extend({
     addressChanged(obj) {
       this.set('location.address', obj);
     },
-
     toggleAddress() {
-      this.set('showAddress', !this.get('showAddress'));
+      this.toggleProperty('showAddress');
     },
     next() {
       this.get('next')();
