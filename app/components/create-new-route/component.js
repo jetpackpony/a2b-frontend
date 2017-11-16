@@ -27,15 +27,9 @@ export default Ember.Component.extend(gMapGeocodes, {
   errorMessage: null,
   currentStep: 1,
   showLoginModal: false,
-  locations: Ember.A([]),
+  locations: getBlankLocations(locationsNumber),
   countries: Ember.A(countries),
   onLoginSuccess: () => {},
-
-  init() {
-    this._super(...arguments);
-    this._resetLocations();
-  },
-
   onLocationChanged: Ember.observer('locations.@each.{country,city,address,comment}', function() {
     this.get('newRoute').setProperties(
       locationToModelProps(this.get('locations')[0], 'from'));
@@ -104,8 +98,10 @@ export default Ember.Component.extend(gMapGeocodes, {
   }
 });
 
-const getBlankLocations = (number) => (
-  Ember.A(
+// This is called at component creation, so need to be defined
+// at the top of the file
+function getBlankLocations(number) {
+  return Ember.A(
     R.times((i) => Ember.Object.create({
       country: null,
       city: null,
@@ -114,7 +110,7 @@ const getBlankLocations = (number) => (
       comment: null
     }), number)
   )
-);
+};
 
 const getFormattedAddr = (addr, prop) => (
   (addr && addr[prop] && addr[prop].formatted_address)
