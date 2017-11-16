@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import MapClickHandlerMixin from 'a2b/mixins/map-click-handler';
 
 export default Ember.Component.extend({
   location: null,
