@@ -81,6 +81,9 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.torii.providers['facebook-connect'].appId = dotEnv['facebook-id-production'];
+    ENV['ember-cli-mirage'] = {
+      enabled: true
+    };
   }
 
   ENV['ember-simple-auth'] = {
