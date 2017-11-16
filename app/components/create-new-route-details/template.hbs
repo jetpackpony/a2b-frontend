@@ -1,35 +1,6 @@
-{{! Transport type select and text field}}
-<div class="form-group row">
-  <label for="transportType"
-    class="details-left col-form-label">
-    Transport <span class="required">*</span>
-  </label>
-  <div class="details-right">
-    <select class="form-control"
-            id="transportType"
-            {{action "transportTypeChanged"
-            on="change"}}>
-      <option value=""
-              disabled
-              selected="{{if transportTypeEmpty 'selected' ''}}">
-      </option>
-      {{#each transportTypeFieldValues as |type|}}
-        <option value="{{type}}">{{type}}</option>
-      {{/each}}
-      <option value="Other"
-              selected="{{if showOtherTransportField 'selected' ''}}">
-        Other
-      </option>
-    </select>
-    {{#if showOtherTransportField}}
-      {{input
-      class="form-control"
-      id="otherTransport"
-      placeholder="tuk-tuk, taxi, camel"
-      value=newRoute.transportType}}
-    {{/if}}
-  </div>
-</div>
+{{create-new-route-details-transport
+transportType=newRoute.transportType
+}}
 
 <div class="form-group row">
   <label for="price"
@@ -49,44 +20,9 @@
   </div>
 </div>
 
-<div class="form-group row">
-  <label for="duration"
-         class="details-left col-form-label">
-    Duration <span class="required">*</span>
-  </label>
-  <div class="details-right">
-    <div class="row">
-      <div class="col-xs-6 duration-hours">
-        <div class="input-group">
-          {{input
-          type="number"
-          class="form-control"
-          placeholder="3"
-          id="duration-hours"
-          min=0
-          max=72
-          step=1
-          value=durationHours}}
-          <div class="input-group-addon">h</div>
-        </div>
-      </div>
-      <div class="col-xs-6 duration-minutes">
-        <div class="input-group">
-          {{input
-          type="number"
-          class="form-control"
-          placeholder="0"
-          id="duration-minutes"
-          min=0
-          max=59
-          step=15
-          value=durationMinutes}}
-          <div class="input-group-addon">m</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+{{create-new-route-details-duration
+duration=newRoute.duration
+}}
 
 <div class="form-group row">
   <label for="timetable" class="details-left col-form-label">

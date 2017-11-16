@@ -1,0 +1,38 @@
+<div class="form-group row">
+  <label for="duration"
+         class="details-left col-form-label">
+    Duration <span class="required">*</span>
+  </label>
+  <div class="details-right">
+    <div class="row">
+      <div class="col-xs-6 duration-hours">
+        <div class="input-group">
+          {{input
+          type="number"
+          class="form-control"
+          placeholder="3"
+          id="duration-hours"
+          min=0
+          max=72
+          step=1
+          value=durationHours}}
+          <div class="input-group-addon">h</div>
+        </div>
+      </div>
+      <div class="col-xs-6 duration-minutes">
+        <div class="input-group">
+          {{input
+          type="number"
+          class="form-control"
+          placeholder="0"
+          id="duration-minutes"
+          min=0
+          max=59
+          step=15
+          value=durationMinutes}}
+          <div class="input-group-addon">m</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

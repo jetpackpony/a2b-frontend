@@ -1,0 +1,31 @@
+<div class="form-group row">
+  <label for="transportType"
+    class="details-left col-form-label">
+    Transport <span class="required">*</span>
+  </label>
+  <div class="details-right">
+    <select class="form-control"
+            id="transportType"
+            {{action "transportTypeChanged"
+            on="change"}}>
+      <option value=""
+              disabled
+              selected="{{if transportTypeEmpty 'selected' ''}}">
+      </option>
+      {{#each transportTypeFieldValues as |type|}}
+        <option value="{{type}}">{{type}}</option>
+      {{/each}}
+      <option value="Other"
+              selected="{{if showOtherTransportField 'selected' ''}}">
+        Other
+      </option>
+    </select>
+    {{#if showOtherTransportField}}
+      {{input
+      class="form-control"
+      id="otherTransport"
+      placeholder="tuk-tuk, taxi, camel"
+      value=transportType}}
+    {{/if}}
+  </div>
+</div>
