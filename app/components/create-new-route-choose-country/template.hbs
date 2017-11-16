@@ -1,9 +1,12 @@
 <div class="form-group">
   <label for="country">{{countryLabel}}</label>
-  <select class="form-control" id="country" {{action "countryChanged" on='change'}}>
-    <option disabled selected="{{if countrySelected '' 'selected'}}"></option>
+  <select class="form-control"
+          {{action "countryChanged" on='change'}}>
+    <option disabled
+          selected="{{if countrySelected '' 'selected'}}">
+    </option>
     {{#each countries as |country|}}
-      <option value={{country.value}}>{{country.text}}</option>
+    <option value={{country.value}}>{{country.text}}</option>
     {{/each}}
   </select>
 </div>
