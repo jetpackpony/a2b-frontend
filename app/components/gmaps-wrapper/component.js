@@ -33,21 +33,9 @@ export default Ember.Component.extend({
    * ])
    */
   bounds: null,
-
-  /*
-   * Coordinates to center the map on
-   */
   center: [15, 100],
   zoom: 4,
-
-  /*
-   * mapClicked - action called with coordinates of the click
-   */
   mapClicked: () => {},
-
-  /*
-   * "cell|pointer|hand|...."
-   */
   cursorShape: 'hand',
 
 
@@ -55,78 +43,42 @@ export default Ember.Component.extend({
    * Converts lines array into line objects google map can understand
    */
   gMapsLines: Ember.computed('lines.@each.{from,to,style}', function() {
-    return Ember.A(
-      this.get('lines').map(line =>
-        R.merge(
-          {
-            id: line.id,
-            path: [ line.from, line.to ],
-            clickable: true,
-            editable: false,
-            geodesic: true,
-            visible: true,
-            strokeColor: mapColors[line.style],
-            zIndex: 1
-          },
-          lineStyles[line.style]
-        )
-      )
-    );
+    return calcGMapsLines(this.get('lines'));
   }),
 
   /*
    * Converts markers array into marker objects google map can understand
    */
   gMapsMarkers: Ember.computed('markers.[]', function() {
-    return Ember.A(
-      this.get('markers').map(marker => ({
-        id: marker.id,
-        lat: marker.coords[0],
-        lng: marker.coords[1],
-        infoWindow: { content: marker.title },
-        zIndex: lineStyles[marker.style].zIndex + 1,
-        icon: R.merge(
-          {
-            path: google.maps.SymbolPath.CIRCLE,
-            strokeColor: mapColors[marker.style],
-            strokeWeight: 2,
-            fillColor: "white",
-            fillOpacity: 1
-          },
-          markerStyles[marker.style]
-        )
-      }))
-    );
+    return calcGMapsMarkers(this.get('markers'));
   }),
 
-  boundsChanged: Ember.observer('bounds', function() {
-    this._zoomToBounds();
+  onBoundsChange: Ember.observer('bounds', function() {
+    this.zoomToBounds();
   }),
-
-  cursorChanged: Ember.observer('cursorShape', function() {
-    this._setCursor();
+  onCursorChange: Ember.observer('cursorShape', function() {
+    this.setCursor();
   }),
 
   classNames: ['gmaps-wrapper'],
   actions: {
     mapLoaded() {
-      this._setCursor();
-      this._zoomToBounds();
+      this.setCursor();
+      this.zoomToBounds();
     },
     mapClicked(e) {
       this.get('mapClicked')([e.latLng.lat(), e.latLng.lng()]);
     }
   },
-
-  _gMap: Ember.inject.service('gMap'),
-  _setCursor() {
-    this.get('_gMap').maps.select('map')
+  gMap: Ember.inject.service('gMap'),
+  setCursor() {
+    this.get('gMap').maps.select('map')
       .map.setOptions({ draggableCursor: this.get('cursorShape') });
   },
-  _zoomToBounds() {
+  zoomToBounds() {
     let gBounds = converToGoogleBounds(this.get('bounds'));
     if (!gBounds.isEmpty()) {
-      this.get('_gMap').maps.select('map').map.fitBounds(gBounds);
+      this.get('gMap').maps.select('map').map.fitBounds(gBounds);
     }
   }
 });
@@ -136,6 +88,48 @@ const converToGoogleBounds = (bounds) =>
     b.extend({lat: point[0], lng: point[1]}),
     new google.maps.LatLngBounds()
   );
+
+const calcGMapsLines = (lines) => (
+  Ember.A(
+    lines.map(line =>
+      R.merge(
+        {
+          id: line.id,
+          path: [ line.from, line.to ],
+          clickable: true,
+          editable: false,
+          geodesic: true,
+          visible: true,
+          strokeColor: mapColors[line.style],
+          zIndex: 1
+        },
+        lineStyles[line.style]
+      )
+    )
+  )
+);
+
+const calcGMapsMarkers = (markers) => (
+  Ember.A(
+    markers.map(marker => ({
+      id: marker.id,
+      lat: marker.coords[0],
+      lng: marker.coords[1],
+      infoWindow: { content: marker.title },
+      zIndex: lineStyles[marker.style].zIndex + 1,
+      icon: R.merge(
+        {
+          path: google.maps.SymbolPath.CIRCLE,
+          strokeColor: mapColors[marker.style],
+          strokeWeight: 2,
+          fillColor: "white",
+          fillOpacity: 1
+        },
+        markerStyles[marker.style]
+      )
+    }))
+  )
+);
 
 const mapColors = {
   dimmed: 'grey',
