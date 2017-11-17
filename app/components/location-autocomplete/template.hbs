@@ -11,31 +11,10 @@
   }}
   <div class="input-button" {{action 'clear' on='click'}}>&times;</div>
 </div>
-  <div class="suggestions">
-    <ul>
-      {{#if isLoading}}
-        <li class="loader">
-          <a>
-            <div class="spinner">
-              <div class="bounce1"></div>
-              <div class="bounce2"></div>
-              <div class="bounce3"></div>
-            </div>
-          </a>
-        </li>
-      {{else}}
-        {{#if showSuggestions}}
-          {{#each suggestions as |sugg index|}}
-            <li {{action 'selectSuggestion' sugg on="click"}}>
-              <a tabindex='-1' href="#!" data-index={{index}}>{{sugg.name}}</a>
-            </li>
-          {{else}}
-            <li class="disabled">
-              <a tabindex='-1'>No matches</a>
-              <a tabindex='-1'>Try "{{noMatchesSuggestion}}"</a>
-            </li>
-          {{/each}}
-        {{/if}}
-      {{/if}}
-    </ul>
-  </div>
+
+{{location-autocomplete-suggestions
+suggestions=suggestions
+isLoading=isLoading
+show=showSuggestions
+selectSuggestion=(action "selectSuggestion")
+}}
