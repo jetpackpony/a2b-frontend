@@ -22,16 +22,19 @@ export default Ember.Route.extend({
     return ((params.fromId && params.toId)
       ? RSVP.hash({
         itineraries: this.get('store').query('itinerary', {
-          filter: { params.fromId, params.toId }
+          filter: {
+            from: params.fromId,
+            to: params.toId
+          }
         }),
         from: this.get('store').findRecord('location', params.fromId),
         to: this.get('store').findRecord('location', params.toId)
-      });
+      })
       : RSVP.hash({
         itineraries: RSVP.resolve(Ember.A([])),
         from: RSVP.resolve(Ember.Object.create({ id: null, name: null })),
         to: RSVP.resolve(Ember.Object.create({ id: null, name: null })),
-      });
+      })
     );
   },
   afterModel() {
