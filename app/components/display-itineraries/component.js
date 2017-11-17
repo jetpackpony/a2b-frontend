@@ -9,71 +9,90 @@ export default Ember.Component.extend({
   routeHovered: null,
   routeOpened: null,
   showDirectOnly: true,
+  visibleItineraries: Ember.computed('itineraries', 'showDirectOnly', function() {
+    return (this.get('showDirectOnly'))
+      ? this.get('itineraries').filter(isItineraryDirect)
+      : this.get('itineraries');
+  }),
 
   didReceiveAttrs() {
     this._super(...arguments);
     this.set('openedItinerary', null);
     this.set('routeHovered', null);
     this.set('routeOpened', null);
-    this.set('selectedItinerary', this.get('itineraries').get('firstObject'));
-    let directCount = this.get('itineraries').filterBy('stops', 0).length;
-    this.set('showDirectOnly', directCount !== 0);
+    this.set('selectedItinerary',
+      this.get('itineraries').get('firstObject'));
+    this.set('showDirectOnly',
+      isAnyDirectItineraries(this.get('itineraries')));
   },
 
-  visibleItineraries: Ember.computed('itineraries', 'showDirectOnly', function() {
-    return this.get('itineraries').filter((iti) => {
-      return iti.get('stops') === 0 || !this.get('showDirectOnly');
-    });
-  }),
-
-  openedItineraryChanged: Ember.observer('openedItinerary', function() {
-    let iti = this.get('openedItinerary');
-    if (iti !== null) {
-      if (this.get('media.isMobile')) {
-        $('body').addClass('noscroll');
-        $('.body-shadow').removeClass('hidden');
-        $('.bottom-single-overlay').removeClass('hidden');
-      }
-      this.$('#itinerary-details').removeClass('hidden');
-
-      // If there is only one route, open it directly
-      if (iti.get('routes').get('length') === 1) {
-        this.set('routeHovered', iti.get('routes').get('firstObject'));
-        this.set('routeOpened', iti.get('routes').get('firstObject'));
+  onOpenedItineraryChange: Ember.observer('openedItinerary', function() {
+    if (this.get('media.isMobile')) {
+      this.prepareForMobile();
+    }
+    let itinerary = this.get('openedItinerary');
+    if (itinerary !== null) {
+      this.showItineraryDetails();
+      // If there is only one route, show it right away
+      if (isItineraryDirect(itinerary)) {
+        this.set('routeHovered', getFirstRoute(itinerary));
+        this.set('routeOpened', getFirstRoute(itinerary));
       }
     } else {
-      if (this.get('media.isMobile')) {
-        $('body').removeClass('noscroll');
-        $('.body-shadow').addClass('hidden');
-        $('.bottom-single-overlay').addClass('hidden');
-      }
-      this.$('#itinerary-details').addClass('hidden');
+      this.hideItineraryDetails();
     }
+  }),
+  onRouteOpenedChange: Ember.observer('routeOpened', function() {
+    (this.get('routeOpened') !== null)
+      ? this.showRouteDetails()
+      : this.hideRouteDetails();
   }),
 
-  routeOpenedChanged: Ember.observer('routeOpened', function() {
-    let route = this.get('routeOpened');
-    if (route !== null) {
-      this.$('#route-details').removeClass('hidden');
-    } else {
-      this.$('#route-details').addClass('hidden');
-    }
-  }),
   actions: {
     closeItinerary() {
       this.set('openedItinerary', null);
       this.set('routeHovered', null);
     },
     closeRoute() {
-      let iti = this.get('openedItinerary');
-      if (iti.get('routes').get('length') === 1) {
-        this.set('openedItinerary', null);
-      }
       this.set('routeHovered', null);
       this.set('routeOpened', null);
+      // Also close itinerary if it consists of only one route
+      if (isItineraryDirect(this.get('openedItinerary'))) {
+        this.set('openedItinerary', null);
+      }
     },
     toggleDirectOnly() {
       this.toggleProperty('showDirectOnly');
     }
+  },
+
+  showItineraryDetails() {
+    this.$('#itinerary-details').removeClass('hidden');
+  },
+  hideItineraryDetails() {
+    this.$('#itinerary-details').addClass('hidden');
+  },
+  showRouteDetails() {
+    this.$('#route-details').removeClass('hidden');
+  },
+  hideRouteDetails() {
+    this.$('#route-details').addClass('hidden');
+  },
+  prepareForMobile() {
+    this.$('body').removeClass('noscroll');
+    this.$('.body-shadow').addClass('hidden');
+    this.$('.bottom-single-overlay').addClass('hidden');
   }
 });
+
+const isItineraryDirect = (itinerary) => (
+  itinerary.get('stops') === 0
+);
+
+const getFirstRoute = (itinerary) => (
+  itinerary.get('routes').get('firstObject')
+);
+
+const isAnyDirectItineraries = (itineraries) => (
+  itineraries.filter(isItineraryDirect).length !== 0
+)
