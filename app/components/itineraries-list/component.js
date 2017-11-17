@@ -22,7 +22,7 @@ export default Ember.Component.extend({
     }
   },
   selectItinerary(itinerary) {
-    this.$('.itinerary-short').removeClass('highlighted');
+    this.$('.itinerary-list-item').removeClass('highlighted');
     this.$(`#itinerary-${itinerary.id}`).addClass('highlighted');
   }
 });

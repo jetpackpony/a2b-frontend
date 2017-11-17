@@ -1,5 +1,5 @@
 {{#each itineraries as |itinerary|}}
-  {{itinerary-short
+  {{itinerary-list-item
   itinerary=itinerary
   click=(action "itemClicked" itinerary)
   mouseEnter=(action "itemHovered" itinerary)
