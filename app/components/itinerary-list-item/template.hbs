@@ -1,4 +1,7 @@
-<div class="itinerary-list-item" id="itinerary-{{itinerary.id}}">
+<div id="itinerary-{{itinerary.id}}"
+     class="itinerary-list-item
+     {{if itinerarySelected 'highlighted' ''}}
+     ">
   <div class="row">
     <div class="col-xs-8 company-name">
       <h2>{{itinerary.organizations}}</h2>

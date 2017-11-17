@@ -1,6 +1,7 @@
 {{#each itineraries as |itinerary|}}
   {{itinerary-list-item
   itinerary=itinerary
+  selectedItinerary=selectedItinerary
   click=(action "itemClicked" itinerary)
   mouseEnter=(action "itemHovered" itinerary)
   }}
