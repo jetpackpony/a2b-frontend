@@ -4,8 +4,7 @@ export default Ember.Controller.extend({
   error: null,
   menuOpen: false,
   onErrorChanged: Ember.observer('error', function() {
-    let error = this.get('error');
-    if (error) {
+    if (this.get('error')) {
       $('.modal').modal();
       $('.modal').modal('show');
     }
