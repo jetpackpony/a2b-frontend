@@ -7,11 +7,7 @@ export default Ember.Component.extend({
 
   actions: {
     routeHovered(route) {
-      if (route !== this.get('routeHovered')) {
-        this.set('routeHovered', route);
-        this.$('.route-item').removeClass('highlighted');
-        this.$(`#route-${route.id}`).addClass('highlighted');
-      }
+      this.set('routeHovered', route);
     },
     routeClicked(route) {
       this.set('routeHovered', route);

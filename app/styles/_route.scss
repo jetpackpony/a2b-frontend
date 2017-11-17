@@ -7,7 +7,7 @@
   margin: 0;
   border-bottom: $card-border;
 
-  &.highlighted {
+  .highlighted {
     background-color: $highlighted-bg;
   }
 
