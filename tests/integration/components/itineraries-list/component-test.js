@@ -14,7 +14,7 @@ skip('it renders a list of items', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
   assert.expect(1);
-  this.render(hbs`{{itinerary-list-item}}`);
+  this.render(hbs`{{itineraries-list-item}}`);
 });
 
 skip('it shows a message if the collection is empty', function(assert) {
