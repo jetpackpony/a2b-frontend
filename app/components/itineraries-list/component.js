@@ -6,20 +6,23 @@ export default Ember.Component.extend({
   selectedItinerary:null,
   didRender() {
     if (this.get('selectedItinerary')) {
-      this.$(`#itinerary-${this.get('selectedItinerary').id}`).addClass('highlighted');
+      this.selectItinerary(this.get('selectedItinerary'));
     }
   },
   actions: {
     itemHovered(itinerary) {
       if (itinerary !== this.get('selectedItinerary')) {
         this.set('selectedItinerary', itinerary);
-        this.$('.itinerary-short').removeClass('highlighted');
-        this.$(`#itinerary-${itinerary.id}`).addClass('highlighted');
+        this.selectItinerary(itinerary);
       }
     },
     itemClicked(itinerary) {
       this.set('selectedItinerary', itinerary);
       this.set('openedItinerary', itinerary);
     }
+  },
+  selectItinerary(itinerary) {
+    this.$('.itinerary-short').removeClass('highlighted');
+    this.$(`#itinerary-${itinerary.id}`).addClass('highlighted');
   }
 });
