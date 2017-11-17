@@ -1,0 +1,21 @@
+<div class="itinerary-summary">
+  <div class="row">
+    <div class="col-xs-8 company-name">
+      <h2>{{itinerary.organizations}}</h2>
+    </div>
+    <div class="col-xs-4 price">${{itinerary.price}}</div>
+  </div>
+  <div class="row info">
+    <div class="col-xs-8">
+      <div class="transport">{{itinerary.transport}}</div>
+      <div class="stops">
+        {{#if itinerary.stops}}
+        {{itinerary.stops}} {{pluralize itinerary.stops "stop"}}
+        {{else}}
+        direct
+        {{/if}}
+      </div>
+    </div>
+    <div class="col-xs-4 duration">{{duration-string itinerary.duration}}</div>
+  </div>
+</div>
