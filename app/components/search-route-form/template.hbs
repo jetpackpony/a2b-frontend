@@ -2,20 +2,16 @@
   <div class="form-group first">
     <label class="sr-only" for="from-wrapper">From City</label>
     {{location-autocomplete
-    id="from-wrapper"
     placeholder="From City"
     location=from
-    select=(action "selectFrom")
     noMatchesSuggestion="Bangkok, Thailand"
     }}
   </div>
   <div class="form-group">
     <label class="sr-only" for="to">To City</label>
     {{location-autocomplete
-    id="to-wrapper"
     placeholder="To City"
     location=to
-    select=(action "selectTo")
     noMatchesSuggestion="Phnom Penh, Cambodia"
     }}
   </div>

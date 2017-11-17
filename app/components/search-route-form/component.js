@@ -8,12 +8,6 @@ export default Ember.Component.extend({
         fromLocation: this.get('from'),
         toLocation: this.get('to')
       });
-    },
-    selectFrom(item) {
-      this.set('from', item);
-    },
-    selectTo(item) {
-      this.set('to', item);
     }
   }
 });

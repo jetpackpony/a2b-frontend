@@ -8,58 +8,37 @@ export default Ember.Component.extend({
   classNames: ['autocomplete-field'],
   isFocused: false,
   location: null,
-  value: Ember.computed.oneWay('location.name'),
+  suggestions: Ember.A([]),
   valueSelected: false,
-  isLoading: Ember.computed('suggestions.[]', {
-    get() {
-      return false;
-    },
-    set(k, v) {
-      return v;
-    }
+  value: Ember.computed('location.name', {
+    get() { return this.get('location.name'); },
+    set(key, value) { return value; }
   }),
-  showSuggestions: Ember.computed('suggestions.length', 'isFocused', function(assert) {
+  isLoading: Ember.computed('suggestions.[]', {
+    // When suggestions update, remove the loader spinner
+    get() { return false; },
+    set(k, v) { return v; }
+  }),
+  showSuggestions: Ember.computed('suggestions.[]', 'isFocused', function(assert) {
     return this.get('value.length') >= minQueryLength
             && this.get('isFocused')
             && !this.get('valueSelected')
             && !this.get('isLoading');
   }),
-  suggestions: Ember.A([]),
-  _runFilter() {
-    this.get('locations').filter(this.get('value'))
-      .then((res) => this.set('suggestions', res.slice(0, maxSuggestions)));
-  },
-  _scrollSuggestions(direction) {
-    let focused = this.$('a:focus');
-    if (focused.length === 0) {
-      this.$('.suggestions a:first').focus();
-    } else {
-      let length = this.get('suggestions.length');
-      let nextIndex = parseInt(focused.attr('data-index'));
-      nextIndex = direction === 'up' ? nextIndex - 1 : nextIndex + 1;
-      if (nextIndex >= length) {
-        nextIndex = 0;
-      }
-      if (nextIndex < 0) {
-        nextIndex = length - 1;
-      }
-      this.$(`.suggestions a[data-index="${nextIndex}"]`).focus();
-    }
-  },
+
   actions: {
     handleInput() {
       if (this.get('value').length >= minQueryLength)  {
         this.set('suggestions', Ember.A([]));
         this.set('valueSelected', false);
         this.set('isLoading', true);
-        Ember.run.debounce(this, this._runFilter, 300);
+        Ember.run.debounce(this, this.searchLocations, 300);
       }
     },
     selectSuggestion(sugg) {
-      this.set('value', sugg.get('name'));
+      this.set('location', sugg);
       this.set('valueSelected', true);
       this.set('suggestions', Ember.A([]));
-      this.get('select')(sugg);
     },
     focusInput() {
       this.set('isFocused', true);
@@ -72,18 +51,68 @@ export default Ember.Component.extend({
     },
     clear() {
       this.set('value', '');
+      this.set('location', null);
     }
+  },
+  searchLocations() {
+    this.get('locations')
+      .filter(this.get('value'))
+      .then((res) => res.slice(0, maxSuggestions))
+      .then((suggestions) => this.set('suggestions', suggestions));
   },
   keyUp(e) {
     if (this.get('showSuggestions')) {
       switch(e.keyCode) {
         case 38:
-          this._scrollSuggestions('up');
+          this.scrollSuggestions('up');
         break;
         case 40:
-          this._scrollSuggestions('down');
+          this.scrollSuggestions('down');
         break;
       }
     }
-  }
+  },
+  scrollSuggestions(direction) {
+    this.$(
+      getNextSuggestionSelector(
+        this.$('a:focus'),
+        this.get('suggestions.length'),
+        direction
+      )
+    ).focus();
+  },
 });
+
+const getNextSuggestionSelector = (
+  currentFocusedElement, suggestionsNumber, direction
+) => (
+  (currentFocusedElement.length === 0)
+    ? '.suggestions a:first'
+    : `.suggestions a[data-index="${
+        getNextSuggestionIndex(
+          suggestionsNumber,
+          parseInt(currentFocusedElement.attr('data-index')),
+          direction
+        )
+      }"]`
+);
+
+const getNextSuggestionIndex = (
+  suggestionsNumber, currentIndex, direction
+) => (
+  cycleValue(
+    0,
+    suggestionsNumber - 1,
+    ((direction === 'up')
+      ? currentIndex - 1
+      : currentIndex + 1)
+  )
+);
+
+const cycleValue = (min, max, value) => (
+  (value > max)
+    ? min
+    : ((value < min)
+      ? max
+      : value)
+);
