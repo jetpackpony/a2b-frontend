@@ -3,12 +3,23 @@
 {{/link-to}}
 <div class="nav navbar-nav float-xs-right">
   {{#if media.isMobile}}
-    <button class="navbar-toggler" type="button" onclick={{action 'openOverlay'}}></button>
+    <button class="navbar-toggler"
+            type="button"
+            onclick={{action 'openOverlay'}}>
+    </button>
   {{else}}
-    {{#link-to 'index' classNames="nav-item nav-link"}} Home {{/link-to}}
-    {{#link-to 'itineraries' classNames="nav-item nav-link"}} Search {{/link-to}}
-    {{#link-to 'routes.new' classNames="nav-item nav-link"}} Add Route {{/link-to}}
-    {{#link-to 'about' classNames="nav-item nav-link"}} About {{/link-to}}
+    {{#link-to 'index' classNames="nav-item nav-link"}}
+      Home
+    {{/link-to}}
+    {{#link-to 'itineraries' classNames="nav-item nav-link"}}
+      Search
+    {{/link-to}}
+    {{#link-to 'routes.new' classNames="nav-item nav-link"}}
+      Add Route
+    {{/link-to}}
+    {{#link-to 'about' classNames="nav-item nav-link"}}
+      About
+    {{/link-to}}
   {{/if}}
 </div>
 <div class="overlay-menu {{if menuOpen '' 'hidden'}}">
@@ -17,4 +28,6 @@
   {{#link-to 'routes.new'}} Add Route {{/link-to}}
   {{#link-to 'about'}} About {{/link-to}}
 </div>
-<div class="ovelay-menu-shadow {{if menuOpen '' 'hidden'}}" onclick={{action 'closeOverlay'}}></div>
+<div class="ovelay-menu-shadow {{if menuOpen '' 'hidden'}}"
+     onclick={{action 'closeOverlay'}}>
+</div>
