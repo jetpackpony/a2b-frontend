@@ -5,5 +5,5 @@ export default Ember.Mixin.create({
     (window.yaCounter41830664)
       ? window.yaCounter41830664.hit((page) ? page : this.get('url'))
       : null;
-  });
+  })
 });
