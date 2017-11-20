@@ -1,7 +1,5 @@
 import Ember from 'ember';
 
-export function pluralize([count, string]) {
-  return (count > 1) ? `${string}s` : string;
-}
-
-export default Ember.Helper.helper(pluralize);
+export default Ember.Helper.helper(([count, string]) => (
+  (count > 1) ? `${string}s` : string
+));
