@@ -1,84 +1,71 @@
 import Mirage from 'ember-cli-mirage';
-import dump from '../mirage/api-dump';
 import ENV from '../config/environment';
+import getSessionResponse from './sessionResponse';
+import dump from './api-dump';
 
 export default function() {
   this.namespace = ENV.a2b.apiEndPoint;
 
-  this.get('/itineraries', function(schema, request) {
-    console.log(request);
+  // Searching itineraries
+  this.get('/itineraries', (schema, request) => {
     let from = request.queryParams['filter[from]'];
     let to = request.queryParams['filter[to]'];
-    if (from && to) {
-      return dump();
-    } else {
-      return new Mirage.Response(200, {}, {
-        "errors": [
-          { "detail":"java.lang.IllegalStateException" }
-        ]
-      });
-    }
+    return (from && to)
+      ? dump()
+      : makeError(200)
   });
 
-  this.post('/routes', function(schema, request) {
-    console.log(request);
-    const attrs = JSON.parse(request.requestBody);
-    return schema.routes.create(attrs);
-    //return new Mirage.Response(400, {}, 'some server error');
-  });
+  // Add route
+  this.post('/routes', ({ routes }, { requestBody }) => (
+    routes.create(JSON.parse(requestBody))
+  ));
 
-  this.post('/session/create', function(schema, request) {
-    console.log(request);
-    return {
-      "access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEiLCJlbWFpbCI6InRlc3RtZUBnbWFpbC5jb20ifQ.36IvcD5fisgSmPxGDbtuAZF3nSeBxX2xEy4vnQTa18E",
-      "token_type":"JWT",
-      "expires_in":3600
-    };
-  });
+  // Create a user session
+  this.post('/session/create', getSessionResponse);
 
-  this.post('/users', function(schema, request) {
-    console.log(request);
-    const attrs = JSON.parse(request.requestBody);
-    return { data: null };
-  });
+  // Create a user record on the server
+  this.post('/users', (schema, request) => ({
+    data: null
+  }));
 
-  this.get('/locations', function(schema, request) {
-    let name = request.queryParams['filter[name]'].toLowerCase();
-    if (name) {
-      return schema.locations.all().filter((item) => {
-        return item.name.toLowerCase().indexOf(name) !== -1;
-      });
-    } else {
-      return new Mirage.Response(400, {}, {
-        "errors": [
-          { "detail":"java.lang.IllegalStateException" }
-        ]
-      });
-    }
-  });
-  this.get('/locations/:id', function({ locations }, request) {
-    let loc = locations.find(request.params.id);
-    if (!loc) {
-      return new Mirage.Response(400, {}, {
-        "errors":[
-          {
-            "detail":"com.github.jasminb.jsonapi.exceptions.DocumentSerializationException: java.lang.NullPointerException"
-          }
-        ]
-      });
-    } else {
-      return loc;
-    }
-  });
+  // Search locations
+  this.get('/locations', ({ locations }, { queryParams }) => (
+    filterLocationsByName(
+      queryParams['filter[name]'].toLowerCase(),
+      locations
+    )
+  ));
+
+  // Get location by ID
+  this.get('/locations/:id', ({ locations }, { params }) => (
+    locations.find(params.id) || makeError(400)
+  ));
 
   // Pass it to the actual API
-  //this.passthrough('/itineraries', ['get']);
-  //this.passthrough('/locations', ['get']);
-  //this.passthrough('/locations/:id', ['get']);
   /*
+  this.passthrough('/itineraries', ['get']);
+  this.passthrough('/locations', ['get']);
+  this.passthrough('/locations/:id', ['get']);
   this.passthrough('/routes', ['post']);
   this.passthrough('/users', ['post']);
   this.passthrough('/session/create', ['post']);
   */
   this.passthrough('https://mc.yandex.ru/**');
-}
+};
+
+const makeError = (code) => (
+  new Mirage.Response(code, {}, {
+    "errors": [
+      { "detail":"java.lang.IllegalStateException" }
+    ]
+  })
+);
+
+const filterLocationsByName = (name, locations) => (
+  locations.all().filter(
+    (item) => (
+      item.name.toLowerCase().indexOf(name) !== -1
+    )
+  )
+);
+
