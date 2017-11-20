@@ -1,17 +1,13 @@
 import Ember from 'ember';
+import helper from './pluralize';
+const pluralize = helper.compute;
 
-export function durationString([duration, ...params]) {
-  let mins = duration % 1;
-  let hours = duration - mins;
-  if (hours === 0) {
-    return `${(duration % 1) * 60} minutes`;
-  } else {
-    if (mins === 0) {
-      return `${hours} hour${hours > 1 ? "s" : ''}`;
-    } else {
-      return `${duration - (duration % 1)}h ${(duration % 1) * 60}m`
-    }
-  }
-}
-
-export default Ember.Helper.helper(durationString);
+export default Ember.Helper.helper(([duration, ...params]) => {
+  let mins = (duration % 1) * 60;
+  let hours = Math.floor(duration);
+  return (hours === 0)
+    ? `${mins} minutes`
+    : ((mins === 0)
+      ? `${hours} ${pluralize([hours, 'hour'])}`
+      : `${hours}h ${mins}m`);
+});
