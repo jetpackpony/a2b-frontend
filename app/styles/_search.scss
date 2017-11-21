@@ -31,3 +31,12 @@
     }
   }
 }
+
+.popover {
+  background: #f9d9d9;
+  color: black;
+}
+
+.popover.error-popover::after {
+  border-bottom-color: #f9d9d9;
+}
