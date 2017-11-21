@@ -26,10 +26,13 @@ export default Ember.Component.extend({
       isAnyDirectItineraries(this.get('itineraries')));
   },
 
-  onOpenedItineraryChange: Ember.observer('openedItinerary', function() {
+  didInsertElement() {
     if (this.get('media.isMobile')) {
       this.prepareForMobile();
     }
+  },
+
+  onOpenedItineraryChange: Ember.observer('openedItinerary', function() {
     let itinerary = this.get('openedItinerary');
     if (itinerary !== null) {
       this.showItineraryDetails();
@@ -38,7 +41,13 @@ export default Ember.Component.extend({
         this.set('routeHovered', getFirstRoute(itinerary));
         this.set('routeOpened', getFirstRoute(itinerary));
       }
+      if (this.get('media.isMobile')) {
+        this.hideMobileOverlay();
+      }
     } else {
+      if (this.get('media.isMobile')) {
+        this.showMobileOverlay();
+      }
       this.hideItineraryDetails();
     }
   }),
@@ -80,6 +89,12 @@ export default Ember.Component.extend({
   },
   prepareForMobile() {
     this.$('body').removeClass('noscroll');
+  },
+  hideMobileOverlay() {
+    this.$('.body-shadow').removeClass('hidden');
+    this.$('.bottom-single-overlay').removeClass('hidden');
+  },
+  showMobileOverlay() {
     this.$('.body-shadow').addClass('hidden');
     this.$('.bottom-single-overlay').addClass('hidden');
   }
