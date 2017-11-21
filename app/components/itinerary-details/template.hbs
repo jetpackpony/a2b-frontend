@@ -1,18 +1,12 @@
-{{itinerary-short itinerary=itinerary}}
+{{itinerary-summary itinerary=itinerary}}
 
 <div class="route-list">
   {{#each itinerary.routes as |route|}}
-    <div class="route-item" id="route-{{route.id}}">
-      <div class="path">
-        <span>&nbsp;</span>
-      </div>
-      <div class="route-container">
-        {{route-short
-        route=route
-        click=(action "routeClicked" route)
-        mouseEnter=(action "routeHovered" route)
-        }}
-      </div>
-    </div>
+    {{routes-list-item
+    route=route
+    routeHovered=routeHovered
+    click=(action "routeClicked" route)
+    mouseEnter=(action "routeHovered" route)
+    }}
   {{/each}}
 </div>

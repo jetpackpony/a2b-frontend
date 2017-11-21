@@ -6,8 +6,8 @@
   <div class="details-right">
     <select class="form-control"
             id="transportType"
-            {{action "transportTypeChanged"
-            on="change"}}>
+            onchange={{action 'transportTypeChanged'
+                        value="target.value"}}>
       <option value=""
               disabled
               selected="{{if transportTypeEmpty 'selected' ''}}">

@@ -1,6 +1,7 @@
 <div class="route-summary">
-  {{route-short route=route}}
+  {{route-summary route=route}}
 </div>
+
 <div class="route-details">
   <h3>Description</h3>
   <p>{{route.description}}</p>
@@ -11,9 +12,11 @@
   <h3>Arriving to</h3>
   <p>{{route.toAddress}}</p>
 </div>
+
 <div class="alert alert-warning">
   Price and timetable could change. Please contact the transpotation company for details.
 </div>
+
 <div class="route-details company-contacts">
   <h3>Contact {{route.organization}}</h3>
   <div class="links">

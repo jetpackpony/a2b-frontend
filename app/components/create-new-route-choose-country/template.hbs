@@ -1,7 +1,7 @@
 <div class="form-group">
   <label for="country">{{countryLabel}}</label>
   <select class="form-control"
-          {{action "countryChanged" on='change'}}>
+          onchange={{action 'countryChanged' value="target.value"}}>
     <option disabled
           selected="{{if countrySelected '' 'selected'}}">
     </option>

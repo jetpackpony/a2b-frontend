@@ -1,23 +1,24 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('route-short', 'Integration | Component | route short', {
+moduleForComponent('itinerary-summary', 'Integration | Component | itinerary summary', {
   integration: true
 });
 
 test('it renders', function(assert) {
+
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{route-short}}`);
+  this.render(hbs`{{itinerary-summary}}`);
 
   assert.equal(this.$().text().trim(), '');
 
   // Template block usage:
   this.render(hbs`
-    {{#route-short}}
+    {{#itinerary-summary}}
       template block text
-    {{/route-short}}
+    {{/itinerary-summary}}
   `);
 
   assert.equal(this.$().text().trim(), 'template block text');

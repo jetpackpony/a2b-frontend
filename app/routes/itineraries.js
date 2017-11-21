@@ -3,6 +3,8 @@ import RSVP from 'rsvp';
 
 export default Ember.Route.extend({
   session: Ember.inject.service(),
+
+  // Change header background color on this route to black
   activate() {
     this._super(arguments);
     Ember.$('body').addClass('no-picture');
@@ -11,30 +13,32 @@ export default Ember.Route.extend({
     this._super(arguments);
     Ember.$('body').removeClass('no-picture');
   },
+
   queryParams: {
     fromId: { refreshModel: true },
     toId: { refreshModel: true }
   },
   model(params) {
-    let from = params.fromId;
-    let to = params.toId;
-    if (from && to) {
-      return RSVP.hash({
-        itineraries: this.get('store').query('itinerary', { filter: { from, to } }),
-        from: this.get('store').findRecord('location', from),
-        to: this.get('store').findRecord('location', to)
-      });
-    } else {
-      return RSVP.hash({
+    return ((params.fromId && params.toId)
+      ? RSVP.hash({
+        itineraries: this.get('store').query('itinerary', {
+          filter: {
+            from: params.fromId,
+            to: params.toId
+          }
+        }),
+        from: this.get('store').findRecord('location', params.fromId),
+        to: this.get('store').findRecord('location', params.toId)
+      })
+      : RSVP.hash({
         itineraries: RSVP.resolve(Ember.A([])),
         from: RSVP.resolve(Ember.Object.create({ id: null, name: null })),
         to: RSVP.resolve(Ember.Object.create({ id: null, name: null })),
-      });
-    }
+      })
+    );
   },
   afterModel() {
     this.incrementProperty('session.searchNumber');
-    let controller = this.controllerFor('index');
-    controller.set('showSpinner', false);
+    this.controllerFor('index').set('showSpinner', false);
   }
 });

@@ -1,7 +1,12 @@
-.itineraries-list .itinerary-short {
+.itineraries-list .itineraries-list-item {
   cursor: pointer;
 }
-.itinerary-short {
+.itineraries-list-item {
+  &.highlighted {
+    background-color: $highlighted-bg;
+  }
+}
+.itinerary-summary {
   padding: 1rem;
   border-bottom: $card-border;
 
@@ -39,9 +44,5 @@
     .stops {
       padding-left: .5rem;
     }
-  }
-
-  &.highlighted {
-    background-color: $highlighted-bg;
   }
 }

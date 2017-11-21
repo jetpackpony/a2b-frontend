@@ -3,7 +3,10 @@
     {{#if itineraries}}
       <div class="direct-switch">
         <label class="custom-control custom-checkbox">
-          <input type="checkbox" checked='{{if showDirectOnly 'checked' ''}}' class="custom-control-input" {{action 'toggleDirectOnly' on="change"}}>
+          <input type="checkbox"
+                 checked='{{if showDirectOnly 'checked' ''}}'
+                 class="custom-control-input"
+                 {{action 'toggleDirectOnly' on="change"}}>
           <span class="custom-control-indicator"></span>
           <span class="custom-control-description">Show direct options only</span>
         </label>
@@ -37,14 +40,18 @@
 
 <div class="{{if media.isMobile 'bottom-single-overlay hidden' 'sliders'}}">
   <div class="details-slider hidden" id="itinerary-details">
-    <div class="close-button" {{action "closeItinerary"}}>&times;</div>
+    <div class="close-button" {{action "closeItinerary"}}>
+      &times;
+    </div>
     {{itinerary-details
     itinerary=openedItinerary
     routeHovered=routeHovered
     routeOpened=routeOpened}}
   </div>
   <div class="details-slider hidden" id="route-details">
-    <div class="close-button" {{action "closeRoute"}}>&times;</div>
+    <div class="close-button" {{action "closeRoute"}}>
+      &times;
+    </div>
     {{route-details
     route=routeOpened}}
   </div>

@@ -1,3 +1,4 @@
+import Ember from 'ember';
 import OAuth2PasswordGrant from 'ember-simple-auth/authenticators/oauth2-password-grant';
 import ENV from '../config/environment';
 const {
@@ -5,40 +6,49 @@ const {
   makeArray,
   isEmpty,
   run,
-  assign: emberAssign
+  assign
 } = Ember;
-const assign = emberAssign || merge;
+
+const serverTokenEndpoint = `${ENV.a2b.apiEndPoint}/session/create`;
+
 export default OAuth2PasswordGrant.extend({
-  serverTokenEndpoint: `${ENV.a2b.apiEndPoint}/session/create`,
   authenticate(code, scope = [], headers = {}) {
-    return new RSVP.Promise((resolve, reject) => {
-      const data                = { 'grant_type': 'authorization_code', code };
-      const serverTokenEndpoint = this.get('serverTokenEndpoint');
-      const useXhr = this.get('rejectWithXhr');
-      const scopesString = makeArray(scope).join(' ');
-      if (!isEmpty(scopesString)) {
-        data.scope = scopesString;
-      }
-      this.makeRequest(serverTokenEndpoint, data, headers).then((response) => {
-        run(() => {
-          if (!this._validate(response)) {
-            reject('access_token is missing in server response');
-          }
-
-          const expiresAt = this._absolutizeExpirationTime(response['expires_in']);
-          this._scheduleAccessTokenRefresh(response['expires_in'], expiresAt, response['refresh_token']);
-          if (!isEmpty(expiresAt)) {
-            response = assign(response, { 'expires_at': expiresAt });
-          }
-
-          resolve(response);
-        });
-      }, (xhr) => {
-        run(null, reject, useXhr ? xhr : (xhr.responseJSON || xhr.responseText));
-      });
-    });
+    return new RSVP.Promise((resolve, reject) => (
+      this.makeRequest(
+        serverTokenEndpoint,
+        makeRequestData(code, scope),
+        headers
+      ).then(
+        (response) => (
+          run(() =>
+            ((!isEmpty(response['access_token']))
+              ? resolve(this._prepareResponse(response))
+              : reject('access_token is missing in server response'))
+          )
+        ),
+        (xhr) => (
+          run(
+            null,
+            reject,
+            (this.get('rejectWithXhr')
+              ? xhr
+              : (xhr.responseJSON || xhr.responseText))
+          )
+        )
+      )
+    ));
   },
-  _validate(data) {
-    return !isEmpty(data['access_token']);
+  _prepareResponse(response) {
+    const expiresAt = this._absolutizeExpirationTime(response['expires_in']);
+    this._scheduleAccessTokenRefresh(response['expires_in'], expiresAt, response['refresh_token']);
+    return ((!isEmpty(expiresAt))
+      ? assign(response, { 'expires_at': expiresAt })
+      : response);
   }
+});
+
+const makeRequestData = (code, scope) => ({
+  'grant_type': 'authorization_code',
+  code,
+  scope: makeArray(scope).join(' ')
 });

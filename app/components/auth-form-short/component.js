@@ -47,4 +47,4 @@ export default Ember.Component.extend({
 
 const isEmailHasErrors = (email) => (
   !email || !/.+@.+\..{2,}/.exec(email)
-)
+);

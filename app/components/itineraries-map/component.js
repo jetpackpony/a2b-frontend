@@ -5,21 +5,14 @@ export default Ember.Component.extend({
   selectedItinerary: null,
   itineraries: Ember.A([]),
   bounds: Ember.computed('itineraries.[]', function() {
-    return Ember.A(
-      this.get('itineraries').reduce((bounds, iti) => bounds.concat(
-        iti.get('routes').reduce((bnds, route) => bnds.concat([
-          [route.get('fromLat'), route.get('fromLng')].map(parseFloat),
-          [route.get('toLat'), route.get('toLng')].map(parseFloat)
-        ]), [])
-      ), [])
-    );
+    return calcBoundsFromItineraries(this.get('itineraries'));
   }),
   markers: Ember.computed('itineraries.[]', 'selectedItinerary', 'routeHovered', function() {
     return Ember.A(this.get('itineraries')
       .reduce((markers, iti) => markers.concat(iti.get('routes')
         .reduce((mrks, route) => mrks.concat([
-          this._createMarker(iti, route, "from"),
-          this._createMarker(iti, route, "to"),
+          this.createMarker(iti, route, "from"),
+          this.createMarker(iti, route, "to"),
         ]), [])
       ), [])
     );
@@ -31,34 +24,41 @@ export default Ember.Component.extend({
           id: route.get('id'),
           from: [route.get('fromLat'), route.get('fromLng')],
           to: [route.get('toLat'), route.get('toLng')],
-          style: this._getLineStyle(iti.get('id'), route.get('id'))
+          style: this.getLineStyle(iti, route)
         }))
       ), [])
     );
   }),
-  _getLineStyle(itiId, routeId) {
-    if (this._isRouteSelected(routeId)) return 'selected';
-    if (this._isItinerarySelected(itiId)) return 'normal';
-    return 'dimmed';
+  getLineStyle(itinerary, route) {
+    return (this.isRouteSelected(route))
+      ? 'selected'
+      : ((this.isItinerarySelected(itinerary))
+        ? 'normal'
+        : 'dimmed');
   },
-  _isItinerarySelected(id) {
-    return !(
-      !this.get('selectedItinerary')
-      || this.get('selectedItinerary').get('id') !== id
-    );
+  isItinerarySelected(itinerary) {
+    return this.get('selectedItinerary.id') === itinerary.get('id');
   },
-  _isRouteSelected(id) {
-    return !(
-      !this.get('routeHovered')
-      || this.get('routeHovered').get('id') !== id
-    );
+  isRouteSelected(route) {
+    return this.get('routeHovered.id') === route.get('id');
   },
-  _createMarker(itinerary, route, prefix) {
+  createMarker(itinerary, route, prefix) {
     return {
       id: `${route.get('id')}-${prefix}`,
       coords: [route.get(`${prefix}Lat`), route.get(`${prefix}Lng`)],
-      style: this._getLineStyle(itinerary.get('id'), route.get('id')),
+      style: this.getLineStyle(itinerary, route),
       title: route.get(`${prefix}Address`)
     };
   },
 });
+
+const calcBoundsFromItineraries = (itineraries) => (
+  Ember.A(
+    itineraries.reduce((bounds, iti) => bounds.concat(
+      iti.get('routes').reduce((bnds, route) => bnds.concat([
+        [route.get('fromLat'), route.get('fromLng')].map(parseFloat),
+        [route.get('toLat'), route.get('toLng')].map(parseFloat)
+      ]), [])
+    ), [])
+  )
+);

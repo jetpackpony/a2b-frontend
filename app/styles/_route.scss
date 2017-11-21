@@ -7,7 +7,7 @@
   margin: 0;
   border-bottom: $card-border;
 
-  &.highlighted {
+  .highlighted {
     background-color: $highlighted-bg;
   }
 
@@ -60,7 +60,7 @@
   }
 }
 
-.route-short {
+.routes-list-item {
   .price, .duration {
     @extend .text-xs-right;
   }
@@ -96,7 +96,7 @@
   }
 }
 
-.route-short, .route-details, .company-contacts {
+.routes-list-item, .route-details, .company-contacts {
   padding: 1rem;
 }
 

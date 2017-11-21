@@ -4,18 +4,10 @@ export default Ember.Component.extend({
   classNames: ['itineraries-list'],
 
   selectedItinerary:null,
-  didRender() {
-    if (this.get('selectedItinerary')) {
-      this.$(`#itinerary-${this.get('selectedItinerary').id}`).addClass('highlighted');
-    }
-  },
+  openedItinerary: null,
   actions: {
     itemHovered(itinerary) {
-      if (itinerary !== this.get('selectedItinerary')) {
-        this.set('selectedItinerary', itinerary);
-        this.$('.itinerary-short').removeClass('highlighted');
-        this.$(`#itinerary-${itinerary.id}`).addClass('highlighted');
-      }
+      this.set('selectedItinerary', itinerary);
     },
     itemClicked(itinerary) {
       this.set('selectedItinerary', itinerary);

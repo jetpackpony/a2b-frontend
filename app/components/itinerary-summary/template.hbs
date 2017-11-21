@@ -1,4 +1,4 @@
-<div class="itinerary-short" id="itinerary-{{itinerary.id}}">
+<div class="itinerary-summary">
   <div class="row">
     <div class="col-xs-8 company-name">
       <h2>{{itinerary.organizations}}</h2>
@@ -10,9 +10,9 @@
       <div class="transport">{{itinerary.transport}}</div>
       <div class="stops">
         {{#if itinerary.stops}}
-          {{itinerary.stops}} {{pluralize itinerary.stops "stop"}}
+        {{itinerary.stops}} {{pluralize itinerary.stops "stop"}}
         {{else}}
-          direct
+        direct
         {{/if}}
       </div>
     </div>
