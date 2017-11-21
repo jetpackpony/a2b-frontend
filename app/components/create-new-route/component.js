@@ -36,6 +36,14 @@ export default Ember.Component.extend(gMapGeocodes, {
     this.get('newRoute').setProperties(
       locationToModelProps(this.get('locations')[1], 'to'));
   }),
+  init() {
+    console.log('initing');
+    this._super(...arguments);
+    // Reset the values to  reset the form
+    this.resetLocations();
+    this.set('currentStep', 1);
+    this.set('errorMessage', null);
+  },
 
   actions: {
     submit(success, failure) {
