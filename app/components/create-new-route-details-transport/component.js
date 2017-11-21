@@ -25,13 +25,13 @@ export default Ember.Component.extend({
   }),
 
   actions: {
-    transportTypeChanged() {
-      (event.target.value === 'Other')
+    transportTypeChanged(value) {
+      (value === 'Other')
         ? (
           this.set('transportType', ""),
           this.set('showOtherTransportField', true)
         )
-        : this.set('transportType', event.target.value);
+        : this.set('transportType', value);
     }
   }
 });
