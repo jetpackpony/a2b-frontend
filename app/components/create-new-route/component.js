@@ -109,8 +109,8 @@ function getBlankLocations(number) {
       geocodes: Ember.A([]),
       comment: null
     }), number)
-  )
-};
+  );
+}
 
 const getFormattedAddr = (addr, prop) => (
   (addr && addr[prop] && addr[prop].formatted_address)

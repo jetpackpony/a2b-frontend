@@ -9,7 +9,7 @@ export default Ember.Component.extend({
     }
     // Fire onSuccess when modal is closed
     this.$('.contacts-modal')
-      .on('hidden.bs.modal', (e) => this.get('onSuccess')());
+      .on('hidden.bs.modal', () => this.get('onSuccess')());
   },
   onShowModalChange: Ember.observer('showModal', function() {
     (this.get('showModal'))

@@ -16,7 +16,7 @@ export default Ember.Component.extend({
   },
   onChangeStep: Ember.observer('currentStep', function() {
     // If we go back to the first step, reset the form
-    if (this.get('currentStep') == 1) {
+    if (this.get('currentStep') === 1) {
       this.set('complete', false);
     }
     this.rewindToCurrentStep();

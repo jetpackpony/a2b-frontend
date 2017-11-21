@@ -95,4 +95,4 @@ const getFirstRoute = (itinerary) => (
 
 const isAnyDirectItineraries = (itineraries) => (
   itineraries.filter(isItineraryDirect).length !== 0
-)
+);

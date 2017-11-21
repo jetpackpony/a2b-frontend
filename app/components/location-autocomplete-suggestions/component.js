@@ -9,7 +9,7 @@ export default Ember.Component.extend({
     this._super(...arguments);
     this.$()
       .parent('.autocomplete-field')
-      .keyup(this.keyUpCallback.bind(this))
+      .keyup(this.keyUpCallback.bind(this));
   },
 
   actions: {

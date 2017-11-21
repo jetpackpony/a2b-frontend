@@ -5,7 +5,7 @@ export default Ember.Component.extend({
   tagName: "nav",
   classNames: ["navbar","navbar-full"],
   actions: {
-    openOverlay(e) {
+    openOverlay() {
       this.set('menuOpen', true);
     },
     closeOverlay() {

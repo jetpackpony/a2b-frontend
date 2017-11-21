@@ -12,7 +12,7 @@ export default function() {
     let to = request.queryParams['filter[to]'];
     return (from && to)
       ? dump()
-      : makeError(200)
+      : makeError(200);
   });
 
   // Add route
@@ -51,7 +51,7 @@ export default function() {
   this.passthrough('/session/create', ['post']);
   */
   this.passthrough('https://mc.yandex.ru/**');
-};
+}
 
 const makeError = (code) => (
   new Mirage.Response(code, {}, {

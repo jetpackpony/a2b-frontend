@@ -19,7 +19,7 @@ export default Ember.Component.extend({
     get() { return false; },
     set(k, v) { return v; }
   }),
-  showSuggestions: Ember.computed('suggestions.[]', 'isFocused', function(assert) {
+  showSuggestions: Ember.computed('suggestions.[]', 'isFocused', function() {
     return this.get('value.length') >= minQueryLength
             && this.get('isFocused')
             && !this.get('valueSelected')
@@ -45,7 +45,7 @@ export default Ember.Component.extend({
     },
     blurInput(e) {
       // Unfocus only if the new focus is another element
-      if ($(e.relatedTarget).parents('div.suggestions').length === 0) {
+      if (this.$(e.relatedTarget).parents('div.suggestions').length === 0) {
         this.set('isFocused', false);
       }
     },
