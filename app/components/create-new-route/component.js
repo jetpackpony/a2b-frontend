@@ -37,7 +37,6 @@ export default Ember.Component.extend(gMapGeocodes, {
       locationToModelProps(this.get('locations')[1], 'to'));
   }),
   init() {
-    console.log('initing');
     this._super(...arguments);
     // Reset the values to  reset the form
     this.resetLocations();
