@@ -7,11 +7,11 @@ export default function() {
   this.namespace = ENV.a2b.apiEndPoint;
 
   // Searching itineraries
-  this.get('/itineraries', (schema, request) => {
-    let from = request.queryParams['filter[from]'];
-    let to = request.queryParams['filter[to]'];
+  this.get('/itineraries', ({ locations }, { queryParams }) => {
+    let from = locations.find(queryParams['filter[from]']);
+    let to = locations.find(queryParams['filter[to]']);
     return (from && to)
-      ? getApiDataForLocations(from, to)
+      ? getApiDataForLocations(from.name, to.name)
       : makeError(200);
   });
 
