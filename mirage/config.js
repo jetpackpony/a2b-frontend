@@ -1,7 +1,7 @@
 import Mirage from 'ember-cli-mirage';
 import ENV from '../config/environment';
 import getSessionResponse from './sessionResponse';
-import dump from './api-dump';
+import getApiDataForLocations from './apiData';
 
 export default function() {
   this.namespace = ENV.a2b.apiEndPoint;
@@ -11,7 +11,7 @@ export default function() {
     let from = request.queryParams['filter[from]'];
     let to = request.queryParams['filter[to]'];
     return (from && to)
-      ? dump()
+      ? getApiDataForLocations(from, to)
       : makeError(200);
   });
 

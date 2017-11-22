@@ -1,5 +1,6 @@
-import bkkToKul from './bkk-kul-api-dump';
+import bkkToKul from './bkk-kul-api-data';
 
 export default (from, to) => {
   return bkkToKul();
 };
+
