@@ -1,7 +1,16 @@
-# A2b
+# a2b
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+The live version of this is hosted here: [a2b.space](https://a2b.space/).
+
+This website was an attempt to create a travel service which would help people find buses, ferries, trains and other ways of transportation all over Asia.
+
+While working on it we failed to find any kind of financing (or interested users for that matter) and decided to stop working on the project. I was developing the frontend part of the service, and since it was in a pretty good working condition, I decided to clean it up and host it as a part of my portfolio.
+
+It is developed using [Ember.js](https://www.emberjs.com/) framework and [Bootstrap 4](https://v4-alpha.getbootstrap.com/) as a HTML/CSS framework. Everything is hosted on Firebase.
+
+This is just a frontend single page application. Originally backend API was developed by another human, but he since took it down, so at the moment it is using [Ember Mirage](http://www.ember-cli-mirage.com/) to mock a backend API.
+
+The following are instructions for setting up the project for development.
 
 ## Prerequisites
 
@@ -41,7 +50,11 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 ### Deploying
 
-Specify what it takes to deploy your app.
+To deploy, build the project with production environment and deploy the `dist/` directory. For instance, for firebase:
+
+* install [firebase](https://firebase.google.com/)
+* setup the project in your directory (edit `.firebaserc` file)
+* run `firebase deploy` to deploy the app
 
 ## Further Reading / Useful Links
 
