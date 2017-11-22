@@ -10,7 +10,12 @@
     {{#if showDirectOnly}}
       There are no direct routes for this search query
     {{else}}
-      We couldn't find any routes for your request
+      We couldn't find any routes for your request.<br>
+      This is a demo version of the service.
+      You can only search routes between
+      Bangkok -&gt; Phnom Pehn and Bangkok -&gt; Kuala Lumpur.
+      For details visit
+      {{#link-to 'about'}}About{{/link-to}} page.
     {{/if}}
   </div>
 {{/each}}
