@@ -44,15 +44,6 @@ module.exports = function(environment) {
     exclude: true
   };
 
-  ENV.torii = {
-    providers: {
-      'facebook-connect': {
-        appId: dotEnv['facebook-id-development'],
-        scope: 'public_profile'
-      }
-    }
-  };
-
   if (environment === 'development') {
   }
 
@@ -72,8 +63,6 @@ module.exports = function(environment) {
       webPropertyId: 'UA-87696063-1'
     };
     ENV.googleMap.apiKey = dotEnv['google-api-production'];
-
-    ENV.torii.providers['facebook-connect'].appId = dotEnv['facebook-id-production'];
 
     ENV['ember-cli-mirage'] = {
       enabled: true
