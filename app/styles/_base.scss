@@ -20,7 +20,13 @@ a:hover {
  * Base structure
  */
 $images: "/assets/images";
-$bg-image: "#{$images}/sea.jpg";
+$bg-image: "#{$images}/sea.1920x1271.jpg";
+$bg-mobile: "#{$images}/sea.450x850.jpg";
+$bg-mobile-land: "#{$images}/sea.850x563.jpg";
+$bg-ipad: "#{$images}/sea.1024x1271.jpg";
+$bg-desktop: "#{$images}/sea.1160x768.jpg";
+$bg-desktop-l: "#{$images}/sea.1400x927.jpg";
+$bg-desktop-xl: "#{$images}/sea.1600x1059.jpg";
 
 $dark-bg: #1e1a16;
 $light-bg: #fff;
@@ -40,19 +46,53 @@ $shadow: 4px 0 4px rgba(64,63,63,.4);
 
 html,
 body {
-  height: 100%;
+  min-height: 100vh;
 }
 body {
   color: #fff;
   background-color: $dark-bg;
   text-align: left;
-  background:
-    linear-gradient(
-      rgba(0, 0, 0, 0.6),
-      rgba(0, 0, 0, 0.5)
-    ),
-    url($bg-image);
+  background: url($bg-image);
   background-size: cover;
+}
+
+/* Mobile portrait */
+@media screen and (max-width: 450px) {
+  body {
+    background-image: url($bg-mobile);
+  }
+}
+/* Mobile landscape */
+@media screen and (min-width: 451px) and (max-width: 850px) and (max-height: 563px) {
+  body {
+    background-image: url($bg-mobile-land);
+  }
+}
+
+/* Ipad */
+@media screen and (min-width: 451px) and (max-width: 1024px) and (min-height: 564px) {
+  body {
+    background-image: url($bg-ipad);
+  }
+}
+
+/* Desktop */
+@media screen and (min-width: 850px) and (max-width: 1160px) and (max-height: 768px) {
+  body {
+    background-image: url($bg-desktop);
+  }
+}
+/* Larger Desktop */
+@media screen and (min-width: 1161px) and (max-width: 1400px) {
+  body {
+    background-image: url($bg-desktop-l);
+  }
+}
+/* XL Desktop */
+@media screen and (min-width: 1400px) and (max-width: 1600px) {
+  body {
+    background-image: url($bg-desktop-xl);
+  }
 }
 
 .text-shadow {
