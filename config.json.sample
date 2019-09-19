@@ -1,6 +1,4 @@
 {
   "google-api-production":"",
-  "google-api-development":"",
-  "facebook-id-production":"",
-  "facebook-id-development":""
+  "google-api-development":""
 }

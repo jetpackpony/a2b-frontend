@@ -46,12 +46,10 @@ export default Ember.Component.extend(gMapGeocodes, {
 
   actions: {
     submit(success, failure) {
-      this.authenticateUser().then(
-        () => this.get('createRoute')(
-          this.get('newRoute'),
-          success,
-          failure
-        )
+      this.get('createRoute')(
+        this.get('newRoute'),
+        success,
+        failure
       );
     },
     mapClicked(point) {
@@ -92,16 +90,6 @@ export default Ember.Component.extend(gMapGeocodes, {
   },
   resetLocations() {
     this.set('locations', getBlankLocations(locationsNumber));
-  },
-  authenticateUser() {
-    return new RSVP.Promise((resolve, reject) => {
-      if (this.get('session.isAuthenticated')) {
-        resolve();
-      } else {
-        this.set('onLoginSuccess', resolve);
-        this.set('showLoginModal', true);
-      }
-    });
   }
 });
 

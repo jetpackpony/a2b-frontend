@@ -12,21 +12,5 @@ export default Ember.Controller.extend(ControllerWithItinerarySearchMixin, {
 
   sortParams: ['stops', 'duration'],
   sortedItineraries: Ember.computed.sort('model.itineraries', 'sortParams'),
-  formFilled: Ember.computed.and('fromId', 'toId'),
-  showModal: Ember.computed('session.searchNumber', function() {
-    return !(
-      this.get('session.isAuthenticated')
-      || this.modalHasBeenShown()
-      || this.get('session.searchNumber') < 2
-    );
-  }),
-  onShowModalChange: Ember.observer('showModal', function() {
-    if (this.get('showModal') && window.localStorage) {
-      window.localStorage.setItem('modalHasBeenShown', true);
-    }
-  }),
-
-  modalHasBeenShown() {
-    return R.path(['localStorage', 'modalHasBeenShown'], window);
-  }
+  formFilled: Ember.computed.and('fromId', 'toId')
 });
